@@ -1,0 +1,28 @@
+{
+    "bitwise": false,
+    "camelcase": false,
+    "curly": true,
+    "eqeqeq": true,
+    "es3": true,    //uncertain
+    "forin": false,
+    "freeze": true,
+    "immed": true,
+    "indent": 4,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "noempty": false,
+    "nonbsp": true,
+    "nonew": true,
+    "plusplus": false,
+    "quotmark": "double",
+    "undef": false,     // true: Require all non-global variables to be declared (prevents global leaks)
+    "unused": true,
+    "strict": true,
+    "trailing": true,
+    "white": true,
+    "maxerr": 1000,
+    "browser": true,
+    "jquery": true,
+    "worker": true
+}
