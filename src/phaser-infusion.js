@@ -4,7 +4,7 @@ var fluid_2_0_0 = fluid_2_0_0 || {};
     fluid.defaults("fluid.phaser.game",{
         gradeNames: "fluid.viewComponent",
         selectors: {
-            gameCanvas: ".gameCanvas"
+            gameCanvas: "#gameCanvas"
         },
         gameRendererInfo:{
             dimensions: {
@@ -25,6 +25,11 @@ var fluid_2_0_0 = fluid_2_0_0 || {};
         listeners: {
             onCreate: "fluid.phaser.game.createGameObject"
         }
+        // components: {
+        //     langPref: {
+        //         type: "game.state.langPref"
+        //     }
+        // }
 
     });
 
@@ -33,9 +38,10 @@ var fluid_2_0_0 = fluid_2_0_0 || {};
             that.options.gameRendererInfo.dimensions.width,
             that.options.gameRendererInfo.dimensions.height,
             that.options.gameRendererInfo.rendererType,
-            "#gameCanvas"
+            that.locate('gameCanvas').selectorName
         );
-        console.log(typeof(gameCanvas));
     };
+
+
 
 })(jQuery, fluid_2_0_0);
