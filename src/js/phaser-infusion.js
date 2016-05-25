@@ -1,4 +1,4 @@
-var fluid_2_0_0 = fluid_2_0_0 || {};
+var fluid = fluid || {};
 (function($, fluid) {
     "use strict";
     fluid.defaults("fluid.phaser.game",{
@@ -44,4 +44,4 @@ var fluid_2_0_0 = fluid_2_0_0 || {};
 
 
 
-})(jQuery, fluid_2_0_0);
+})(jQuery, fluid);
