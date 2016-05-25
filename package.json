@@ -7,7 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Fluid Project",
-  "license": "",
+  "license": {
+    "type": "BSD-3-Clause",
+    "url": "https://opensource.org/licenses/BSD-3-Clause"
+  },
   "keywords": [
     "game",
     "preferences",
@@ -15,8 +18,11 @@
     "infusion",
     "web",
     "discovery",
-    "cat"
+    "cat",
+    "phaser",
+    "javscript"
   ],
+  "repository": "https://github.com/PaliwalSparsh/Discovery-Cat.git",
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-jshint": "^1.0.0",
