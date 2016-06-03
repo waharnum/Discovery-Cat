@@ -1,11 +1,10 @@
 var fluid = fluid || {};
+
 (function($, fluid) {
     "use strict";
+
     fluid.defaults("fluid.phaser.game",{
         gradeNames: "fluid.viewComponent",
-        selectors: {
-            gameCanvas: "#gameCanvas"
-        },
         gameRendererInfo:{
             dimensions: {
                 height: 768,
@@ -19,18 +18,9 @@ var fluid = fluid || {};
                 args:"{that}"
             }
         },
-        events: {
-            onCreate: null
-        },
         listeners: {
-            onCreate: "fluid.phaser.game.createGameObject"
+            "onCreate.createGameObject": "fluid.phaser.game.createGameObject"
         }
-        // components: {
-        //     langPref: {
-        //         type: "game.state.langPref"
-        //     }
-        // }
-
     });
 
     fluid.phaser.game.createGameObject = function(that){
@@ -38,10 +28,8 @@ var fluid = fluid || {};
             that.options.gameRendererInfo.dimensions.width,
             that.options.gameRendererInfo.dimensions.height,
             that.options.gameRendererInfo.rendererType,
-            that.locate('gameCanvas').selectorName
+            that.container[0]
         );
     };
-
-
 
 })(jQuery, fluid);
