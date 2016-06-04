@@ -20,10 +20,11 @@
     });
 
     demo.state.firstScreen.preload = function(game, that) {
+
     };
 
     demo.state.firstScreen.create = function(game, that) {
-        that.add.text(10, 10, 'Wrappers are working', {font: '50px Arial', fill: '#fff'});
+
     };
 
     demo.state.firstScreen.update = function(game, that) {
