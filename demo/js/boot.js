@@ -6,15 +6,15 @@
         invokers: {
             preload: {
                 funcName: "demo.state.boot.preload",
-                args: ["{demo.discoveryCat}.game", "{that}"]
+                args: ["{demo.discoveryCat}.game"]
             },
             create: {
                 funcName: "demo.state.boot.create",
-                args: ["{demo.discoveryCat}.game", "{that}"]
+                args: ["{demo.discoveryCat}.game"]
             },
             update: {
                 funcName: "demo.state.boot.update",
-                args: ["{demo.discoveryCat}.game", "{that}"]
+                args: ["{demo.discoveryCat}.game"]
             }
         },
         listeners: {
@@ -22,19 +22,19 @@
         }
     });
 
-    demo.state.boot.preload = function(game, that) {
-        game.load.image("loading", "assets/loading.png")
+    demo.state.boot.preload = function(game) {
+        game.load.image("loading", "assets/loading.png");
     };
 
-    demo.state.boot.create = function(game, that) {
+    demo.state.boot.create = function(game) {
         game.state.start("Preload");
     };
 
-    demo.state.boot.update = function(game, that) {
+    demo.state.boot.update = function() {
 
     };
 
-    demo.state.boot.bootLogMessage = function(){
+    demo.state.boot.bootLogMessage = function() {
         console.log("%cStarting..", "color: white; color: #fb8c00");
         console.log("%c  " + "%c  " +
             "%c D I S C O V E R Y  C A T " +

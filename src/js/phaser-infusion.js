@@ -3,7 +3,7 @@ var fluid = fluid || {};
 (function($, fluid) {
     "use strict";
 
-    fluid.defaults("fluid.phaser.game",{
+    fluid.defaults("fluid.phaser.game", {
         gradeNames: "fluid.viewComponent",
         gameRendererInfo:{
             dimensions: {
@@ -23,7 +23,7 @@ var fluid = fluid || {};
         }
     });
 
-    fluid.phaser.game.createGameObject = function(that){
+    fluid.phaser.game.createGameObject = function(that) {
         that.game = new Phaser.Game(
             that.options.gameRendererInfo.dimensions.width,
             that.options.gameRendererInfo.dimensions.height,

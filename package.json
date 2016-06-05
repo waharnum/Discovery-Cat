@@ -7,10 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Fluid Project",
-  "license": {
-    "type": "BSD-3-Clause",
-    "url": "https://opensource.org/licenses/BSD-3-Clause"
-  },
+  "license": "BSD-3-Clause",
   "keywords": [
     "game",
     "preferences",
@@ -27,6 +24,7 @@
     "grunt": "^1.0.1",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
+    "grunt-jscs": "^3.0.0",
     "grunt-jsonlint": "^1.0.7"
   }
 }

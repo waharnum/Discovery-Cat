@@ -6,28 +6,28 @@
         invokers: {
             preload: {
                 funcName: "demo.state.firstScreen.preload",
-                args: ["{demo.discoveryCat}.game", "{that}"]
+                args: []
             },
             create: {
                 funcName: "demo.state.firstScreen.create",
-                args: ["{demo.discoveryCat}.game", "{that}"]
+                args: []
             },
             update: {
                 funcName: "demo.state.firstScreen.update",
-                args: ["{demo.discoveryCat}.game", "{that}"]
+                args: []
             }
         }
     });
 
-    demo.state.firstScreen.preload = function(game, that) {
+    demo.state.firstScreen.preload = function() {
 
     };
 
-    demo.state.firstScreen.create = function(game, that) {
+    demo.state.firstScreen.create = function() {
 
     };
 
-    demo.state.firstScreen.update = function(game, that) {
+    demo.state.firstScreen.update = function() {
 
     };
 

@@ -10,11 +10,11 @@
             },
             create: {
                 funcName: "demo.state.Preload.create",
-                args: ["{demo.discoveryCat}.game", "{that}"]
+                args: ["{demo.discoveryCat}.game"]
             },
             update: {
                 funcName: "demo.state.Preload.update",
-                args: ["{demo.discoveryCat}.game", "{that}"]
+                args: []
             }
         }
     });
@@ -28,11 +28,11 @@
         game.load.image("firstScreen_oldMap", "assets/firstScreen_oldMap.png");
     };
 
-    demo.state.Preload.create = function(game, that) {
+    demo.state.Preload.create = function(game) {
         game.state.start("firstScreen");
     };
 
-    demo.state.Preload.update = function(game, that) {
+    demo.state.Preload.update = function() {
 
     };
 

@@ -1,14 +1,19 @@
-module.exports = function(grunt){
-
+module.exports = function(grunt) {
     "use strict";
 
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
         jshint: {
-            files: ["Gruntfile.js","src/*.js"],
+            all: ["demo/js/*.js", "src/js/*.js"],
+            buildScripts: ["Gruntfile.js"],
             options: {
-                jshintrc: true,
-                ignores: ["**/lib/*.js", "node_modules/**"]
+                jshintrc: true
+            }
+        },
+        jscs: {
+            src: ["Gruntfile.js", "src/js/*js", "demo/js/*js"],
+            options: {
+                config: ".jscsrc"
             }
         },
         watch: {
@@ -19,7 +24,8 @@ module.exports = function(grunt){
 
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-jshint");
+    grunt.loadNpmTasks("grunt-jscs");
 
-    grunt.registerTasks("default", ["jshint"]);
+    grunt.registerTask("default", ["jshint", "jscs"]);
 
 };
