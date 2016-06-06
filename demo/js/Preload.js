@@ -24,8 +24,9 @@
         var loadingBar = that.add.sprite(640, 360, "loading");
         loadingBar.anchor.setTo(0.5, 0.5);
         that.load.setPreloadSprite(loadingBar);
-        // All assets of the game
+        // Load all assets of the game
         game.load.image("firstScreen_oldMap", "assets/firstScreen_oldMap.png");
+        game.load.spritesheet("greenButton", "assets/gb.png", 200, 49);
     };
 
     demo.state.Preload.create = function(game) {
