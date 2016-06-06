@@ -27,7 +27,7 @@ module.exports = function(grunt) {
                 files: ["Gruntfile.js", "demo/**", "src/**"],
                 tasks: ["jshint", "jscs"],
                 options: {
-                    livereload: true
+                    livereload: 35729
                 }
             }
         },
@@ -37,7 +37,7 @@ module.exports = function(grunt) {
                     base: "./",
                     port: 8000,
                     hostname: "localhost",
-                    livereload: true,
+                    livereload: 35729,
                     middleware: function(connect, options, middlewares) {
                         middlewares.unshift(function(req, res, next) {
                                 res.setHeader("Access-Control-Allow-Origin", "*");
