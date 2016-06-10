@@ -10,8 +10,11 @@
             Preload: {
                 type: "demo.state.Preload"
             },
-            firstScreen: {
-                type: "demo.state.firstScreen"
+            prelude: {
+                type: "demo.state.prelude"
+            },
+            prelude2: {
+                type: "demo.state.prelude2"
             }
         },
         listeners: {
@@ -23,7 +26,8 @@
         // Add states of the game
         that.game.state.add("boot", that.boot);
         that.game.state.add("Preload", that.Preload);
-        that.game.state.add("firstScreen", that.firstScreen);
+        that.game.state.add("prelude", that.prelude);
+        that.game.state.add("prelude2", that.prelude2);
         // Start the initial state
         that.game.state.start("boot");
     };
