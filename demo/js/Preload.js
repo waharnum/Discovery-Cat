@@ -6,7 +6,7 @@
         invokers: {
             preload: {
                 funcName: "demo.state.Preload.preload",
-                args: ["{demo.discoveryCat}.game", "{that}"]
+                args: ["{demo.discoveryCat}.game"]
             },
             create: {
                 funcName: "demo.state.Preload.create",
@@ -19,16 +19,22 @@
         }
     });
 
-    demo.state.Preload.preload = function(game, that) {
-        // Physics
+    demo.state.Preload.preload = function(game) {
+        // Globally initializing Arcade Physics
+        // After this adding physics specifically to each element in the game is required
         game.physics.startSystem(Phaser.Physics.ARCADE);
+
         // Loading bar to show status of loaded assets
-        var loadingBar = that.add.sprite(620, 360, "loading");
+        // args = x, y, spriteName
+        // This is a predefined loading bar provided by Phaser
+        var loadingBar = game.add.sprite(620, 360, "loading");
         loadingBar.anchor.setTo(0.5, 0.5);
-        that.load.setPreloadSprite(loadingBar);
-        // Load all assets of the game
+        game.load.setPreloadSprite(loadingBar);
+
+        // All assets of the game
+        // Naming Convention spriteName + one character from level,
+        // Ex: background for langpref(lp) is backgroundlp.
         // prelude assets
-        game.load.image("firstScreen_oldMap", "assets/firstScreen_oldMap.png");
         game.load.image("backgrounds1", "assets/background-scene-1.png");
         game.load.image("ratHeads1", "assets/ratHead-scene-1.png");
         game.load.spritesheet("greenButton", "assets/gb.png", 200, 49);
@@ -45,7 +51,7 @@
         game.load.spritesheet("buddiesMovelp", "assets/buddiesMove-langPref.png", 352, 429);
         game.load.spritesheet("ratAccessorieslp", "assets/ratAccessories-langPref.png", 200, 300);
         game.load.spritesheet("messageBoxlp", "assets/messageBox-langPref.png", 400, 127);
-        // houseEntry shares same assets with langPref
+        // houseEntry uses same assets from langPref
         // house assets
         game.load.image("backgroundh", "assets/background-house.png");
         game.load.image("platformh", "assets/platform-house.png");
@@ -54,7 +60,7 @@
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("house");
+        game.state.start("prelude");
     };
 
     demo.state.Preload.update = function() {
