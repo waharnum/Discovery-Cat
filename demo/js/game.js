@@ -4,6 +4,9 @@
     fluid.defaults("demo.discoveryCat", {
         gradeNames: "fluid.phaser.game",
         components: {
+            prefModel: {
+                type: "demo.prefModel"
+            },
             boot: {
                 type: "demo.state.boot"
             },
@@ -15,6 +18,15 @@
             },
             prelude2: {
                 type: "demo.state.prelude2"
+            },
+            langPref: {
+                type: "demo.state.langPref"
+            },
+            houseEntry: {
+                type: "demo.state.houseEntry"
+            },
+            house: {
+                type: "demo.state.house"
             }
         },
         listeners: {
@@ -28,6 +40,9 @@
         that.game.state.add("Preload", that.Preload);
         that.game.state.add("prelude", that.prelude);
         that.game.state.add("prelude2", that.prelude2);
+        that.game.state.add("langPref", that.langPref);
+        that.game.state.add("houseEntry", that.houseEntry);
+        that.game.state.add("house", that.house);
         // Start the initial state
         that.game.state.start("boot");
     };

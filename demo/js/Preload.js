@@ -20,6 +20,8 @@
     });
 
     demo.state.Preload.preload = function(game, that) {
+        // Physics
+        game.physics.startSystem(Phaser.Physics.ARCADE);
         // Loading bar to show status of loaded assets
         var loadingBar = that.add.sprite(620, 360, "loading");
         loadingBar.anchor.setTo(0.5, 0.5);
@@ -37,10 +39,22 @@
         game.load.spritesheet("ratMoves2", "assets/ratMove-scene-2.png", 300, 202);
         game.load.spritesheet("catMoves2", "assets/catMove-scene-2.png", 400, 299);
         game.load.spritesheet("catReactions2", "assets/catReaction-scene-2.png", 400, 299);
+        // langPref assets
+        game.load.image("backgroundlp", "assets/background-langPref.png");
+        game.load.spritesheet("catMovelp", "assets/catMove-langPref.png", 400, 299);
+        game.load.spritesheet("buddiesMovelp", "assets/buddiesMove-langPref.png", 352, 429);
+        game.load.spritesheet("ratAccessorieslp", "assets/ratAccessories-langPref.png", 200, 300);
+        game.load.spritesheet("messageBoxlp", "assets/messageBox-langPref.png", 400, 127);
+        // houseEntry shares same assets with langPref
+        // house assets
+        game.load.image("backgroundh", "assets/background-house.png");
+        game.load.image("platformh", "assets/platform-house.png");
+        game.load.spritesheet("doorh", "assets/doors-house.png", 200, 163);
+        game.load.spritesheet("catMoveh", "assets/catMove-house.png", 400, 299);
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("prelude");
+        game.state.start("house");
     };
 
     demo.state.Preload.update = function() {

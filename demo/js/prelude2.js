@@ -45,7 +45,7 @@
         };
         var catWalk = function() {
             catReac.alpha = 0;
-            cat.scale.setTo(0.8,0.8)
+            cat.scale.setTo(0.8, 0.8);
             cat.anchor.setTo(0.5, 0.5);
             cat.animations.add("run", [0, 1, 2, 3], 4, true);
             cat.play("run");
@@ -53,6 +53,9 @@
         };
         var catFade = function() {
             game.add.tween(cat).to({ alpha: 0 }, 10, Phaser.Easing.Sinusoidal.InOut, true);
+        };
+        var nextScreen = function() {
+            game.state.start("langPref");
         };
 
         // Tip: Put all var together anchor together animation together
@@ -74,7 +77,7 @@
         game.time.events.add(6000, catWalk, game);
         game.time.events.add(9000, catFade, game);
         var cat = game.add.sprite(1100, 650, "catMoves2", 0);
-
+        game.time.events.add(10000, nextScreen, game);
     };
 
     demo.state.prelude2.update = function() {
