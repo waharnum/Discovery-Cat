@@ -6,75 +6,84 @@
         invokers: {
             preload: {
                 funcName: "demo.state.house.preload",
-                args: ["{demo.discoveryCat}.game"]
+                args: "{that}"
             },
             create: {
                 funcName: "demo.state.house.create",
-                args: ["{demo.discoveryCat}.game", "{that}"]
+                args: "{that}"
             },
             update: {
                 funcName: "demo.state.house.update",
-                args: ["{demo.discoveryCat}.game"]
+                args: "{that}"
             }
         }
     });
 
-var cat, platforms, leftKey, rightKey, cursors;
-
-    demo.state.house.preload = function(game) {
+    // Phaser functions
+    demo.state.house.preload = function(that) {
     };
 
-    demo.state.house.create = function(game, that) {
-        // Tip: Arrange functions in the order they will play write time also
-        // functions
+    demo.state.house.create = function(that) {
 
-        // Tip: Put all var together anchor together animation together
-        // code
-        game.add.sprite(0, 0, "backgroundh");
-        platforms = game.add.group();
-        platforms.enableBody = true;
-        platforms.physicsBodyType = Phaser.Physics.ARCADE;
-        var floor1 = platforms.create(0, 200, "platformh");
-        floor1.scale.setTo(0.8, 1);
-        floor1.body.immovable = true;
-        var floor2 = platforms.create(256, 440, "platformh");
-        floor2.scale.setTo(0.8, 1);
-        floor2.body.immovable = true;
-        var ground = platforms.create(0, 675, "platformh");
-        ground.body.immovable = true;
-        // door or the room state, will make them buttons
-        game.add.sprite(50, 38, "doorh", 0);
-        game.add.sprite(425, 38, "doorh", 1);
+        that.add.sprite(0, 0, "backgroundh");
 
-        // player
-        cat = game.add.sprite(500, 500, "catMoveh", 5);
-        cat.scale.setTo(0.4, 0.4);
-        game.physics.arcade.enable(cat);
-        cat.body.bounce.y = 0.2;
-        cat.body.gravity.y = 300;
-        cat.body.collideWorldBounds = true;
-        cat.animations.add("moveLeft",
+        // Create platforms group and added arcade physics to it
+        that.platforms = that.add.group();
+        that.platforms.enableBody = true;
+        that.platforms.physicsBodyType = Phaser.Physics.ARCADE;
+
+        // Add floor1 to platforms and made it immovable
+        that.floor1 = that.platforms.create(0, 200, "platformh");
+        that.floor1.scale.setTo(0.8, 1);
+        that.floor1.body.immovable = true;
+
+        // Add floor2 to platforms and made it immovable
+        that.floor2 = that.platforms.create(256, 440, "platformh");
+        that.floor2.scale.setTo(0.8, 1);
+        that.floor2.body.immovable = true;
+
+        // Add ground to platforms and made it immovable
+        that.ground = that.platforms.create(0, 675, "platformh");
+        that.ground.body.immovable = true;
+
+        // door or the room state, will see them for collision
+        that.add.sprite(50, 38, "doorh", 0);
+        that.add.sprite(425, 38, "doorh", 1);
+
+        // Cat
+        that.cat = that.add.sprite(70, 65, "catMoveh", 5);
+        that.cat.scale.setTo(0.4, 0.4);
+        that.physics.arcade.enable(that.cat);
+        that.cat.body.bounce.y = 0.2;
+        that.cat.body.gravity.y = 1000;
+        that.cat.body.collideWorldBounds = true;
+        that.cat.animations.add("moveLeft",
             [0, 1, 2, 3], 10, true);
-        cat.animations.add("moveRight",
+        that.cat.animations.add("moveRight",
             [4, 5, 6, 7], 10, true);
-        // automitically populate the cursor key need not do for each key
-        cursors = game.input.keyboard.createCursorKeys();
+
+        // automatically populate the cursor key define each key
+        that.cursors = that.input.keyboard.createCursorKeys();
     };
 
-    demo.state.house.update = function(game) {
-        game.physics.arcade.collide(cat, platforms);
-        if (cursors.left.isDown) {
-            cat.body.velocity.x = -150;
-            cat.animations.play("moveLeft");
-        } else if (cursors.right.isDown) {
-            cat.body.velocity.x = 150;
-            cat.animations.play("moveRight");
+    demo.state.house.update = function(that) {
+        // this keeps seperation between platforms and cat or else the cat would
+        // pass the ground and stop at the bounds
+        that.physics.arcade.collide(that.cat, that.platforms);
+
+        // character movement
+        if (that.cursors.left.isDown) {
+            that.cat.body.velocity.x = -150;
+            that.cat.animations.play("moveLeft");
+        } else if (that.cursors.right.isDown) {
+            that.cat.body.velocity.x = 150;
+            that.cat.animations.play("moveRight");
         } else {
-            cat.animations.stop();
-            cat.body.velocity.x = 0;
+            that.cat.animations.stop();
+            that.cat.body.velocity.x = 0;
         }
-        if (cursors.up.isDown && cat.body.touching.down) {
-            cat.body.velocity.y = -400;
+        if (that.cursors.up.isDown && that.cat.body.touching.down) {
+            that.cat.body.velocity.y = -700;
         }
     };
 
