@@ -46,19 +46,19 @@
             },
             button1Callback: {
                 funcName: "demo.state.langPref.button1Callback",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             button2Callback: {
                 funcName: "demo.state.langPref.button2Callback",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             button3Callback: {
                 funcName: "demo.state.langPref.button3Callback",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             button4Callback: {
                 funcName: "demo.state.langPref.button4Callback",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             }
         }
     });
@@ -167,19 +167,29 @@
     };
 
     // All four buttons callback, to add web speech and lang selection here
-    demo.state.langPref.button1Callback = function(that) {
+    demo.state.langPref.button1Callback = function(that, model) {
+        console.log("fallback");
+        model.lang.type = "en-US";
+        model.lang.obj = that.cache.getJSON("en");
         that.state.start("houseEntry");
     };
 
-    demo.state.langPref.button2Callback = function(that) {
+    demo.state.langPref.button2Callback = function(that, model) {
+        model.lang.type = "es-MX";
+        model.lang.obj = that.cache.getJSON("es");
+        console.log("running");
         that.state.start("houseEntry");
     };
 
-    demo.state.langPref.button3Callback = function(that) {
+    demo.state.langPref.button3Callback = function(that, model) {
+        model.lang.type = "fr-FR";
+        model.lang.obj = that.cache.getJSON("fr");
         that.state.start("houseEntry");
     };
 
-    demo.state.langPref.button4Callback = function(that) {
+    demo.state.langPref.button4Callback = function(that, model) {
+        model.lang.type = "de";
+        model.lang.obj = that.cache.getJSON("de");
         that.state.start("houseEntry");
     };
 

@@ -33,7 +33,7 @@
 
         // All assets of the game
         // Naming Convention spriteName + one character from level,
-        // Ex: background for langpref(lp) is backgroundlp.
+        // Ex: background for langPref(lp) is backgroundlp.
         // prelude assets
         game.load.image("backgrounds1", "assets/background-scene-1.png");
         game.load.image("ratHeads1", "assets/ratHead-scene-1.png");
@@ -57,6 +57,12 @@
         game.load.image("platformh", "assets/platform-house.png");
         game.load.spritesheet("doorh", "assets/doors-house.png", 200, 163);
         game.load.spritesheet("catMoveh", "assets/catMove-house.png", 400, 299);
+
+        // message json files
+        game.load.json("en", "messages/DiscoveryCat_en-US.json");
+        game.load.json("es", "messages/DiscoveryCat_es-MX.json");
+        game.load.json("fr", "messages/DiscoveryCat_fr-FR.json");
+        game.load.json("de", "messages/DiscoveryCat_de-DE.json");
     };
 
     demo.state.Preload.create = function(game) {

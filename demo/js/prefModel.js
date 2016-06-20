@@ -3,7 +3,11 @@
     fluid.defaults("demo.prefModel", {
         gradeNames: "fluid.modelComponent",
         model: {
-            language: ""
+            lang: {
+                type: "en",
+                obj: {}
+            },
+            count: 0
         }
     });
 

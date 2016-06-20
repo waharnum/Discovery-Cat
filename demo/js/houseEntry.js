@@ -22,7 +22,7 @@
             },
             ratMessage: {
                 funcName: "demo.state.houseEntry.ratMessage",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             nextScreen: {
                 funcName: "demo.state.houseEntry.nextScreen",
@@ -32,11 +32,12 @@
     });
 
     // Runs at t = 0ms
-     demo.state.houseEntry.ratMessage = function(that) {
+     demo.state.houseEntry.ratMessage = function(that, model) {
         that.messageBox = that.add.sprite(810, 250, "messageBoxlp", 0);
         that.messageBox.scale.setTo(1.2, 1.3);
-        that.messageText = that.add.text(840, 300,
-                            "  Come with me to the rat house\nhe has taken your yarn ball there");
+        that.messageText = that.add.text(835, 300,
+                            model.lang.obj.ratMessagehe);
+        // that.messageText.scale.setTo(0.9, 0.9);
         that.messageBox.alpha = 0;
         that.messageText.alpha = 0;
         that.add.tween(that.messageBox).to({ alpha: 1 },
