@@ -22,7 +22,8 @@
             },
             ratMessage: {
                 funcName: "demo.state.houseEntry.ratMessage",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model",
+                                            "{demo.discoveryCat}.textToSpeech"]
             },
             nextScreen: {
                 funcName: "demo.state.houseEntry.nextScreen",
@@ -32,12 +33,13 @@
     });
 
     // Runs at t = 0ms
-     demo.state.houseEntry.ratMessage = function(that, model) {
+     demo.state.houseEntry.ratMessage = function(that, model, speechComp) {
         that.messageBox = that.add.sprite(810, 250, "messageBoxlp", 0);
         that.messageBox.scale.setTo(1.2, 1.3);
         that.messageText = that.add.text(835, 300,
                             model.lang.obj.ratMessagehe);
-        // that.messageText.scale.setTo(0.9, 0.9);
+        // Speech
+        speechComp.queueSpeech(model.lang.obj.ratMessagehe, true, { lang: model.lang.type });
         that.messageBox.alpha = 0;
         that.messageText.alpha = 0;
         that.add.tween(that.messageBox).to({ alpha: 1 },
@@ -62,7 +64,7 @@
     };
 
     // Phaser functions
-    demo.state.houseEntry.preload = function(that) {
+    demo.state.houseEntry.preload = function() {
 
     };
 
@@ -87,8 +89,7 @@
 
     };
 
-    demo.state.houseEntry.update = function(that) {
-
+    demo.state.houseEntry.update = function() {
     };
 
 })(jQuery, fluid);

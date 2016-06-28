@@ -4,10 +4,11 @@
         gradeNames: "fluid.modelComponent",
         model: {
             lang: {
-                type: "en",
+                type: "en-US",
                 obj: {}
             },
-            count: 0
+            count: 0,
+            size: 1
         }
     });
 

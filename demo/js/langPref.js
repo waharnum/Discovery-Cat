@@ -3,6 +3,12 @@
 
     fluid.defaults("demo.state.langPref", {
         gradeNames: "fluid.phaser.state",
+        langSelectionPhrases: {
+            en: "Hey! I can help you",
+            es: "¡Oye! Puedo ayudarle",
+            fr: "Hey! je peux vous aider",
+            de: "Hallo! ich kann Ihnen helfen"
+        },
         invokers: {
             preload: {
                 funcName: "demo.state.langPref.preload",
@@ -34,7 +40,23 @@
             },
             messageAppear: {
                 funcName: "demo.state.langPref.messageAppear",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech"]
+            },
+            messageSpeechEn: {
+                funcName: "demo.state.langPref.messageSpeech",
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech", "en", "en-US"]
+            },
+            messageSpeechEs: {
+                funcName: "demo.state.langPref.messageSpeech",
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech", "es", "es-MX"]
+            },
+            messageSpeechFr: {
+                funcName: "demo.state.langPref.messageSpeech",
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech", "fr", "fr-FR"]
+            },
+            messageSpeechDe: {
+                funcName: "demo.state.langPref.messageSpeech",
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech", "de", "de"]
             },
             changeSelection: {
                 funcName: "demo.state.langPref.changeSelection",
@@ -45,20 +67,20 @@
                 args: "{that}"
             },
             button1Callback: {
-                funcName: "demo.state.langPref.button1Callback",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+                funcName: "demo.state.langPref.buttonCallback",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model", "en-US"]
             },
             button2Callback: {
-                funcName: "demo.state.langPref.button2Callback",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+                funcName: "demo.state.langPref.buttonCallback",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model", "es-MX"]
             },
             button3Callback: {
-                funcName: "demo.state.langPref.button3Callback",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+                funcName: "demo.state.langPref.buttonCallback",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model", "fr-FR"]
             },
             button4Callback: {
-                funcName: "demo.state.langPref.button4Callback",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+                funcName: "demo.state.langPref.buttonCallback",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model", "de"]
             }
         }
     });
@@ -99,22 +121,37 @@
         that.rat4.animations.paused = true;
     };
 
+    demo.state.langPref.messageSpeech = function(that, speechComp, phrase, langIn) {
+        console.log(typeof(phrase));
+        // Here used this for [] for instead of directly .phrase, because phrase was being
+        // returned as a string
+        speechComp.queueSpeech(that.options.langSelectionPhrases[phrase],
+                                false, { lang: langIn });
+    };
+
     // Runs at t = 8500ms
     // Creates messageBoxes(we call them button because we have used buttons to implement them)
-    // and adds text as child
+    // and adds text as child. Also here onOver we have added the speechFunction.
     demo.state.langPref.messageAppear = function(that) {
         that.button1 = that.add.button(870, 100, "messageBoxlp",
                                         that.button1Callback, that, 1, 0, 2);
-        that.button1.addChild(that.add.text(70, 48, "Hey! I can help you"));
+        that.button1.addChild(that.add.text(70, 48, that.options.langSelectionPhrases.en));
+        that.button1.onInputOver.add(that.messageSpeechEn, that);
+
         that.button2 = that.add.button(870, 300, "messageBoxlp",
                                         that.button2Callback, that, 1, 0, 2);
-        that.button2.addChild(that.add.text(70, 48, "¡Oye! Puedo ayudarle"));
+        that.button2.addChild(that.add.text(70, 48, that.options.langSelectionPhrases.es));
+        that.button2.onInputOver.add(that.messageSpeechEs, that);
+
         that.button3 = that.add.button(500, 400, "messageBoxlp",
                                         that.button3Callback, that, 1, 0, 2);
-        that.button3.addChild(that.add.text(60, 48, "Hey! je peux vous aider"));
+        that.button3.addChild(that.add.text(60, 48, that.options.langSelectionPhrases.fr));
+        that.button3.onInputOver.add(that.messageSpeechFr, that);
+
         that.button4 = that.add.button(100, 400, "messageBoxlp",
                                         that.button4Callback, that, 1, 0, 2);
-        that.button4.addChild(that.add.text(25, 48, "Hallo! ich kann Ihnen helfen"));
+        that.button4.addChild(that.add.text(25, 48, that.options.langSelectionPhrases.de));
+        that.button4.onInputOver.add(that.messageSpeechDe, that);
     };
 
     // Actions to be performed on pressing TAB
@@ -125,22 +162,27 @@
         that.count++;
         switch (that.count) {
             case 1:
-                // Fix last button
+                // Fix the over, out, in states of last button
                 that.button4.setFrames(1, 0, 2);
-                // Change this button
+                // Change the over, out, in states of this button
                 that.button1.setFrames(0, 1, 2);
+                // For Speech
+                that.messageSpeechEn();
                 break;
             case 2:
                 that.button1.setFrames(1, 0, 2);
                 that.button2.setFrames(0, 1, 2);
+                that.messageSpeechEs();
                 break;
             case 3:
                 that.button2.setFrames(1, 0, 2);
                 that.button3.setFrames(0, 1, 2);
+                that.messageSpeechFr();
                 break;
             case 4:
                 that.button3.setFrames(1, 0, 2);
                 that.button4.setFrames(0, 1, 2);
+                that.messageSpeechDe();
                 break;
             default:
         }
@@ -166,35 +208,16 @@
         }
     };
 
-    // All four buttons callback, to add web speech and lang selection here
-    demo.state.langPref.button1Callback = function(that, model) {
-        console.log("fallback");
-        model.lang.type = "en-US";
-        model.lang.obj = that.cache.getJSON("en");
-        that.state.start("houseEntry");
-    };
-
-    demo.state.langPref.button2Callback = function(that, model) {
-        model.lang.type = "es-MX";
-        model.lang.obj = that.cache.getJSON("es");
-        console.log("running");
-        that.state.start("houseEntry");
-    };
-
-    demo.state.langPref.button3Callback = function(that, model) {
-        model.lang.type = "fr-FR";
-        model.lang.obj = that.cache.getJSON("fr");
-        that.state.start("houseEntry");
-    };
-
-    demo.state.langPref.button4Callback = function(that, model) {
-        model.lang.type = "de";
-        model.lang.obj = that.cache.getJSON("de");
+    // All four buttons callbacks are handled by this, to add web speech and lang selection here
+    demo.state.langPref.buttonCallback = function(that, model, language) {
+        model.lang.type = language;
+        model.lang.obj = that.cache.getJSON(language);
+        // To remove keys so that they dont flood the browser
         that.state.start("houseEntry");
     };
 
     // Phaser functions
-    demo.state.langPref.preload = function(that) {
+    demo.state.langPref.preload = function() {
 
     };
 
@@ -243,14 +266,19 @@
 
         // Keyboard controls for changing and accepting selections
         that.key1 = that.input.keyboard.addKey(Phaser.Keyboard.TAB);
-        that.key1.onDown.add(that.changeSelection, that);
+        // Add adds the keyboard Input to the browser on the other hand addOnce adds it to
+        // single state, which is what we desire here.
+        that.key1.onDown.addOnce(that.changeSelection, that);
 
+        // Enter and Space both are for accepting selection
         that.key2 = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-        that.key2.onDown.add(that.acceptSelection, that);
+        that.key2.onDown.addOnce(that.acceptSelection, that);
 
+        that.key3 = that.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        that.key3.onDown.addOnce(that.acceptSelection, that);
     };
 
-    demo.state.langPref.update = function(that) {
+    demo.state.langPref.update = function() {
 
     };
 

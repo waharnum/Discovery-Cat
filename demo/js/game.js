@@ -27,6 +27,12 @@
             },
             house: {
                 type: "demo.state.house"
+            },
+            sizePref: {
+                type: "demo.state.sizePref"
+            },
+            textToSpeech: {
+                type: "fluid.textToSpeech"
             }
         },
         listeners: {
@@ -43,6 +49,7 @@
         that.game.state.add("langPref", that.langPref);
         that.game.state.add("houseEntry", that.houseEntry);
         that.game.state.add("house", that.house);
+        that.game.state.add("sizePref", that.sizePref);
         // Start the initial state
         that.game.state.start("boot");
     };

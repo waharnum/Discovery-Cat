@@ -71,7 +71,7 @@
     };
 
     // Phaser functions
-    demo.state.prelude.preload = function(that) {
+    demo.state.prelude.preload = function() {
 
     };
 

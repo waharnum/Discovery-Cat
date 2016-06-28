@@ -101,7 +101,7 @@
     };
 
     // Phaser functions
-    demo.state.prelude2.preload = function(that) {
+    demo.state.prelude2.preload = function() {
 
     };
 
@@ -139,7 +139,7 @@
         that.time.events.add(10000, that.nextScreen, that);
     };
 
-    demo.state.prelude2.update = function(that) {
+    demo.state.prelude2.update = function() {
 
     };
 

@@ -57,16 +57,23 @@
         game.load.image("platformh", "assets/platform-house.png");
         game.load.spritesheet("doorh", "assets/doors-house.png", 200, 163);
         game.load.spritesheet("catMoveh", "assets/catMove-house.png", 400, 299);
+        // sizePref assets
+        game.load.image("backgroundsp", "assets/background-sizePref.png");
+        game.load.image("letterEnvelopesp", "assets/letterEnvelope-sizePref.png");
+        game.load.spritesheet("extraAssetsp", "assets/extraAssets-sizePref.png", 200, 120);
+        game.load.spritesheet("letterAssetsp", "assets/letterAssets-sizePref.png", 400, 188);
+        game.load.spritesheet("upDownButtonsp", "assets/upDownButtons-sizePref.png", 200, 186);
+        game.load.spritesheet("goButtonsp", "assets/goButtons-sizePref.png", 200, 91);
 
         // message json files
-        game.load.json("en", "messages/DiscoveryCat_en-US.json");
-        game.load.json("es", "messages/DiscoveryCat_es-MX.json");
-        game.load.json("fr", "messages/DiscoveryCat_fr-FR.json");
+        game.load.json("en-US", "messages/DiscoveryCat_en-US.json");
+        game.load.json("es-MX", "messages/DiscoveryCat_es-MX.json");
+        game.load.json("fr-FR", "messages/DiscoveryCat_fr-FR.json");
         game.load.json("de", "messages/DiscoveryCat_de-DE.json");
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("prelude");
+        game.state.start("langPref");
     };
 
     demo.state.Preload.update = function() {

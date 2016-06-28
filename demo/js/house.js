@@ -20,7 +20,7 @@
     });
 
     // Phaser functions
-    demo.state.house.preload = function(that) {
+    demo.state.house.preload = function() {
     };
 
     demo.state.house.create = function(that) {
@@ -48,7 +48,9 @@
 
         // door or the room state, will see them for collision
         that.add.sprite(50, 38, "doorh", 0);
-        that.add.sprite(425, 38, "doorh", 1);
+        that.sizeDoor = that.add.sprite(425, 38, "doorh", 1);
+        that.physics.arcade.enable(that.sizeDoor);
+        that.sizeDoor.body.immovable = true;
 
         // Cat
         that.cat = that.add.sprite(70, 65, "catMoveh", 5);
@@ -64,12 +66,19 @@
 
         // automatically populate the cursor key define each key
         that.cursors = that.input.keyboard.createCursorKeys();
+        that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     };
 
     demo.state.house.update = function(that) {
         // this keeps seperation between platforms and cat or else the cat would
         // pass the ground and stop at the bounds
         that.physics.arcade.collide(that.cat, that.platforms);
+
+        // overlap checks if the sizeDoor and the cat are overlapping each other
+        // and at the same time the pressing ENTER makes cat move into room
+        if (that.physics.arcade.overlap(that.sizeDoor, that.cat) && that.enter.isDown) {
+            that.state.start("sizePref");
+        }
 
         // character movement
         if (that.cursors.left.isDown) {
@@ -82,6 +91,7 @@
             that.cat.animations.stop();
             that.cat.body.velocity.x = 0;
         }
+
         if (that.cursors.up.isDown && that.cat.body.touching.down) {
             that.cat.body.velocity.y = -700;
         }
