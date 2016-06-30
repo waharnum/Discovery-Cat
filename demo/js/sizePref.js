@@ -110,6 +110,13 @@
     };
 
     demo.state.sizePref.create = function(that) {
+        // Audio
+        that.audioG = that.add.audio("gChord");
+        that.audioC = that.add.audio("cChord");
+        that.audioEm = that.add.audio("emChord");
+
+        // Audio play
+        that.audioC.play("", 0, 0.1, true);
         // Environment
         that.add.sprite(0, 0, "backgroundsp");
 
@@ -142,17 +149,8 @@
         // Automatically populates the cursor key, saves defining each key
         that.cursors = that.input.keyboard.createCursorKeys();
         that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-        that.f = that.input.keyboard.addKey(Phaser.Keyboard.F);
 
-        // FullScreen work
-        that.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-        that.f.onDown.add(function() {
-            if (that.scale.isFullScreen) {
-                that.scale.stopFullScreen();
-            } else {
-                that.scale.startFullScreen(false);
-            }
-        }, that);
+
 
     };
 

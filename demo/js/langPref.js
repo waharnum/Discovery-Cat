@@ -88,6 +88,7 @@
     // Runs at t = 0ms
     // Cat movement to the first location
     demo.state.langPref.catMove = function(that) {
+        that.audioG.play("", 0, 0.1, true);
         that.cat.animations.play("walk");
         that.add.tween(that.cat).to({ x: 500, y:150 }, 2000, Phaser.Easing.Sinusoidal.InOut, true);
     };
@@ -122,7 +123,6 @@
     };
 
     demo.state.langPref.messageSpeech = function(that, speechComp, phrase, langIn) {
-        console.log(typeof(phrase));
         // Here used this for [] for instead of directly .phrase, because phrase was being
         // returned as a string
         speechComp.queueSpeech(that.options.langSelectionPhrases[phrase],
@@ -213,6 +213,7 @@
         model.lang.type = language;
         model.lang.obj = that.cache.getJSON(language);
         // To remove keys so that they dont flood the browser
+        that.audioG.pause();
         that.state.start("houseEntry");
     };
 
@@ -276,6 +277,11 @@
 
         that.key3 = that.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         that.key3.onDown.addOnce(that.acceptSelection, that);
+
+        // Audio
+        that.audioG = that.add.audio("gChord");
+        that.audioC = that.add.audio("cChord");
+        that.audioEm = that.add.audio("emChord");
     };
 
     demo.state.langPref.update = function() {

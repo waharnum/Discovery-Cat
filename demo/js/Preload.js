@@ -70,10 +70,15 @@
         game.load.json("es-MX", "messages/DiscoveryCat_es-MX.json");
         game.load.json("fr-FR", "messages/DiscoveryCat_fr-FR.json");
         game.load.json("de", "messages/DiscoveryCat_de-DE.json");
+
+        // audio files
+        game.load.audio("cChord", ["assets/C-Chord.mp3", "assets/C-Chord.ogg"]);
+        game.load.audio("gChord", ["assets/G-Chord.mp3", "assets/G-Chord.ogg"]);
+        game.load.audio("emChord", ["assets/Em-Chord.mp3", "assets/Em-Chord.ogg"]);
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("langPref");
+        game.state.start("house");
     };
 
     demo.state.Preload.update = function() {

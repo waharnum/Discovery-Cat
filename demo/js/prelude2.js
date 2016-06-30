@@ -51,6 +51,7 @@
     // Cat comes this is the reaction cat with the face towards rathole (shadow on the neck)
     // and O reaction sprite
     demo.state.prelude2.catComes = function(that) {
+        that.audioEm.play("", 0, 0.1, true);
         that.add.tween(that.catReac).to({ x: 1100 }, 2000, Phaser.Easing.Sinusoidal.InOut, true);
     };
 
@@ -97,6 +98,7 @@
 
     // Runs at t = 10000ms
     demo.state.prelude2.nextScreen = function(that) {
+        that.audioEm.pause();
         that.state.start("langPref");
     };
 
@@ -137,6 +139,11 @@
         that.time.events.add(7000, that.ratAndBallFadeOut, that);
         that.time.events.add(9000, that.catFade, that);
         that.time.events.add(10000, that.nextScreen, that);
+
+        // Audio
+        that.audioG = that.add.audio("gChord");
+        that.audioC = that.add.audio("cChord");
+        that.audioEm = that.add.audio("emChord");
     };
 
     demo.state.prelude2.update = function() {

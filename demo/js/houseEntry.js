@@ -34,12 +34,18 @@
 
     // Runs at t = 0ms
      demo.state.houseEntry.ratMessage = function(that, model, speechComp) {
+        // Playing audio
+        that.audioC.play("", 0, 0.1, true);
+
+        // All message things
         that.messageBox = that.add.sprite(810, 250, "messageBoxlp", 0);
         that.messageBox.scale.setTo(1.2, 1.3);
         that.messageText = that.add.text(835, 300,
                             model.lang.obj.ratMessagehe);
-        // Speech
-        speechComp.queueSpeech(model.lang.obj.ratMessagehe, true, { lang: model.lang.type });
+
+        // Speech for message, model objects contains the particular json file we
+        // are made to use in the last screen when user selects the right option.
+        speechComp.queueSpeech(model.lang.obj.ratMessagehe, false, { lang: model.lang.type });
         that.messageBox.alpha = 0;
         that.messageText.alpha = 0;
         that.add.tween(that.messageBox).to({ alpha: 1 },
@@ -60,6 +66,7 @@
 
     // Runs at t = 14000ms
     demo.state.houseEntry.nextScreen = function(that) {
+        that.audioC.pause();
         that.state.start("house");
     };
 
@@ -87,6 +94,10 @@
         that.time.events.add(8000, that.catAndRatWalk, that);
         that.time.events.add(14000, that.nextScreen, that);
 
+        // Audio
+        that.audioG = that.add.audio("gChord");
+        that.audioC = that.add.audio("cChord");
+        that.audioEm = that.add.audio("emChord");
     };
 
     demo.state.houseEntry.update = function() {

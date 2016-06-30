@@ -24,6 +24,13 @@
     };
 
     demo.state.house.create = function(that) {
+        // Audio
+        that.audioG = that.add.audio("gChord");
+        that.audioC = that.add.audio("cChord");
+        that.audioEm = that.add.audio("emChord");
+
+        // Audio to play
+        that.audioG.play("", 0, 0.1, true);
 
         that.add.sprite(0, 0, "backgroundh");
 
@@ -77,6 +84,7 @@
         // overlap checks if the sizeDoor and the cat are overlapping each other
         // and at the same time the pressing ENTER makes cat move into room
         if (that.physics.arcade.overlap(that.sizeDoor, that.cat) && that.enter.isDown) {
+            that.audioG.pause();
             that.state.start("sizePref");
         }
 
