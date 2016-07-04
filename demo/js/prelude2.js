@@ -116,7 +116,7 @@
         that.yarn = that.add.sprite(582, 419, "yarnBalls2");
 
         // rat here has turned the direction now its looking towards left a new sprite
-        that.rat = that.add.sprite(850, 520, "ratMoves2", 2);
+        that.rat = that.add.sprite(850, 560, "ratMoves2", 2);
         that.rat.anchor.setTo(0.5, 0.5);
         that.rat.animations.add("run", [0, 1, 2, 3], 10, true);
         that.rat.play("run");

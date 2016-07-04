@@ -48,52 +48,55 @@
     };
 
     demo.state.sizePref.upButtonCallback = function(that, model) {
-        if (model.size < 1.4) {
-            model.size = model.size + 0.2;
+        if (model.size < 1.3) {
+            model.size = model.size + 0.1;
             that.envelopeStamp.scale.setTo(model.size, model.size);
             that.envelopeAirMail.scale.setTo(model.size, model.size);
             that.envelopeText.scale.setTo(model.size, model.size);
-            that.envelope.scale.setTo(model.size, model.size);
         }
     };
 
     demo.state.sizePref.downButtonCallback = function(that, model) {
         if (model.size > 1) {
             // size of all the sprites can be changed by passing model.size
-            model.size = model.size - 0.2;
+            model.size = model.size - 0.1;
             that.envelopeStamp.scale.setTo(model.size, model.size);
             that.envelopeAirMail.scale.setTo(model.size, model.size);
             that.envelopeText.scale.setTo(model.size, model.size);
-            that.envelope.scale.setTo(model.size, model.size);
         }
     };
 
     demo.state.sizePref.goButtonCallback = function(that) {
-        that.envelope.visible = false;
-        that.envelopeAirMail.visible = false;
-        that.envelopeStamp.visible = false;
-        that.envelopeText.visible = false;
-        that.upButton.visible = false;
-        that.downButton.visible = false;
-        that.goButton.visible = false;
+        that.envelope.destroy();
+        that.envelopeAirMail.destroy();
+        that.envelopeStamp.destroy();
+        that.envelopeText.destroy();
+        that.upButton.alpha = 0;
+        that.downButton.alpha = 0;
+        that.goButton.alpha = 0;
     };
 
     demo.state.sizePref.smallEnvelopeAppear = function(that) {
-        that.envelopePreview = that.add.sprite(500, 600, "extraAssetsp", 1);
-        that.envelopePreview.scale.setTo(0.5, 0.5);
+        that.envelopePreview = that.add.sprite(640, 600, "extraAssetsp", 1);
+        that.envelopePreview.anchor.setTo(0.5, 0.5);
+        that.envelopePreview.scale.setTo(0.8, 0.8);
         that.physics.arcade.enable(that.envelopePreview);
+        that.envelopePreview.body.enable = false;
         that.envelopePreview.body.immovable = true;
-        that.spects.visible = false;
+        that.envelopePreview.visible = false;
     };
 
     demo.state.sizePref.envelopeScreenAppear = function(that) {
         // Envelope
         that.envelope = that.add.sprite(0, 0, "letterEnvelopesp");
-        that.envelopeStamp = that.add.sprite(530, 150, "letterAssetsp", 0);
-        that.envelopeAirMail = that.add.sprite(0, 140, "letterAssetsp", 1);
+        that.envelopeAirMail = that.add.sprite(240, 260, "letterAssetsp", 1);
+        that.envelopeAirMail.anchor.setTo(0.5, 0.5);
+        that.envelopeStamp = that.add.sprite(660, 280, "letterAssetsp", 0);
+        that.envelopeStamp.anchor.setTo(0.5, 0.5);
         // Replace text with all options
-        that.envelopeText = that.add.text(100, 380, "To\nThe Cat\nChasing the Rat",
+        that.envelopeText = that.add.text(260, 490, "To\nThe Cat\nChasing the Rat",
                                                  { font: "40px Arial" });
+        that.envelopeText.anchor.setTo(0.5, 0.5);
 
         // Buttons
         that.upButton = that.add.button(980, 170, "upDownButtonsp",
@@ -110,6 +113,7 @@
     };
 
     demo.state.sizePref.create = function(that) {
+
         // Audio
         that.audioG = that.add.audio("gChord");
         that.audioC = that.add.audio("cChord");
@@ -134,6 +138,9 @@
         that.physics.arcade.enable(that.ground);
         that.ground.body.immovable = true;
 
+        // For small envelope did this to sole the problem of having the
+        // letter above cat.
+        that.smallEnvelopeAppear();
         // Cat
         that.cat = that.add.sprite(50, 500, "catMoveh", 5);
         that.cat.scale.setTo(0.4, 0.4);
@@ -150,13 +157,50 @@
         that.cursors = that.input.keyboard.createCursorKeys();
         that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
-
-
+        // spects notif test
+        that.spectsNotif = that.add.sprite(950, 450, "messageBoxAll", 0);
+        that.spectsNotif.addChild(that.add.text(35, 20, "ENTER"));
+        that.spectsNotif.alpha = 0;
+        // spects notif test
+        that.doorNotif = that.add.sprite(40, 480, "messageBoxAll", 0);
+        that.doorNotif.addChild(that.add.text(35, 20, "ENTER"));
+        that.doorNotif.alpha = 0;
+                // spects notif test
+        that.envelopeNotif = that.add.sprite(550, 440, "messageBoxAll", 0);
+        that.envelopeNotif.addChild(that.add.text(35, 20, "ENTER"));
+        that.envelopeNotif.alpha = 0;
     };
 
     demo.state.sizePref.update = function(that) {
         // Create seperation between ground and cat
         that.physics.arcade.collide(that.cat, that.ground);
+
+        if (that.physics.arcade.overlap(that.spects, that.cat) && that.spectsNotif.alpha === 0) {
+            that.add.tween(that.spectsNotif).to({ alpha: 1 },
+                            800, Phaser.Easing.Sinusoidal.InOut, true);
+        }
+        if (!that.physics.arcade.overlap(that.spects, that.cat) && that.spectsNotif.alpha === 1) {
+            that.add.tween(that.spectsNotif).to({ alpha: 0 },
+                            800, Phaser.Easing.Sinusoidal.InOut, true);
+        }
+        if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.doorNotif.alpha === 0) {
+            that.add.tween(that.doorNotif).to({ alpha: 1 },
+                            800, Phaser.Easing.Sinusoidal.InOut, true);
+        }
+        if (!that.physics.arcade.overlap(that.houseDoor, that.cat) && that.doorNotif.alpha === 1) {
+            that.add.tween(that.doorNotif).to({ alpha: 0 },
+                            800, Phaser.Easing.Sinusoidal.InOut, true);
+        }
+        if (that.physics.arcade.overlap(that.envelopePreview, that.cat) &&
+                                                                that.envelopeNotif.alpha === 0) {
+            that.add.tween(that.envelopeNotif).to({ alpha: 1 },
+                            800, Phaser.Easing.Sinusoidal.InOut, true);
+        }
+        if (!that.physics.arcade.overlap(that.envelopePreview, that.cat) &&
+                                                                 that.envelopeNotif.alpha === 1) {
+            that.add.tween(that.envelopeNotif).to({ alpha: 0 },
+                            800, Phaser.Easing.Sinusoidal.InOut, true);
+        }
 
         // Exit from room
         if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.enter.isDown) {
@@ -164,12 +208,17 @@
         }
 
         if (that.physics.arcade.overlap(that.spects, that.cat) && that.enter.isDown) {
-            that.smallEnvelopeAppear();
+            that.envelopePreview.visible = true;
+            // Pick up envelope and spects will disappear
+            that.spects.visible = false;
+            // So that notif does not appear when the preview has not come.
+            that.envelopePreview.body.enable = true;
         }
 
         if (that.physics.arcade.overlap(that.envelopePreview, that.cat) && that.enter.isDown) {
             that.envelopeScreenAppear();
         }
+
         // Character movement
         if (that.cursors.left.isDown) {
             that.cat.body.velocity.x = -150;

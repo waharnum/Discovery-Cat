@@ -53,6 +53,7 @@
         game.load.spritesheet("messageBoxlp", "assets/messageBox-langPref.png", 400, 127);
         // houseEntry uses same assets from langPref
         // house assets
+        game.load.image("safeh", "assets/safe-house.png");
         game.load.image("backgroundh", "assets/background-house.png");
         game.load.image("platformh", "assets/platform-house.png");
         game.load.spritesheet("doorh", "assets/doors-house.png", 200, 163);
@@ -75,6 +76,9 @@
         game.load.audio("cChord", ["assets/C-Chord.mp3", "assets/C-Chord.ogg"]);
         game.load.audio("gChord", ["assets/G-Chord.mp3", "assets/G-Chord.ogg"]);
         game.load.audio("emChord", ["assets/Em-Chord.mp3", "assets/Em-Chord.ogg"]);
+
+        // universal
+        game.load.image("messageBoxAll", "assets/messageBox-allStates.png");
     };
 
     demo.state.Preload.create = function(game) {

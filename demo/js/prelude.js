@@ -28,6 +28,10 @@
                 funcName: "demo.state.prelude.ratWalkIn",
                 args: "{that}"
             },
+            ratWalkRight: {
+                funcName: "demo.state.prelude.ratWalkRight",
+                args: "{that}"
+            },
             nextScene: {
                 funcName: "demo.state.prelude.nextScene",
                 args: "{that}"
@@ -85,6 +89,13 @@
                                             Phaser.Easing.Sinusoidal.InOut, true);
     };
 
+    demo.state.prelude.ratWalkRight = function(that) {
+        that.rat.animations.add("run", [0, 1, 2, 3], 10, true);
+        that.rat.play("run");
+        that.add.tween(that.rat).to({ x: 850, y: 560 }, 3000,
+                                            Phaser.Easing.Sinusoidal.InOut, true);
+    };
+
     // Runs at t = 14000ms
     // To start next scene
     demo.state.prelude.nextScene = function(that) {
@@ -109,7 +120,8 @@
         // Time events
         that.time.events.add(4000, that.fadeInRatHead, that);
         that.time.events.add(8000, that.ratWalkIn, that);
-        that.time.events.add(14000, that.nextScene, that);
+        that.time.events.add(12000, that.ratWalkRight, that);
+        that.time.events.add(15000, that.nextScene, that);
 
         // Audio
         // Each state will start and pause its music start at any point end while leaving
