@@ -122,6 +122,11 @@
             that.state.start("sizePref");
         }
 
+        if (that.physics.arcade.overlap(that.colorDoor, that.cat) && that.enter.isDown) {
+            that.audioG.pause();
+            that.state.start("colorPref");
+        }
+
         // character movement
         if (that.cursors.left.isDown) {
             that.cat.body.velocity.x = -150;

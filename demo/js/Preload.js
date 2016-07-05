@@ -65,6 +65,9 @@
         game.load.spritesheet("letterAssetsp", "assets/letterAssets-sizePref.png", 400, 188);
         game.load.spritesheet("upDownButtonsp", "assets/upDownButtons-sizePref.png", 200, 186);
         game.load.spritesheet("goButtonsp", "assets/goButtons-sizePref.png", 200, 91);
+        // colorPref assets
+        game.load.image("backgroundcp", "assets/background-colorPref.png");
+        game.load.spritesheet("extraAssetcp", "assets/extraAssets-colorPref.png", 200, 313);
 
         // message json files
         game.load.json("en-US", "messages/DiscoveryCat_en-US.json");
@@ -82,7 +85,7 @@
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("sizePref");
+        game.state.start("colorPref");
     };
 
     demo.state.Preload.update = function() {

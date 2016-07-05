@@ -43,6 +43,10 @@
             start: {
                 funcName: "demo.state.prelude.start",
                 args: "{that}"
+            },
+            skipButtonCallback: {
+                funcName: "demo.state.prelude.skipButtonCallback",
+                args: "{that}"
             }
         }
     });
@@ -104,6 +108,10 @@
         that.state.start("prelude2");
     };
 
+    demo.state.prelude.skipButtonCallback = function(that) {
+        that.game.state.start("langPref");
+    };
+
     // Phaser functions
     demo.state.prelude.preload = function() {
 
@@ -142,6 +150,12 @@
         that.f = that.input.keyboard.addKey(Phaser.Keyboard.F);
         that.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
         that.f.onDown.add(that.fullScreen, that);
+
+        // skip button to langPref screen
+        that.skipButton = that.add.button(1150, 15, "upDownButtonsp",
+                                            that.skipButtonCallback, that, 7, 6, 8);
+        that.skipButton.scale.setTo(0.6, 0.6);
+        that.skipButton.alpha = 0.7;
     };
 
     demo.state.prelude.update = function() {

@@ -85,7 +85,7 @@
         that.envelopePreview.scale.setTo(0.8, 0.8);
         that.physics.arcade.enable(that.envelopePreview);
         that.envelopePreview.body.enable = false;
-        that.envelopePreview.body.immovable = true;
+        // that.envelopePreview.body.immovable = true;
         that.envelopePreview.visible = false;
     };
 
@@ -166,15 +166,15 @@
         that.cursors = that.input.keyboard.createCursorKeys();
         that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
-        // spects notif test
+        // spects notif
         that.spectsNotif = that.add.sprite(950, 450, "messageBoxAll", 0);
         that.spectsNotif.addChild(that.add.text(35, 20, "ENTER"));
         that.spectsNotif.alpha = 0;
-        // spects notif test
+        // door notif
         that.doorNotif = that.add.sprite(40, 480, "messageBoxAll", 0);
         that.doorNotif.addChild(that.add.text(35, 20, "ENTER"));
         that.doorNotif.alpha = 0;
-                // spects notif test
+        // envelope notif
         that.envelopeNotif = that.add.sprite(550, 440, "messageBoxAll", 0);
         that.envelopeNotif.addChild(that.add.text(35, 20, "ENTER"));
         that.envelopeNotif.alpha = 0;
