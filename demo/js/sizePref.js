@@ -14,7 +14,7 @@
             },
             update: {
                 funcName: "demo.state.sizePref.update",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech"]
             },
             envelopeScreenAppear: {
                 funcName: "demo.state.sizePref.envelopeScreenAppear",
@@ -67,13 +67,16 @@
     };
 
     demo.state.sizePref.goButtonCallback = function(that) {
-        that.envelope.destroy();
-        that.envelopeAirMail.destroy();
-        that.envelopeStamp.destroy();
-        that.envelopeText.destroy();
-        that.upButton.alpha = 0;
-        that.downButton.alpha = 0;
-        that.goButton.alpha = 0;
+        // Group these together
+        that.envelope.visible = false;
+        that.envelopeAirMail.visible = false;
+        that.envelopeStamp.visible = false;
+        that.envelopeText.visible = false;
+        that.upButton.visible = false;
+        that.downButton.visible = false;
+        that.goButton.visible = false;
+        // So that it can again reappear and surely this will create a new instant
+        that.envelopeScreenAppearBool = false;
     };
 
     demo.state.sizePref.smallEnvelopeAppear = function(that) {
@@ -87,6 +90,8 @@
     };
 
     demo.state.sizePref.envelopeScreenAppear = function(that) {
+        // count is used as flag for making this run only once when key isDown.
+        if (that.envelopeScreenAppearBool === false) {
         // Envelope
         that.envelope = that.add.sprite(0, 0, "letterEnvelopesp");
         that.envelopeAirMail = that.add.sprite(240, 260, "letterAssetsp", 1);
@@ -105,6 +110,8 @@
                                             that.downButtonCallback, that, 3, 1, 5);
         that.goButton = that.add.button(1120, 332, "goButtonsp",
                                             that.goButtonCallback, that, 1, 0, 2);
+        that.envelopeScreenAppearBool = true;
+        }
     };
 
     // Phaser functions
@@ -141,6 +148,8 @@
         // For small envelope did this to sole the problem of having the
         // letter above cat.
         that.smallEnvelopeAppear();
+
+        that.envelopeScreenAppearBool = false;
         // Cat
         that.cat = that.add.sprite(50, 500, "catMoveh", 5);
         that.cat.scale.setTo(0.4, 0.4);
@@ -171,13 +180,14 @@
         that.envelopeNotif.alpha = 0;
     };
 
-    demo.state.sizePref.update = function(that) {
+    demo.state.sizePref.update = function(that, speechComp) {
         // Create seperation between ground and cat
         that.physics.arcade.collide(that.cat, that.ground);
 
         if (that.physics.arcade.overlap(that.spects, that.cat) && that.spectsNotif.alpha === 0) {
             that.add.tween(that.spectsNotif).to({ alpha: 1 },
                             800, Phaser.Easing.Sinusoidal.InOut, true);
+            speechComp.queueSpeech("ENTER", true);
         }
         if (!that.physics.arcade.overlap(that.spects, that.cat) && that.spectsNotif.alpha === 1) {
             that.add.tween(that.spectsNotif).to({ alpha: 0 },
@@ -186,6 +196,7 @@
         if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.doorNotif.alpha === 0) {
             that.add.tween(that.doorNotif).to({ alpha: 1 },
                             800, Phaser.Easing.Sinusoidal.InOut, true);
+            speechComp.queueSpeech("ENTER", true);
         }
         if (!that.physics.arcade.overlap(that.houseDoor, that.cat) && that.doorNotif.alpha === 1) {
             that.add.tween(that.doorNotif).to({ alpha: 0 },
@@ -195,6 +206,7 @@
                                                                 that.envelopeNotif.alpha === 0) {
             that.add.tween(that.envelopeNotif).to({ alpha: 1 },
                             800, Phaser.Easing.Sinusoidal.InOut, true);
+            speechComp.queueSpeech("ENTER", true);
         }
         if (!that.physics.arcade.overlap(that.envelopePreview, that.cat) &&
                                                                  that.envelopeNotif.alpha === 1) {

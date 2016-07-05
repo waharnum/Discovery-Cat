@@ -269,7 +269,7 @@
         that.key1 = that.input.keyboard.addKey(Phaser.Keyboard.TAB);
         // Add adds the keyboard Input to the browser on the other hand addOnce adds it to
         // single state, which is what we desire here.
-        that.key1.onDown.addOnce(that.changeSelection, that);
+        that.key1.onDown.add(that.changeSelection, that);
 
         // Enter and Space both are for accepting selection
         that.key2 = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);

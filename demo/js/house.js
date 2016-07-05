@@ -14,7 +14,7 @@
             },
             update: {
                 funcName: "demo.state.house.update",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech"]
             }
         }
     });
@@ -110,7 +110,7 @@
         that.safeNotif.alpha = 0;
     };
 
-    demo.state.house.update = function(that) {
+    demo.state.house.update = function(that, speechComp) {
         // this keeps seperation between platforms and cat or else the cat would
         // pass the ground and stop at the bounds
         that.physics.arcade.collide(that.cat, that.platforms);
@@ -143,6 +143,7 @@
                                                     that.sizeDoorNotif.alpha === 0) {
             that.add.tween(that.sizeDoorNotif).to({ alpha: 1 },
                             800, Phaser.Easing.Sinusoidal.InOut, true);
+            speechComp.queueSpeech("ENTER", true);
         }
 
         if (!that.physics.arcade.overlap(that.sizeDoor, that.cat) &&
@@ -156,6 +157,7 @@
                                                     that.safeNotif.alpha === 0) {
             that.add.tween(that.safeNotif).to({ alpha: 1 },
                             800, Phaser.Easing.Sinusoidal.InOut, true);
+            speechComp.queueSpeech("ENTER", true);
         }
 
         if (!that.physics.arcade.overlap(that.safe, that.cat) &&
