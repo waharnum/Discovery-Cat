@@ -124,32 +124,33 @@
 
     demo.state.langPref.messageSpeech = function(that, speechComp, phrase, langIn) {
         // Here used this for [] for instead of directly .phrase, because phrase was being
-        // returned as a string
+        // returned as a string, interupt is set to true here.
         speechComp.queueSpeech(that.options.langSelectionPhrases[phrase],
-                                false, { lang: langIn });
+                                true, { lang: langIn });
     };
 
     // Runs at t = 8500ms
     // Creates messageBoxes(we call them button because we have used buttons to implement them)
     // and adds text as child. Also here onOver we have added the speechFunction.
+    // Black border is for mouse hover and green is for tabing.
     demo.state.langPref.messageAppear = function(that) {
         that.button1 = that.add.button(870, 100, "messageBoxlp",
-                                        that.button1Callback, that, 1, 0, 2);
+                                        that.button1Callback, that, 3, 0, 2);
         that.button1.addChild(that.add.text(70, 48, that.options.langSelectionPhrases.en));
         that.button1.onInputOver.add(that.messageSpeechEn, that);
 
         that.button2 = that.add.button(870, 300, "messageBoxlp",
-                                        that.button2Callback, that, 1, 0, 2);
+                                        that.button2Callback, that, 3, 0, 2);
         that.button2.addChild(that.add.text(70, 48, that.options.langSelectionPhrases.es));
         that.button2.onInputOver.add(that.messageSpeechEs, that);
 
         that.button3 = that.add.button(500, 400, "messageBoxlp",
-                                        that.button3Callback, that, 1, 0, 2);
+                                        that.button3Callback, that, 3, 0, 2);
         that.button3.addChild(that.add.text(60, 48, that.options.langSelectionPhrases.fr));
         that.button3.onInputOver.add(that.messageSpeechFr, that);
 
         that.button4 = that.add.button(100, 400, "messageBoxlp",
-                                        that.button4Callback, that, 1, 0, 2);
+                                        that.button4Callback, that, 3, 0, 2);
         that.button4.addChild(that.add.text(25, 48, that.options.langSelectionPhrases.de));
         that.button4.onInputOver.add(that.messageSpeechDe, that);
     };
@@ -184,29 +185,29 @@
         switch (that.count) {
             case 1:
                 // Fix the over, out, in states of last button
-                that.button4.setFrames(1, 0, 2);
+                that.button4.setFrames(3, 0, 2);
                 // Change the over, out, in states of this button
                 that.button1.setFrames(0, 1, 2);
                 // For Speech
-                that.button2.setFrames(1, 0, 2);
+                that.button2.setFrames(3, 0, 2);
                 that.messageSpeechEn();
                 break;
             case 2:
-                that.button1.setFrames(1, 0, 2);
+                that.button1.setFrames(3, 0, 2);
                 that.button2.setFrames(0, 1, 2);
-                that.button3.setFrames(1, 0, 2);
+                that.button3.setFrames(3, 0, 2);
                 that.messageSpeechEs();
                 break;
             case 3:
-                that.button2.setFrames(1, 0, 2);
+                that.button2.setFrames(3, 0, 2);
                 that.button3.setFrames(0, 1, 2);
-                that.button4.setFrames(1, 0, 2);
+                that.button4.setFrames(3, 0, 2);
                 that.messageSpeechFr();
                 break;
             case 4:
-                that.button3.setFrames(1, 0, 2);
+                that.button3.setFrames(3, 0, 2);
                 that.button4.setFrames(0, 1, 2);
-                that.button1.setFrames(1, 0, 2);
+                that.button1.setFrames(3, 0, 2);
                 that.messageSpeechDe();
                 break;
             default:
