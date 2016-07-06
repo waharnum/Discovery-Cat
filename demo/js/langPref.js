@@ -156,10 +156,31 @@
 
     // Actions to be performed on pressing TAB
     demo.state.langPref.changeSelection = function(that) {
-        if (that.count === 4) {
-            that.count = 0;
+        // For tab to work
+        // For shift+tab to work
+        // that.count starts as 0
+        if (that.key1.shiftKey) {
+            // for backward movement
+            // This will make 0 to become -1
+            that.count--;
+        } else {
+            // for forward movement
+            // This will make 0 to become 1
+            that.count++;
         }
-        that.count++;
+
+        // After passing this that.count will be either 1 or -1 in the first pass
+
+        // On tabing that.count++ makes count 5, that is next to last button
+        // we redirect it to the first button ie that.count = 1
+        if (that.count === 5) {
+            that.count = 1;
+        }
+        // On shift+tabing that.count-- makes count 0, at that time to jump to the
+        // last selection that.count is made 4.
+        if (that.count === 0) {
+            that.count = 4;
+        }
         switch (that.count) {
             case 1:
                 // Fix the over, out, in states of last button
@@ -167,21 +188,25 @@
                 // Change the over, out, in states of this button
                 that.button1.setFrames(0, 1, 2);
                 // For Speech
+                that.button2.setFrames(1, 0, 2);
                 that.messageSpeechEn();
                 break;
             case 2:
                 that.button1.setFrames(1, 0, 2);
                 that.button2.setFrames(0, 1, 2);
+                that.button3.setFrames(1, 0, 2);
                 that.messageSpeechEs();
                 break;
             case 3:
                 that.button2.setFrames(1, 0, 2);
                 that.button3.setFrames(0, 1, 2);
+                that.button4.setFrames(1, 0, 2);
                 that.messageSpeechFr();
                 break;
             case 4:
                 that.button3.setFrames(1, 0, 2);
                 that.button4.setFrames(0, 1, 2);
+                that.button1.setFrames(1, 0, 2);
                 that.messageSpeechDe();
                 break;
             default:
