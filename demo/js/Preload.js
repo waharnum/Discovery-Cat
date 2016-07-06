@@ -85,7 +85,7 @@
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("langPref");
+        game.state.start("sizePref");
     };
 
     demo.state.Preload.update = function() {

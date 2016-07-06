@@ -223,6 +223,7 @@
             that.envelopePreview.visible = true;
             // Pick up envelope and spects will disappear
             that.spects.visible = false;
+            that.spects.body.enable = false;
             // So that notif does not appear when the preview has not come.
             that.envelopePreview.body.enable = true;
         }
