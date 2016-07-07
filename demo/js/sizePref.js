@@ -10,7 +10,7 @@
             },
             create: {
                 funcName: "demo.state.sizePref.create",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             update: {
                 funcName: "demo.state.sizePref.update",
@@ -18,7 +18,7 @@
             },
             envelopeScreenAppear: {
                 funcName: "demo.state.sizePref.envelopeScreenAppear",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             houseDoor: {
                 funcName: "demo.state.sizePref.houseDoor",
@@ -44,11 +44,12 @@
     });
 
     demo.state.sizePref.houseDoor = function(that) {
+        that.audioC.pause();
         that.state.start("house");
     };
 
     demo.state.sizePref.upButtonCallback = function(that, model) {
-        if (model.size < 1.3) {
+        if (model.size < 1.2) {
             model.size = model.size + 0.1;
             that.envelopeStamp.scale.setTo(model.size, model.size);
             that.envelopeAirMail.scale.setTo(model.size, model.size);
@@ -89,19 +90,25 @@
         that.envelopePreview.visible = false;
     };
 
-    demo.state.sizePref.envelopeScreenAppear = function(that) {
+    demo.state.sizePref.envelopeScreenAppear = function(that, model) {
         // count is used as flag for making this run only once when key isDown.
         if (that.envelopeScreenAppearBool === false) {
         // Envelope
         that.envelope = that.add.sprite(0, 0, "letterEnvelopesp");
+
         that.envelopeAirMail = that.add.sprite(240, 260, "letterAssetsp", 1);
         that.envelopeAirMail.anchor.setTo(0.5, 0.5);
+        that.envelopeAirMail.scale.setTo(model.size, model.size);
+
         that.envelopeStamp = that.add.sprite(660, 280, "letterAssetsp", 0);
         that.envelopeStamp.anchor.setTo(0.5, 0.5);
+        that.envelopeStamp.scale.setTo(model.size, model.size);
+
         // Replace text with all options
         that.envelopeText = that.add.text(260, 490, "To\nThe Cat\nChasing the Rat",
                                                  { font: "40px Arial" });
         that.envelopeText.anchor.setTo(0.5, 0.5);
+        that.envelopeText.scale.setTo(model.size, model.size);
 
         // Buttons
         that.upButton = that.add.button(980, 170, "upDownButtonsp",
@@ -119,7 +126,7 @@
 
     };
 
-    demo.state.sizePref.create = function(that) {
+    demo.state.sizePref.create = function(that, model) {
 
         // Audio
         that.audioG = that.add.audio("gChord");
@@ -136,7 +143,9 @@
         that.spects.body.immovable = true;
 
         // Adding door to house and physics
-        that.houseDoor = that.add.sprite(40, 520, "doorh", 1);
+        that.houseDoor = that.add.sprite(135, 678, "doorh", 1);
+        that.houseDoor.anchor.setTo(0.5, 1);
+        that.houseDoor.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.houseDoor);
         that.houseDoor.body.immovable = true;
 
@@ -151,7 +160,8 @@
 
         that.envelopeScreenAppearBool = false;
         // Cat
-        that.cat = that.add.sprite(50, 500, "catMoveh", 5);
+        // x distance such that cat does not land on door and ENTER notif plays
+        that.cat = that.add.sprite(235, 500, "catMoveh", 5);
         that.cat.scale.setTo(0.4, 0.4);
         that.physics.arcade.enable(that.cat);
         that.cat.body.bounce.y = 0.2;
@@ -165,6 +175,9 @@
         // Automatically populates the cursor key, saves defining each key
         that.cursors = that.input.keyboard.createCursorKeys();
         that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+
+        // Buttons for evelope
+        that.up
 
         // spects notif
         that.spectsNotif = that.add.sprite(950, 450, "messageBoxAll", 0);

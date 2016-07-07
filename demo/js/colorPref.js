@@ -24,6 +24,7 @@
     });
 
     demo.state.colorPref.houseDoor = function(that) {
+        that.audioC.pause();
         that.state.start("house");
     };
 
