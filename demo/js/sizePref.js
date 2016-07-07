@@ -28,6 +28,10 @@
                 funcName: "demo.state.sizePref.smallEnvelopeAppear",
                 args: "{that}"
             },
+            takeSpects: {
+                funcName: "demo.state.sizePref.takeSpects",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+            },
             upButtonCallback: {
                 funcName: "demo.state.sizePref.upButtonCallback",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
@@ -38,7 +42,7 @@
             },
             goButtonCallback: {
                 funcName: "demo.state.sizePref.goButtonCallback",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             }
         }
     });
@@ -67,7 +71,7 @@
         }
     };
 
-    demo.state.sizePref.goButtonCallback = function(that) {
+    demo.state.sizePref.goButtonCallback = function(that, model) {
         // Group these together
         that.envelope.visible = false;
         that.envelopeAirMail.visible = false;
@@ -78,6 +82,20 @@
         that.goButton.visible = false;
         // So that it can again reappear and surely this will create a new instant
         that.envelopeScreenAppearBool = false;
+        that.houseDoor.scale.setTo(model.size, model.size);
+    };
+
+    demo.state.sizePref.takeSpects = function(that, model) {
+        // So that notif appear when the preview has come.
+        that.envelopePreview.visible = true;
+        that.envelopePreview.body.enable = true;
+        // Pick up envelope and spects will disappear
+        that.spects.visible = false;
+        that.spects.body.enable = false;
+        // cat has visited the room and taken the spects then only
+        // it means he has visited it or else things would remain
+        // the same as the envelope will always be there.
+        model.visited.size = true;
     };
 
     demo.state.sizePref.smallEnvelopeAppear = function(that) {
@@ -158,6 +176,10 @@
         // letter above cat.
         that.smallEnvelopeAppear();
 
+        if (model.visited.size === true) {
+            that.takeSpects();
+        }
+
         that.envelopeScreenAppearBool = false;
         // Cat
         // x distance such that cat does not land on door and ENTER notif plays
@@ -176,19 +198,19 @@
         that.cursors = that.input.keyboard.createCursorKeys();
         that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
-        // Buttons for evelope
-        that.up
-
         // spects notif
         that.spectsNotif = that.add.sprite(950, 450, "messageBoxAll", 0);
+        that.spectsNotif.scale.setTo(model.size, model.size);
         that.spectsNotif.addChild(that.add.text(35, 20, "ENTER"));
         that.spectsNotif.alpha = 0;
         // door notif
         that.doorNotif = that.add.sprite(40, 480, "messageBoxAll", 0);
+        that.doorNotif.scale.setTo(model.size, model.size);
         that.doorNotif.addChild(that.add.text(35, 20, "ENTER"));
         that.doorNotif.alpha = 0;
         // envelope notif
         that.envelopeNotif = that.add.sprite(550, 440, "messageBoxAll", 0);
+        that.envelopeNotif.scale.setTo(model.size, model.size);
         that.envelopeNotif.addChild(that.add.text(35, 20, "ENTER"));
         that.envelopeNotif.alpha = 0;
     };
@@ -233,12 +255,7 @@
         }
 
         if (that.physics.arcade.overlap(that.spects, that.cat) && that.enter.isDown) {
-            that.envelopePreview.visible = true;
-            // Pick up envelope and spects will disappear
-            that.spects.visible = false;
-            that.spects.body.enable = false;
-            // So that notif does not appear when the preview has not come.
-            that.envelopePreview.body.enable = true;
+            that.takeSpects();
         }
 
         if (that.physics.arcade.overlap(that.envelopePreview, that.cat) && that.enter.isDown) {

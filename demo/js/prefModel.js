@@ -8,7 +8,13 @@
                 obj: {}
             },
             count: 0,
-            size: 1
+            size: 1,
+            visited: {
+                lang: false,
+                size: false,
+                color: false,
+                simplify: false
+            }
         }
     });
 
