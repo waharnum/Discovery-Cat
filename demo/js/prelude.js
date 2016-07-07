@@ -108,10 +108,6 @@
         that.state.start("prelude2");
     };
 
-    demo.state.prelude.skipButtonCallback = function(that) {
-        that.game.state.start("langPref");
-    };
-
     // Phaser functions
     demo.state.prelude.preload = function() {
 
@@ -153,7 +149,7 @@
 
         // skip button to langPref screen
         that.skipButton = that.add.button(1150, 15, "upDownButtonsp",
-                                            that.skipButtonCallback, that, 7, 6, 8);
+                                            that.nextScene, that, 7, 6, 8);
         that.skipButton.scale.setTo(0.6, 0.6);
         that.skipButton.alpha = 0.7;
     };
