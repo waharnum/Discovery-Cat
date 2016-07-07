@@ -251,7 +251,7 @@
 
         // Exit from room
         if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.enter.isDown) {
-            that.state.start("house");
+            that.houseDoor();
         }
 
         if (that.physics.arcade.overlap(that.spects, that.cat) && that.enter.isDown) {
