@@ -20,8 +20,8 @@
                 funcName: "demo.state.sizePref.envelopeScreenAppear",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
-            houseDoor: {
-                funcName: "demo.state.sizePref.houseDoor",
+            houseDoorOpen: {
+                funcName: "demo.state.sizePref.houseDoorOpen",
                 args: "{that}"
             },
             smallEnvelopeAppear: {
@@ -47,7 +47,7 @@
         }
     });
 
-    demo.state.sizePref.houseDoor = function(that) {
+    demo.state.sizePref.houseDoorOpen = function(that) {
         that.audioC.pause();
         that.state.start("house");
     };
@@ -251,7 +251,7 @@
 
         // Exit from room
         if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.enter.isDown) {
-            that.houseDoor();
+            that.houseDoorOpen();
         }
 
         if (that.physics.arcade.overlap(that.spects, that.cat) && that.enter.isDown) {
