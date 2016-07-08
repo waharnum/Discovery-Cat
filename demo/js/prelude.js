@@ -100,6 +100,11 @@
                                             Phaser.Easing.Sinusoidal.InOut, true);
     };
 
+    demo.state.prelude.skipButtonCallback = function(that) {
+        that.audioG.pause();
+        that.state.start("langPref");
+    };
+
     // Runs at t = 14000ms
     // To start next scene
     demo.state.prelude.nextScene = function(that) {
@@ -149,7 +154,7 @@
 
         // skip button to langPref screen
         that.skipButton = that.add.button(1150, 15, "upDownButtonsp",
-                                            that.nextScene, that, 7, 6, 8);
+                                            that.skipButtonCallback, that, 7, 6, 8);
         that.skipButton.scale.setTo(0.6, 0.6);
         that.skipButton.alpha = 0.7;
     };

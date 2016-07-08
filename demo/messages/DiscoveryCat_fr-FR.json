@@ -1,3 +1,8 @@
 {
-    "ratMessagehe": "Viens avec moi à la maison de\nrat , il a pris votre boule de fil il"
+    "ratMessagehe": "Viens avec moi à la maison de\nrat, il a pris votre boule de fil il",
+    "onecs": "Rat a gardé les boules de fil dans son coffre-fort dans la maison",
+    "twocs": "Pour ouvrir ce coffre-fort , vous aurez besoin d'un code d'accès",
+    "threecs": "Le code d'accès est présente en morceaux dans toutes les chambres",
+    "fourcs": "Allez dans chaque chambre et recueillir le mot de passe pour ouvrir le coffre-fort",
+    "fivecs": "Espérons que vous trouverez les boules de fils"
 }

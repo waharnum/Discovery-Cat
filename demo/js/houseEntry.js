@@ -67,7 +67,7 @@
     // Runs at t = 14000ms
     demo.state.houseEntry.nextScreen = function(that) {
         that.audioC.pause();
-        that.state.start("house");
+        that.state.start("cutScene");
     };
 
     // Phaser functions

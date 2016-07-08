@@ -1,3 +1,8 @@
 {
-    "ratMessagehe": "Come with me to the rat house\nhe has taken your yarn ball there"
+    "ratMessagehe": "Come with me to the rat house\nhe has taken your yarn ball there",
+    "onecs": "Rat has kept the yarn balls in his safe inside the house",
+    "twocs": "To open that safe you will need a passcode",
+    "threecs": "The passcode is present in pieces in all the rooms",
+    "fourcs": "Go to each room and collect the passcode to open the safe",
+    "fivecs": "Hope you find the yarn balls"
 }

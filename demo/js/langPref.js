@@ -236,6 +236,7 @@
 
     // All four buttons callbacks are handled by this, to add web speech and lang selection here
     demo.state.langPref.buttonCallback = function(that, model, language) {
+        console.log("hello");
         model.lang.type = language;
         model.lang.obj = that.cache.getJSON(language);
         // To remove keys so that they dont flood the browser

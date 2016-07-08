@@ -25,6 +25,9 @@
             houseEntry: {
                 type: "demo.state.houseEntry"
             },
+            cutScene: {
+                type: "demo.state.cutScene"
+            },
             house: {
                 type: "demo.state.house"
             },
@@ -51,6 +54,7 @@
         that.game.state.add("prelude2", that.prelude2);
         that.game.state.add("langPref", that.langPref);
         that.game.state.add("houseEntry", that.houseEntry);
+        that.game.state.add("cutScene", that.cutScene);
         that.game.state.add("house", that.house);
         that.game.state.add("sizePref", that.sizePref);
         that.game.state.add("colorPref", that.colorPref);
