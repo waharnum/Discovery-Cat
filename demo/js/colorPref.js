@@ -10,7 +10,7 @@
             },
             create: {
                 funcName: "demo.state.colorPref.create",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             update: {
                 funcName: "demo.state.colorPref.update",
@@ -33,7 +33,7 @@
 
     };
 
-    demo.state.colorPref.create = function(that) {
+    demo.state.colorPref.create = function(that, model) {
 
         // Audio
         that.audioG = that.add.audio("gChord");
@@ -68,7 +68,7 @@
 
         // Cat
         that.cat = that.add.sprite(50, 500, "catMoveh", 5);
-        that.cat.scale.setTo(0.4, 0.4);
+        that.cat.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.cat);
         that.cat.body.bounce.y = 0.2;
         that.cat.body.gravity.y = 1000;

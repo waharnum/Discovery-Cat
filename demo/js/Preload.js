@@ -57,7 +57,7 @@
         game.load.image("backgroundh", "assets/background-house.png");
         game.load.image("platformh", "assets/platform-house.png");
         game.load.spritesheet("doorh", "assets/doors-house.png", 200, 163);
-        game.load.spritesheet("catMoveh", "assets/catMove-house.png", 400, 299);
+        game.load.spritesheet("catMoveh", "assets/catMove-house.png", 162.5, 123);
         // sizePref assets
         game.load.image("backgroundsp", "assets/background-sizePref.png");
         game.load.image("letterEnvelopesp", "assets/letterEnvelope-sizePref.png");

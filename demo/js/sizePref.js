@@ -26,7 +26,7 @@
             },
             smallEnvelopeAppear: {
                 funcName: "demo.state.sizePref.smallEnvelopeAppear",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             takeSpects: {
                 funcName: "demo.state.sizePref.takeSpects",
@@ -83,6 +83,11 @@
         // So that it can again reappear and surely this will create a new instant
         that.envelopeScreenAppearBool = false;
         that.houseDoor.scale.setTo(model.size, model.size);
+        that.envelopePreview.scale.setTo(model.size, model.size);
+        that.cat.scale.setTo(model.size, model.size);
+        that.cat.y = 450;
+        that.doorNotif.scale.setTo(model.size, model.size);
+        that.envelopeNotif.scale.setTo(model.size, model.size);
     };
 
     demo.state.sizePref.takeSpects = function(that, model) {
@@ -98,10 +103,10 @@
         model.visited.size = true;
     };
 
-    demo.state.sizePref.smallEnvelopeAppear = function(that) {
-        that.envelopePreview = that.add.sprite(640, 600, "extraAssetsp", 1);
+    demo.state.sizePref.smallEnvelopeAppear = function(that, model) {
+        that.envelopePreview = that.add.sprite(580, 600, "extraAssetsp", 1);
         that.envelopePreview.anchor.setTo(0.5, 0.5);
-        that.envelopePreview.scale.setTo(0.8, 0.8);
+        that.envelopePreview.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.envelopePreview);
         that.envelopePreview.body.enable = false;
         // that.envelopePreview.body.immovable = true;
@@ -184,7 +189,7 @@
         // Cat
         // x distance such that cat does not land on door and ENTER notif plays
         that.cat = that.add.sprite(235, 500, "catMoveh", 5);
-        that.cat.scale.setTo(0.4, 0.4);
+        that.cat.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.cat);
         that.cat.body.bounce.y = 0.2;
         that.cat.body.gravity.y = 1000;
@@ -204,12 +209,12 @@
         that.spectsNotif.addChild(that.add.text(35, 20, "ENTER"));
         that.spectsNotif.alpha = 0;
         // door notif
-        that.doorNotif = that.add.sprite(40, 480, "messageBoxAll", 0);
+        that.doorNotif = that.add.sprite(40, 380, "messageBoxAll", 0);
         that.doorNotif.scale.setTo(model.size, model.size);
         that.doorNotif.addChild(that.add.text(35, 20, "ENTER"));
         that.doorNotif.alpha = 0;
         // envelope notif
-        that.envelopeNotif = that.add.sprite(550, 440, "messageBoxAll", 0);
+        that.envelopeNotif = that.add.sprite(490, 420, "messageBoxAll", 0);
         that.envelopeNotif.scale.setTo(model.size, model.size);
         that.envelopeNotif.addChild(that.add.text(35, 20, "ENTER"));
         that.envelopeNotif.alpha = 0;

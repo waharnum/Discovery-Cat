@@ -10,7 +10,7 @@
             },
             create: {
                 funcName: "demo.state.house.create",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             update: {
                 funcName: "demo.state.house.update",
@@ -23,7 +23,7 @@
     demo.state.house.preload = function() {
     };
 
-    demo.state.house.create = function(that) {
+    demo.state.house.create = function(that, model) {
         // Audio
         that.audioG = that.add.audio("gChord");
         that.audioC = that.add.audio("cChord");
@@ -54,9 +54,9 @@
         that.ground.body.immovable = true;
 
         // Safe with yarn balls
-        that.safe = that.add.sprite(450, 675, "safeh");
+        that.safe = that.add.sprite(450, 675, "doorh", 2);
         that.safe.anchor.setTo(0.5, 1);
-        that.safe.scale.setTo(0.3, 0.3);
+        that.safe.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.safe);
         that.safe.body.immovable = true;
 
@@ -64,29 +64,39 @@
         // Entry Door
         that.add.sprite(50, 38, "doorh", 0);
         // Size Pref Door
-        that.sizeDoor = that.add.sprite(400, 38, "doorh", 1);
+        that.sizeDoor = that.add.sprite(460, 200, "doorh", 1);
+        that.sizeDoor.anchor.setTo(0.5, 1);
+        that.sizeDoor.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.sizeDoor);
         that.sizeDoor.body.immovable = true;
         // Color Pref Door
-        that.colorDoor = that.add.sprite(770, 38, "doorh", 1);
+        that.colorDoor = that.add.sprite(830, 200, "doorh", 1);
+        that.colorDoor.anchor.setTo(0.5, 1);
+        that.colorDoor.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.colorDoor);
         that.colorDoor.body.immovable = true;
         // Simplify Pref Door
-        that.simplifyDoor = that.add.sprite(400, 277, "doorh", 1);
+        that.simplifyDoor = that.add.sprite(460, 439, "doorh", 1);
+        that.simplifyDoor.anchor.setTo(0.5, 1);
+        that.simplifyDoor.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.simplifyDoor);
         that.simplifyDoor.body.immovable = true;
         // Sounds Pref Door
-        that.soundDoor = that.add.sprite(770, 277, "doorh", 1);
+        that.soundDoor = that.add.sprite(830, 439, "doorh", 1);
+        that.soundDoor.anchor.setTo(0.5, 1);
+        that.soundDoor.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.soundDoor);
         that.soundDoor.body.immovable = true;
         // Main Exit Door
-        that.mainExitDoor = that.add.sprite(970, 513, "doorh", 1);
+        that.mainExitDoor = that.add.sprite(1065, 675, "doorh", 1);
+        that.mainExitDoor.anchor.setTo(0.5, 1);
+        that.mainExitDoor.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.mainExitDoor);
         that.mainExitDoor.body.immovable = true;
 
         // Cat
-        that.cat = that.add.sprite(70, 65, "catMoveh", 5);
-        that.cat.scale.setTo(0.4, 0.4);
+        that.cat = that.add.sprite(70, 45, "catMoveh", 5);
+        that.cat.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.cat);
         that.cat.body.bounce.y = 0.2;
         that.cat.body.gravity.y = 1000;
@@ -101,12 +111,22 @@
         that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
         // Notif size pref door
-        that.sizeDoorNotif = that.add.sprite(400, 10, "messageBoxAll", 0);
-        that.sizeDoorNotif.addChild(that.add.text(35, 20, "ENTER"));
+        that.sizeDoorNotif = that.add.sprite(435, 110, "messageBoxAll", 0);
+        that.sizeDoorNotif.addChild(that.add.text(-50, -80, "ENTER"));
+        that.sizeDoorNotif.anchor.setTo(0.5, 1);
+        that.sizeDoorNotif.scale.setTo(model.size, model.size);
         that.sizeDoorNotif.alpha = 0;
+        // Notif size pref door
+        that.colorDoorNotif = that.add.sprite(800, 110, "messageBoxAll", 0);
+        that.colorDoorNotif.addChild(that.add.text(-50, -80, "ENTER"));
+        that.colorDoorNotif.anchor.setTo(0.5, 1);
+        that.colorDoorNotif.scale.setTo(model.size, model.size);
+        that.colorDoorNotif.alpha = 0;
         // Notif safe
-        that.safeNotif = that.add.sprite(400, 480, "messageBoxAll", 0);
-        that.safeNotif.addChild(that.add.text(35, 20, "ENTER"));
+        that.safeNotif = that.add.sprite(450, 570, "messageBoxAll", 0);
+        that.safeNotif.addChild(that.add.text(-75, -100, "  PROVIDE\nPASSCODE"));
+        that.safeNotif.anchor.setTo(0.5, 1);
+        that.safeNotif.scale.setTo(model.size, model.size);
         that.safeNotif.alpha = 0;
     };
 
@@ -154,6 +174,20 @@
         if (!that.physics.arcade.overlap(that.sizeDoor, that.cat) &&
                                                     that.sizeDoorNotif.alpha === 1) {
             that.add.tween(that.sizeDoorNotif).to({ alpha: 0 },
+                            800, Phaser.Easing.Sinusoidal.InOut, true);
+        }
+
+        // Color Door Notif
+        if (that.physics.arcade.overlap(that.colorDoor, that.cat) &&
+                                                    that.colorDoorNotif.alpha === 0) {
+            that.add.tween(that.colorDoorNotif).to({ alpha: 1 },
+                            800, Phaser.Easing.Sinusoidal.InOut, true);
+            speechComp.queueSpeech("ENTER", true);
+        }
+
+        if (!that.physics.arcade.overlap(that.colorDoor, that.cat) &&
+                                                    that.colorDoorNotif.alpha === 1) {
+            that.add.tween(that.colorDoorNotif).to({ alpha: 0 },
                             800, Phaser.Easing.Sinusoidal.InOut, true);
         }
 

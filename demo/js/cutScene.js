@@ -56,6 +56,10 @@
                 funcName: "demo.state.cutScene.turnWhite",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model",
                                                     "{demo.discoveryCat}.textToSpeech"]
+            },
+            skipButtonCallback: {
+                funcName: "demo.state.cutScene.skipButtonCallback",
+                args: "{that}"
             }
         }
     });
@@ -142,7 +146,7 @@
         that.add.tween(that.doors).to({ alpha: 0 }, 0, Phaser.Easing.Sinusoidal.InOut, true);
         that.add.tween(that.safe).to({ alpha: 0 }, 0, Phaser.Easing.Sinusoidal.InOut, true);
         that.add.tween(that.yarn.scale).to({ x: 10, y:10 },
-                                            2000, Phaser.Easing.Sinusoidal.InOut, true);
+                                            1000, Phaser.Easing.Sinusoidal.InOut, true);
     };
 
     // Runs at t = 19000ms
@@ -158,6 +162,11 @@
 
     // Runs at t = 24000ms
     demo.state.cutScene.nextScreen = function(that) {
+        that.audioG.pause();
+        that.state.start("house");
+    };
+
+    demo.state.cutScene.skipButtonCallback = function(that) {
         that.audioG.pause();
         that.state.start("house");
     };
@@ -212,6 +221,12 @@
         that.time.events.add(18000, that.yarnBall, that);
         that.time.events.add(19000, that.turnWhite, that);
         that.time.events.add(24000, that.nextScreen, that);
+
+        // skip button to langPref screen
+        that.skipButton = that.add.button(1150, 15, "upDownButtonsp",
+                                            that.skipButtonCallback, that, 7, 6, 8);
+        that.skipButton.scale.setTo(0.6, 0.6);
+        that.skipButton.alpha = 0.7;
     };
 
     demo.state.cutScene.update = function() {
