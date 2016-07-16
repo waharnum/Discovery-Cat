@@ -14,10 +14,46 @@
             },
             update: {
                 funcName: "demo.state.house.update",
-                args: ["{that}", "{demo.discoveryCat}.textToSpeech"]
+                args: ["{that}"]
+            },
+            sizeDoorNotifFunc: {
+                funcName: "demo.state.house.notifs",
+                args: ["{that}", "{that}.sizeDoor", "{that}.sizeDoorNotif",
+                                                            "{demo.discoveryCat}.textToSpeech"]
+            },
+            colorDoorNotifFunc: {
+                funcName: "demo.state.house.notifs",
+                args: ["{that}", "{that}.colorDoor", "{that}.colorDoorNotif",
+                                                            "{demo.discoveryCat}.textToSpeech"]
+            },
+            simplifyDoorNotifFunc: {
+                funcName: "demo.state.house.notifs",
+                args: ["{that}", "{that}.simplifyDoor", "{that}.simplifyDoorNotif",
+                                                            "{demo.discoveryCat}.textToSpeech"]
+            },
+            safeNotifFunc: {
+                funcName: "demo.state.house.notifs",
+                args: ["{that}", "{that}.safe", "{that}.safeNotif",
+                                                            "{demo.discoveryCat}.textToSpeech"]
             }
         }
     });
+
+    demo.state.house.notifs = function(that, element, elementNotif, speechComp) {
+        if (that.physics.arcade.overlap(element, that.cat) &&
+                                                    elementNotif.alpha === 0) {
+            that.add.tween(elementNotif).to({ alpha: 1 },
+                            800, Phaser.Easing.Sinusoidal.InOut, true);
+            speechComp.queueSpeech("ENTER", true);
+        }
+
+        if (!that.physics.arcade.overlap(element, that.cat) &&
+                                                    elementNotif.alpha === 1) {
+            that.add.tween(elementNotif).to({ alpha: 0 },
+                            800, Phaser.Easing.Sinusoidal.InOut, true);
+        }
+
+    };
 
     // Phaser functions
     demo.state.house.preload = function() {
@@ -116,21 +152,43 @@
         that.sizeDoorNotif.anchor.setTo(0.5, 1);
         that.sizeDoorNotif.scale.setTo(model.size, model.size);
         that.sizeDoorNotif.alpha = 0;
-        // Notif size pref door
+        // Notif color pref door
         that.colorDoorNotif = that.add.sprite(800, 110, "messageBoxAll", 0);
         that.colorDoorNotif.addChild(that.add.text(-50, -80, "ENTER"));
         that.colorDoorNotif.anchor.setTo(0.5, 1);
         that.colorDoorNotif.scale.setTo(model.size, model.size);
         that.colorDoorNotif.alpha = 0;
+        // Notif simplify pref door
+        that.simplifyDoorNotif = that.add.sprite(430, 339, "messageBoxAll", 0);
+        that.simplifyDoorNotif.addChild(that.add.text(-50, -80, "ENTER"));
+        that.simplifyDoorNotif.anchor.setTo(0.5, 1);
+        that.simplifyDoorNotif.scale.setTo(model.size, model.size);
+        that.simplifyDoorNotif.alpha = 0;
         // Notif safe
         that.safeNotif = that.add.sprite(450, 570, "messageBoxAll", 0);
         that.safeNotif.addChild(that.add.text(-75, -100, "  PROVIDE\nPASSCODE"));
         that.safeNotif.anchor.setTo(0.5, 1);
         that.safeNotif.scale.setTo(model.size, model.size);
         that.safeNotif.alpha = 0;
+
+        // Filters
+        if (model.contrast) {
+            that.gray = new PIXI.GrayFilter();
+            that.invert = new PIXI.InvertFilter();
+            that.colorMatrix =  [
+                1.5, 0, 0, 0,
+                0, 1.5, 0, 0,
+                0, 0, 1.5, 0,
+                0, 0, 0, 1
+            ];
+            that.contrast = new PIXI.ColorMatrixFilter();
+            that.contrast.matrix = that.colorMatrix;
+
+            that.world.filters = [that.gray, that.invert, that.contrast];
+        }
     };
 
-    demo.state.house.update = function(that, speechComp) {
+    demo.state.house.update = function(that) {
         // this keeps seperation between platforms and cat or else the cat would
         // pass the ground and stop at the bounds
         that.physics.arcade.collide(that.cat, that.platforms);
@@ -145,6 +203,11 @@
         if (that.physics.arcade.overlap(that.colorDoor, that.cat) && that.enter.isDown) {
             that.audioG.pause();
             that.state.start("colorPref");
+        }
+
+        if (that.physics.arcade.overlap(that.simplifyDoor, that.cat) && that.enter.isDown) {
+            that.audioG.pause();
+            that.state.start("simplifyPref");
         }
 
         // character movement
@@ -164,46 +227,16 @@
         }
 
         // Size Door Notif
-        if (that.physics.arcade.overlap(that.sizeDoor, that.cat) &&
-                                                    that.sizeDoorNotif.alpha === 0) {
-            that.add.tween(that.sizeDoorNotif).to({ alpha: 1 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-            speechComp.queueSpeech("ENTER", true);
-        }
-
-        if (!that.physics.arcade.overlap(that.sizeDoor, that.cat) &&
-                                                    that.sizeDoorNotif.alpha === 1) {
-            that.add.tween(that.sizeDoorNotif).to({ alpha: 0 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-        }
+        that.sizeDoorNotifFunc();
 
         // Color Door Notif
-        if (that.physics.arcade.overlap(that.colorDoor, that.cat) &&
-                                                    that.colorDoorNotif.alpha === 0) {
-            that.add.tween(that.colorDoorNotif).to({ alpha: 1 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-            speechComp.queueSpeech("ENTER", true);
-        }
+        that.colorDoorNotifFunc();
 
-        if (!that.physics.arcade.overlap(that.colorDoor, that.cat) &&
-                                                    that.colorDoorNotif.alpha === 1) {
-            that.add.tween(that.colorDoorNotif).to({ alpha: 0 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-        }
+        // Simplify Door Notif
+        that.simplifyDoorNotifFunc();
 
         // Safe Notif
-        if (that.physics.arcade.overlap(that.safe, that.cat) &&
-                                                    that.safeNotif.alpha === 0) {
-            that.add.tween(that.safeNotif).to({ alpha: 1 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-            speechComp.queueSpeech("ENTER", true);
-        }
-
-        if (!that.physics.arcade.overlap(that.safe, that.cat) &&
-                                                    that.safeNotif.alpha === 1) {
-            that.add.tween(that.safeNotif).to({ alpha: 0 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-        }
+        that.safeNotifFunc();
 
     };
 

@@ -205,10 +205,10 @@
         that.safe.scale.setTo(0.3, 0.3);
 
         that.passcode = that.add.group();
-        that.textPa = that.add.text(450, 30, "PA", { font:"70px Arial" }, that.passcode);
-        that.textSs = that.add.text(545, 30, "SS", { font:"70px Arial" }, that.passcode);
-        that.textCo = that.add.text(640, 30, "CO", { font:"70px Arial" }, that.passcode);
-        that.textDe = that.add.text(750, 30, "DE", { font:"70px Arial" }, that.passcode);
+        that.textPa = that.add.text(450, 30, "**", { font:"70px Arial" }, that.passcode);
+        that.textSs = that.add.text(545, 30, "**", { font:"70px Arial" }, that.passcode);
+        that.textCo = that.add.text(640, 30, "**", { font:"70px Arial" }, that.passcode);
+        that.textDe = that.add.text(750, 30, "**", { font:"70px Arial" }, that.passcode);
         that.passcode.alpha = 0;
 
         // time events

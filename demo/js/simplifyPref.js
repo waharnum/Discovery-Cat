@@ -1,65 +1,65 @@
 (function($, fluid) {
     "use strict";
 
-    fluid.defaults("demo.state.colorPref", {
+    fluid.defaults("demo.state.simplifyPref", {
         gradeNames: "fluid.phaser.state",
         invokers: {
             preload: {
-                funcName: "demo.state.colorPref.preload",
+                funcName: "demo.state.simplifyPref.preload",
                 args: "{that}"
             },
             create: {
-                funcName: "demo.state.colorPref.create",
+                funcName: "demo.state.simplifyPref.create",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             update: {
-                funcName: "demo.state.colorPref.update",
+                funcName: "demo.state.simplifyPref.update",
                 args: ["{that}", "{demo.discoveryCat}.textToSpeech"]
             },
             houseDoor: {
-                funcName: "demo.state.colorPref.houseDoor",
+                funcName: "demo.state.simplifyPref.houseDoor",
                 args: "{that}"
             },
             bucketDrop: {
-                funcName: "demo.state.colorPref.bucketDrop",
+                funcName: "demo.state.simplifyPref.bucketDrop",
                 args: "{that}"
             },
             colorBucketCallback: {
-                funcName: "demo.state.colorPref.colorBucketCallback",
+                funcName: "demo.state.simplifyPref.colorBucketCallback",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             contrastBucketCallback: {
-                funcName: "demo.state.colorPref.contrastBucketCallback",
+                funcName: "demo.state.simplifyPref.contrastBucketCallback",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             clockCallback: {
-                funcName: "demo.state.colorPref.clockCallback",
+                funcName: "demo.state.simplifyPref.clockCallback",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             fanCallback: {
-                funcName: "demo.state.colorPref.fanCallback",
+                funcName: "demo.state.simplifyPref.fanCallback",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             telephoneCallback: {
-                funcName: "demo.state.colorPref.telephoneCallback",
+                funcName: "demo.state.simplifyPref.telephoneCallback",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             passcodeCallback: {
-                funcName: "demo.state.colorPref.passcodeCallback",
+                funcName: "demo.state.simplifyPref.passcodeCallback",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             contrastFilter: {
-                funcName: "demo.state.colorPref.contrastFilter",
+                funcName: "demo.state.simplifyPref.contrastFilter",
                 args: "{that}"
             },
             itemsAppear: {
-                funcName: "demo.state.colorPref.itemsAppear",
+                funcName: "demo.state.simplifyPref.itemsAppear",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             }
         }
     });
 
-    demo.state.colorPref.passcodeCallback = function(that, model) {
+    demo.state.simplifyPref.passcodeCallback = function(that, model) {
         that.popup = that.add.sprite(640, 500, "popupAll", 1);
         that.popup.anchor.setTo(0.5, 1);
         that.popup.scale.setTo(model.size, model.size);
@@ -71,7 +71,7 @@
         that.add.tween(that.popup).to({ alpha: 0 }, 4000, Phaser.Easing.Sinusoidal.InOut, true);
     };
 
-    demo.state.colorPref.telephoneCallback = function(that, model) {
+    demo.state.simplifyPref.telephoneCallback = function(that, model) {
         that.popup = that.add.sprite(640, 500, "popupAll", 1);
         that.popup.anchor.setTo(0.5, 1);
         that.popup.scale.setTo(model.size, model.size);
@@ -83,7 +83,7 @@
         that.add.tween(that.popup).to({ alpha: 0 }, 4000, Phaser.Easing.Sinusoidal.InOut, true);
     };
 
-    demo.state.colorPref.fanCallback = function(that, model) {
+    demo.state.simplifyPref.fanCallback = function(that, model) {
         that.popup = that.add.sprite(640, 500, "popupAll", 1);
         that.popup.anchor.setTo(0.5, 1);
         that.popup.scale.setTo(model.size, model.size);
@@ -95,7 +95,7 @@
         that.add.tween(that.popup).to({ alpha: 0 }, 4000, Phaser.Easing.Sinusoidal.InOut, true);
     };
 
-    demo.state.colorPref.clockCallback = function(that, model) {
+    demo.state.simplifyPref.clockCallback = function(that, model) {
         that.popup = that.add.sprite(640, 500, "popupAll", 1);
         that.popup.anchor.setTo(0.5, 1);
         that.popup.scale.setTo(model.size, model.size);
@@ -107,7 +107,7 @@
         that.add.tween(that.popup).to({ alpha: 0 }, 4000, Phaser.Easing.Sinusoidal.InOut, true);
     };
 
-    demo.state.colorPref.contrastBucketCallback = function(that, model) {
+    demo.state.simplifyPref.contrastBucketCallback = function(that, model) {
         that.itemsAppear();
         // This saves the filter from being applied again and again on multiple clicks
         if (!model.contrast) {
@@ -117,7 +117,7 @@
         model.visited.color = true;
     };
 
-    demo.state.colorPref.colorBucketCallback = function(that, model) {
+    demo.state.simplifyPref.colorBucketCallback = function(that, model) {
         model.contrast = false;
         model.visited.color = true;
         that.itemsAppear();
@@ -127,12 +127,12 @@
         }
     };
 
-    demo.state.colorPref.houseDoor = function(that) {
+    demo.state.simplifyPref.houseDoor = function(that) {
         that.audioC.pause();
         that.state.start("house");
     };
 
-    demo.state.colorPref.bucketDrop = function(that) {
+    demo.state.simplifyPref.bucketDrop = function(that) {
         // Pick up paint brush
         that.paintBrush.visible = false;
         that.paintBrush.body.enable = false;
@@ -150,7 +150,7 @@
         that.bucketTween.onComplete.add(that.bucketButtonAppear, that);
     };
 
-    demo.state.colorPref.itemsAppear = function(that, model) {
+    demo.state.simplifyPref.itemsAppear = function(that, model) {
         that.box1.visible = false;
         that.box2.visible = false;
         that.box3.visible = false;
@@ -171,7 +171,7 @@
         that.fan.scale.setTo(model.size, model.size);
     };
 
-    demo.state.colorPref.contrastFilter = function(that) {
+    demo.state.simplifyPref.contrastFilter = function(that) {
         that.gray = new PIXI.GrayFilter();
         that.invert = new PIXI.InvertFilter();
         that.colorMatrix =  [
@@ -187,11 +187,11 @@
     };
 
     // Phaser functions
-    demo.state.colorPref.preload = function() {
+    demo.state.simplifyPref.preload = function() {
 
     };
 
-    demo.state.colorPref.create = function(that, model) {
+    demo.state.simplifyPref.create = function(that, model) {
 
         // Audio
         that.audioG = that.add.audio("gChord");
@@ -295,7 +295,7 @@
 
     };
 
-    demo.state.colorPref.update = function(that, speechComp) {
+    demo.state.simplifyPref.update = function(that, speechComp) {
 
         that.physics.arcade.collide(that.cat, that.ground);
 

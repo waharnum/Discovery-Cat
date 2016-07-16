@@ -88,6 +88,26 @@
         that.cat.y = 450;
         that.doorNotif.scale.setTo(model.size, model.size);
         that.envelopeNotif.scale.setTo(model.size, model.size);
+
+        that.popup = that.add.sprite(640, 1400, "popupAll", 0);
+        that.popup.anchor.setTo(0.5, 1);
+        that.popup.scale.setTo(model.size, model.size);
+        that.letterText = that.add.text(0, -160, "****",
+                                                { font: "250px Arial", fill: "#808080" });
+        that.letterText.anchor.setTo(0.5, 1);
+        that.letterText.scale.setTo(model.size, model.size);
+        that.letterText2 = that.add.text(0, -20, "AC", { font: "250px Arial" });
+        that.letterText2.anchor.setTo(0.5, 1);
+        that.letterText2.scale.setTo(model.size, model.size);
+        that.popup.addChild(that.letterText);
+        that.popup.addChild(that.letterText2);
+        that.t1 = that.add.tween(that.popup).to({ x: 640, y: 600 },
+                                                1500, Phaser.Easing.Sinusoidal.InOut, true);
+        that.t1.onComplete.add(function() {
+            that.add.tween(that.popup).to({ alpha: 0 },
+                                                5000, Phaser.Easing.Sinusoidal.InOut, true);
+        }, that);
+
     };
 
     demo.state.sizePref.takeSpects = function(that, model) {
@@ -185,6 +205,8 @@
             that.takeSpects();
         }
 
+        // This envelopeScreenAppearBool is present to ensure that envelopeappear callback
+        // from update is called only once.
         that.envelopeScreenAppearBool = false;
         // Cat
         // x distance such that cat does not land on door and ENTER notif plays

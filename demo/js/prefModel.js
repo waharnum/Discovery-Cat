@@ -9,6 +9,7 @@
             },
             count: 0,
             size: 1,
+            contrast: false,
             visited: {
                 lang: false,
                 size: false,

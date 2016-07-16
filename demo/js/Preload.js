@@ -67,7 +67,8 @@
         game.load.spritesheet("goButtonsp", "assets/goButtons-sizePref.png", 200, 91);
         // colorPref assets
         game.load.image("backgroundcp", "assets/background-colorPref.png");
-        game.load.spritesheet("extraAssetcp", "assets/extraAssets-colorPref.png", 200, 313);
+        game.load.spritesheet("extraAssetcp", "assets/extraAssets-colorPref.png", 200, 178);
+        game.load.spritesheet("extraAssetcp2", "assets/extraAssets2-colorPref.png", 300, 169);
 
         // message json files
         game.load.json("en-US", "messages/DiscoveryCat_en-US.json");
@@ -82,6 +83,12 @@
 
         // universal
         game.load.image("messageBoxAll", "assets/messageBox-allStates.png");
+        game.load.spritesheet("popupAll", "assets/popups-AllStates.png", 700, 480);
+
+        // scripts
+        game.load.script("grayFilter", "filters/GrayFilter.js");
+        game.load.script("invertFilter", "filters/InvertFilter.js");
+        game.load.script("colorMatrixFilter", "filters/colorMatrixFilter.js");
     };
 
     demo.state.Preload.create = function(game) {

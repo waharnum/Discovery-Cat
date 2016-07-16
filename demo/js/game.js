@@ -37,6 +37,9 @@
             colorPref: {
                 type: "demo.state.colorPref"
             },
+            simplifyPref: {
+                type: "demo.state.simplifyPref"
+            },
             textToSpeech: {
                 type: "fluid.textToSpeech"
             }
@@ -58,6 +61,7 @@
         that.game.state.add("house", that.house);
         that.game.state.add("sizePref", that.sizePref);
         that.game.state.add("colorPref", that.colorPref);
+        that.game.state.add("simplifyPref", that.simplifyPref);
         // Start the initial state
         that.game.state.start("boot");
     };
