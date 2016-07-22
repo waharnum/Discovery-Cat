@@ -14,176 +14,174 @@
             },
             update: {
                 funcName: "demo.state.simplifyPref.update",
-                args: ["{that}", "{demo.discoveryCat}.textToSpeech"]
+                args: ["{that}"]
             },
-            houseDoor: {
-                funcName: "demo.state.simplifyPref.houseDoor",
+            newspaperScreenAppear: {
+                funcName: "demo.state.simplifyPref.newspaperScreenAppear",
+                args: ["{that}"]
+            },
+            houseDoorOpen: {
+                funcName: "demo.state.simplifyPref.houseDoorOpen",
                 args: "{that}"
             },
-            bucketDrop: {
-                funcName: "demo.state.simplifyPref.bucketDrop",
-                args: "{that}"
-            },
-            colorBucketCallback: {
-                funcName: "demo.state.simplifyPref.colorBucketCallback",
+            smallNewspaperAppear: {
+                funcName: "demo.state.simplifyPref.smallNewspaperAppear",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
-            contrastBucketCallback: {
-                funcName: "demo.state.simplifyPref.contrastBucketCallback",
+            takeScissor: {
+                funcName: "demo.state.simplifyPref.takeScissor",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
-            clockCallback: {
-                funcName: "demo.state.simplifyPref.clockCallback",
+            scissorButtonCallback: {
+                funcName: "demo.state.simplifyPref.scissorButtonCallback",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
-            fanCallback: {
-                funcName: "demo.state.simplifyPref.fanCallback",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+            putBackButtonCallback: {
+                funcName: "demo.state.simplifyPref.putBackButtonCallback",
+                args: ["{that}"]
             },
-            telephoneCallback: {
-                funcName: "demo.state.simplifyPref.telephoneCallback",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+            goButtonCallback: {
+                funcName: "demo.state.simplifyPref.goButtonCallback",
+                args: ["{that}"]
+            },
+            scissorNotifFunc: {
+                funcName: "demo.state.house.notifs",
+                args: ["{that}", "{that}.scissor", "{that}.scissorNotif",
+                                                            "{demo.discoveryCat}.textToSpeech"]
+            },
+            houseDoorNotifFunc: {
+                funcName: "demo.state.house.notifs",
+                args: ["{that}", "{that}.houseDoor", "{that}.houseDoorNotif",
+                                                            "{demo.discoveryCat}.textToSpeech"]
+            },
+            smallNewspaperNotifFunc: {
+                funcName: "demo.state.house.notifs",
+                args: ["{that}", "{that}.smallNewspaper", "{that}.newspaperNotif",
+                                                            "{demo.discoveryCat}.textToSpeech"]
             },
             passcodeCallback: {
                 funcName: "demo.state.simplifyPref.passcodeCallback",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
-            },
-            contrastFilter: {
-                funcName: "demo.state.simplifyPref.contrastFilter",
-                args: "{that}"
-            },
-            itemsAppear: {
-                funcName: "demo.state.simplifyPref.itemsAppear",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             }
         }
     });
 
-    demo.state.simplifyPref.passcodeCallback = function(that, model) {
-        that.popup = that.add.sprite(640, 500, "popupAll", 1);
-        that.popup.anchor.setTo(0.5, 1);
-        that.popup.scale.setTo(model.size, model.size);
-        that.letterText = that.add.text(0, -120, "****\nCE",
-                                                { font: "100px Arial", fill: "#fff" });
-        that.letterText.anchor.setTo(0.5, 1);
-        that.letterText.scale.setTo(model.size, model.size);
-        that.popup.addChild(that.letterText);
-        that.add.tween(that.popup).to({ alpha: 0 }, 4000, Phaser.Easing.Sinusoidal.InOut, true);
-    };
-
-    demo.state.simplifyPref.telephoneCallback = function(that, model) {
-        that.popup = that.add.sprite(640, 500, "popupAll", 1);
-        that.popup.anchor.setTo(0.5, 1);
-        that.popup.scale.setTo(model.size, model.size);
-        that.letterText = that.add.text(0, -200, "Try another...This is phone",
-                                                { font: "40px Arial", fill: "#fff" });
-        that.letterText.anchor.setTo(0.5, 1);
-        that.letterText.scale.setTo(model.size, model.size);
-        that.popup.addChild(that.letterText);
-        that.add.tween(that.popup).to({ alpha: 0 }, 4000, Phaser.Easing.Sinusoidal.InOut, true);
-    };
-
-    demo.state.simplifyPref.fanCallback = function(that, model) {
-        that.popup = that.add.sprite(640, 500, "popupAll", 1);
-        that.popup.anchor.setTo(0.5, 1);
-        that.popup.scale.setTo(model.size, model.size);
-        that.letterText = that.add.text(0, -200, "Try another...This is fan",
-                                                { font: "40px Arial", fill: "#fff" });
-        that.letterText.anchor.setTo(0.5, 1);
-        that.letterText.scale.setTo(model.size, model.size);
-        that.popup.addChild(that.letterText);
-        that.add.tween(that.popup).to({ alpha: 0 }, 4000, Phaser.Easing.Sinusoidal.InOut, true);
-    };
-
-    demo.state.simplifyPref.clockCallback = function(that, model) {
-        that.popup = that.add.sprite(640, 500, "popupAll", 1);
-        that.popup.anchor.setTo(0.5, 1);
-        that.popup.scale.setTo(model.size, model.size);
-        that.letterText = that.add.text(0, -200, "Try another...This is clock",
-                                                { font: "40px Arial", fill: "#fff" });
-        that.letterText.anchor.setTo(0.5, 1);
-        that.letterText.scale.setTo(model.size, model.size);
-        that.popup.addChild(that.letterText);
-        that.add.tween(that.popup).to({ alpha: 0 }, 4000, Phaser.Easing.Sinusoidal.InOut, true);
-    };
-
-    demo.state.simplifyPref.contrastBucketCallback = function(that, model) {
-        that.itemsAppear();
-        // This saves the filter from being applied again and again on multiple clicks
-        if (!model.contrast) {
-            that.contrastFilter();
-        }
-        model.contrast = true;
-        model.visited.color = true;
-    };
-
-    demo.state.simplifyPref.colorBucketCallback = function(that, model) {
-        model.contrast = false;
-        model.visited.color = true;
-        that.itemsAppear();
-        // To remove filters from the game world
-        if (!(that.world.filters === undefined)) {
-            that.world.filters = null;
-        }
-    };
-
-    demo.state.simplifyPref.houseDoor = function(that) {
+    demo.state.simplifyPref.houseDoorOpen = function(that) {
         that.audioC.pause();
         that.state.start("house");
     };
 
-    demo.state.simplifyPref.bucketDrop = function(that) {
-        // Pick up paint brush
-        that.paintBrush.visible = false;
-        that.paintBrush.body.enable = false;
-        that.bucketTween = that.add.tween(that.bucketColorDecoy).to({ x: 300, y: 675 },
-                                                2000, Phaser.Easing.Sinusoidal.InOut, true);
-        that.add.tween(that.bucketContrastDecoy).to({ x: 450, y: 675 },
-                                                2000, Phaser.Easing.Sinusoidal.InOut, true);
-        that.bucketButtonAppear = function() {
-            that.bucketColor.visible = true;
-            that.bucketContrast.visible = true;
-            that.bucketContrastDecoy.visible = false;
-            that.bucketColorDecoy.visible = false;
+    demo.state.simplifyPref.scissorButtonCallback = function(that, model) {
+        that.scissorCutAnim = that.add.sprite(970, 340, "scissorCutsip", 0);
+        that.scissorCutAnim.anchor.setTo(0.5, 1);
+        that.scissorCutAnim.scale.setTo(model.size, model.size);
+        that.scissorCutAnim.animations.add("cut", [0, 1, 2], 3, true);
+        that.scissorCutAnim.play("cut");
+        // horizontal cut
+        that.t1 = that.add.tween(that.scissorCutAnim).to({ x: 540 },
+                                        2200, Phaser.Easing.Sinusoidal.InOut, true);
+        // Here we are making animations execute one after the another, we have to do it
+        // like this because onComplete itself doesnot have any onComplete property.
+        that.onCompleteCallback1 = function() {
+            // for vertical cut on newspaper
+            that.scissorCutAnim.angle = 270;
+            that.t2 = that.add.tween(that.scissorCutAnim).to({ y: 580 },
+                                        2200, Phaser.Easing.Sinusoidal.InOut, true);
+            // big vertical cut for left chunk
+            that.onCompleteCallback2 = function() {
+                that.col5.visible = false;
+                that.scissorCutAnim.x = 270;
+                that.scissorCutAnim.y = 50;
+                that.t3 = that.add.tween(that.scissorCutAnim).to({ y: 580 },
+                                            4200, Phaser.Easing.Sinusoidal.InOut, true);
+                that.onCompleteCallback3 = function() {
+                    that.col1.visible = false;
+                    that.scissorCutAnim.visible = false;
+                };
+                that.t3.onComplete.add(that.onCompleteCallback3, that);
+            };
+            // Callback after vertical cut
+            that.t2.onComplete.add(that.onCompleteCallback2, that);
         };
-        // Problem
-        that.bucketTween.onComplete.add(that.bucketButtonAppear, that);
+        // vertical cut callback after that.t1
+        that.t1.onComplete.add(that.onCompleteCallback1, that);
     };
 
-    demo.state.simplifyPref.itemsAppear = function(that, model) {
-        that.box1.visible = false;
-        that.box2.visible = false;
-        that.box3.visible = false;
-        that.box4.visible = false;
-        that.clock = that.add.button(508, 206, "extraAssetcp2", that.clockCallback, that, 1, 0, 0);
-        that.clock.anchor.setTo(0.5, 1);
-        that.clock.scale.setTo(model.size, model.size);
-        that.telephone = that.add.button(767, 205, "extraAssetcp2",
-                                                            that.telephoneCallback, that, 3, 2, 2);
-        that.telephone.anchor.setTo(0.5, 1);
-        that.telephone.scale.setTo(model.size, model.size);
-        that.passcode = that.add.button(510, 412, "extraAssetcp2",
-                                                            that.passcodeCallback, that, 5, 4, 4);
-        that.passcode.anchor.setTo(0.5, 1);
-        that.passcode.scale.setTo(model.size, model.size);
-        that.fan = that.add.button(785, 412, "extraAssetcp2", that.fanCallback, that, 7, 6, 6);
-        that.fan.anchor.setTo(0.5, 1);
-        that.fan.scale.setTo(model.size, model.size);
+    demo.state.simplifyPref.passcodeCallback = function(that, model) {
+        that.popup = that.add.sprite(640, 500, "popupAll", 1);
+        that.popup.anchor.setTo(0.5, 1);
+        that.popup.scale.setTo(model.size, model.size);
+        that.letterText = that.add.text(0, -200, "PASSCODE FOUND",
+                                                { font: "60px Arial", fill: "#fff" });
+        that.letterText.anchor.setTo(0.5, 1);
+        that.letterText.scale.setTo(model.size, model.size);
+        that.popup.addChild(that.letterText);
+        that.add.tween(that.popup).to({ alpha: 0 }, 4000, Phaser.Easing.Sinusoidal.InOut, true);
     };
 
-    demo.state.simplifyPref.contrastFilter = function(that) {
-        that.gray = new PIXI.GrayFilter();
-        that.invert = new PIXI.InvertFilter();
-        that.colorMatrix =  [
-            1.5, 0, 0, 0,
-            0, 1.5, 0, 0,
-            0, 0, 1.5, 0,
-            0, 0, 0, 1
-        ];
-        that.contrast = new PIXI.ColorMatrixFilter();
-        that.contrast.matrix = that.colorMatrix;
-        // To apply filter everywhere in the game screen apply it to game.world
-        that.world.filters = [that.gray, that.invert, that.contrast];
+    demo.state.simplifyPref.putBackButtonCallback = function(that) {
+        that.col1.visible = true;
+        that.col5.visible = true;
+    };
+
+    demo.state.simplifyPref.goButtonCallback = function(that) {
+        // Group these together
+        that.popupScreen.visible = false;
+        that.scissorButton.visible = false;
+        that.putBackButton.visible = false;
+        that.goButton.visible = false;
+        that.col.visible = false;
+        that.passcodeCol4.visible = false;
+        // So that it can again reappear and surely this will create a new instant
+        that.newspaperScreenAppearBool = false;
+    };
+
+    demo.state.simplifyPref.takeScissor = function(that, model) {
+        // So that notif appear when the preview has come.
+        that.smallNewspaper.visible = true;
+        that.smallNewspaper.body.enable = true;
+        // Pick up envelope and spects will disappear
+        that.scissor.visible = false;
+        that.scissor.body.enable = false;
+        // cat has visited the room and taken the spects then only
+        // it means he has visited it or else things would remain
+        // the same as the envelope will always be there.
+        model.visited.size = true;
+    };
+
+    demo.state.simplifyPref.smallNewspaperAppear = function(that, model) {
+        that.smallNewspaper = that.add.sprite(430, 560, "extraAssetsip", 3);
+        that.smallNewspaper.anchor.setTo(0.5, 0.5);
+        that.smallNewspaper.scale.setTo(model.size, model.size);
+        that.physics.arcade.enable(that.smallNewspaper);
+        that.smallNewspaper.body.enable = false;
+        that.smallNewspaper.visible = false;
+    };
+
+    demo.state.simplifyPref.newspaperScreenAppear = function(that) {
+        // count is used as flag for making this run only once when key isDown.
+        if (that.newspaperScreenAppearBool === false) {
+        // Envelope
+        that.popupScreen = that.add.sprite(0, 0, "popupScreensip");
+        that.col = that.add.group();
+        that.col1 = that.col.create(-70, 115, "cellNewspapersip", 0);
+        that.col2 = that.col.create(150, 113, "cellNewspapersip", 1);
+        that.col3 = that.col.create(420, 0, "cellNewspapersip", 2);
+        that.passcodeCol4 = that.add.button(650, 0, "cellNewspapersip",
+                                        that.passcodeCallback, that, 3, 2, 2);
+        that.passcodeCol4.addChild(that.add.text(170, 120, "****\nMB",
+                                                { font: "90px Arial" }));
+        that.col5 = that.col.create(525, 240, "cellNewspapersip", 4);
+
+        // Buttons
+        that.scissorButton = that.add.button(1070, 120, "upDownButtonsp",
+                                            that.scissorButtonCallback, that, 12, 9, 9);
+        that.putBackButton = that.add.button(1070, 450, "upDownButtonsp",
+                                            that.putBackButtonCallback, that, 11, 10, 10);
+        that.goButton = that.add.button(1090, 332, "goButtonsp",
+                                            that.goButtonCallback, that, 1, 0, 2);
+        that.newspaperScreenAppearBool = true;
+        }
     };
 
     // Phaser functions
@@ -200,32 +198,20 @@
 
         // Audio play
         that.audioC.play("", 0, 0.1, true);
-
         // Environment
-        that.add.sprite(0, 0, "backgroundcp");
+        that.stage.backgroundColor = "#fed600";
+        that.stageAssets = that.add.sprite(0, 0, "assetsip");
 
-        that.paintBrush = that.add.sprite(970, 570, "extraAssetcp", 1);
-        that.paintBrush.anchor.setTo(0.5, 0.5);
-        that.physics.arcade.enable(that.paintBrush);
-        that.paintBrush.body.immovable = true;
-
-        // Adding boxes to the scene
-        that.boxes = that.add.group();
-        that.box1 = that.boxes.create(508, 244, "extraAssetcp", 0);
-        that.box1.anchor.setTo(0.5, 1);
-        that.box1.scale.setTo(model.size, model.size);
-        that.box2 = that.boxes.create(800, 244, "extraAssetcp", 0);
-        that.box2.anchor.setTo(0.5, 1);
-        that.box2.scale.setTo(model.size, model.size);
-        that.box3 = that.boxes.create(508, 451, "extraAssetcp", 0);
-        that.box3.anchor.setTo(0.5, 1);
-        that.box3.scale.setTo(model.size, model.size);
-        that.box4 = that.boxes.create(800, 451, "extraAssetcp", 0);
-        that.box4.anchor.setTo(0.5, 1);
-        that.box4.scale.setTo(model.size, model.size);
+        that.scissor = that.add.sprite(1080, 670, "extraAssetsip", 1);
+        that.scissor.anchor.setTo(0.5, 1);
+        that.scissor.scale.setTo(model.size, model.size);
+        that.physics.arcade.enable(that.scissor);
+        that.scissor.body.immovable = true;
 
         // Adding door to house and physics
-        that.houseDoor = that.add.sprite(40, 520, "doorh", 1);
+        that.houseDoor = that.add.sprite(135, 678, "doorh", 1);
+        that.houseDoor.anchor.setTo(0.5, 1);
+        that.houseDoor.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.houseDoor);
         that.houseDoor.body.immovable = true;
 
@@ -234,30 +220,20 @@
         that.physics.arcade.enable(that.ground);
         that.ground.body.immovable = true;
 
-        // bucket
-        that.bucketColorDecoy = that.add.sprite(300, -300, "extraAssetcp", 2);
-        that.bucketColorDecoy.anchor.setTo(0.5, 1);
-        that.bucketColorDecoy.scale.setTo(model.size, model.size);
+        // For small envelope did this to sole the problem of having the
+        // letter above cat.
+        that.smallNewspaperAppear();
 
-        that.bucketContrastDecoy = that.add.sprite(450, -300, "extraAssetcp", 3);
-        that.bucketContrastDecoy.anchor.setTo(0.5, 1);
-        that.bucketContrastDecoy.scale.setTo(model.size, model.size);
+        if (model.visited.size === true) {
+            that.takeScissor();
+        }
 
-        // Initially invisible
-        that.bucketColor = that.add.button(300, 675, "extraAssetcp",
-                                                that.colorBucketCallback, that, 4, 2, 2);
-        that.bucketColor.anchor.setTo(0.5, 1);
-        that.bucketColor.scale.setTo(model.size, model.size);
-        that.bucketColor.visible = false;
-
-        that.bucketContrast = that.add.button(450, 675, "extraAssetcp",
-                                                that.contrastBucketCallback, that, 5, 3, 3);
-        that.bucketContrast.anchor.setTo(0.5, 1);
-        that.bucketContrast.scale.setTo(model.size, model.size);
-        that.bucketContrast.visible = false;
-
+        // This newspaperScreenAppearBool is present to ensure that envelopeappear callback
+        // from update is called only once.
+        that.newspaperScreenAppearBool = false;
         // Cat
-        that.cat = that.add.sprite(50, 500, "catMoveh", 5);
+        // x distance such that cat does not land on door and ENTER notif plays
+        that.cat = that.add.sprite(235, 500, "catMoveh", 5);
         that.cat.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.cat);
         that.cat.body.bounce.y = 0.2;
@@ -272,61 +248,47 @@
         that.cursors = that.input.keyboard.createCursorKeys();
         that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
-        // paintBrush notif test
-        that.paintBrushNotif = that.add.sprite(890, 400, "messageBoxAll", 0);
-        that.paintBrushNotif.addChild(that.add.text(35, 20, "ENTER"));
-        that.paintBrushNotif.alpha = 0;
-        // door notif test
-        that.doorNotif = that.add.sprite(40, 480, "messageBoxAll", 0);
-        that.doorNotif.addChild(that.add.text(35, 20, "ENTER"));
-        that.doorNotif.alpha = 0;
-
-        // Check for room setting on revisitin the room
-        if (model.visited.color && model.contrast) {
-            that.paintBrush.visible = false;
-            that.paintBrush.body.enable = false;
-            that.contrastBucketCallback();
-        }
-        if (model.visited.color && !model.contrast) {
-            that.paintBrush.visible = false;
-            that.paintBrush.body.enable = false;
-            that.colorBucketCallback();
-        }
-
+        // spects notif
+        that.scissorNotif = that.add.sprite(1080, 470, "messageBoxAll", 0);
+        that.scissorNotif.anchor.setTo(0.5, 1);
+        that.scissorNotif.scale.setTo(model.size, model.size);
+        that.scissorNotif.addChild(that.add.text(-47, -80, "ENTER"));
+        that.scissorNotif.alpha = 0;
+        // door notif
+        that.houseDoorNotif = that.add.sprite(135, 470, "messageBoxAll", 0);
+        that.houseDoorNotif.anchor.setTo(0.5, 1);
+        that.houseDoorNotif.scale.setTo(model.size, model.size);
+        that.houseDoorNotif.addChild(that.add.text(-47, -80, "ENTER"));
+        that.houseDoorNotif.alpha = 0;
+        // envelope notif
+        that.newspaperNotif = that.add.sprite(430, 470, "messageBoxAll", 0);
+        that.newspaperNotif.anchor.setTo(0.5, 1);
+        that.newspaperNotif.scale.setTo(model.size, model.size);
+        that.newspaperNotif.addChild(that.add.text(-47, -80, "ENTER"));
+        that.newspaperNotif.alpha = 0;
     };
 
-    demo.state.simplifyPref.update = function(that, speechComp) {
-
+    demo.state.simplifyPref.update = function(that) {
+        // Create seperation between ground and cat
         that.physics.arcade.collide(that.cat, that.ground);
 
-        if (that.physics.arcade.overlap(that.paintBrush, that.cat) &&
-                                                     that.paintBrushNotif.alpha === 0) {
-            that.add.tween(that.paintBrushNotif).to({ alpha: 1 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-            speechComp.queueSpeech("ENTER", true);
-        }
-        if (!that.physics.arcade.overlap(that.paintBrush, that.cat) &&
-                                                     that.paintBrushNotif.alpha === 1) {
-            that.add.tween(that.paintBrushNotif).to({ alpha: 0 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-        }
-        if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.doorNotif.alpha === 0) {
-            that.add.tween(that.doorNotif).to({ alpha: 1 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-            speechComp.queueSpeech("ENTER", true);
-        }
-        if (!that.physics.arcade.overlap(that.houseDoor, that.cat) && that.doorNotif.alpha === 1) {
-            that.add.tween(that.doorNotif).to({ alpha: 0 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-        }
+        that.scissorNotifFunc();
+
+        that.houseDoorNotifFunc();
+
+        that.smallNewspaperNotifFunc();
 
         // Exit from room
         if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.enter.isDown) {
-            that.state.start("house");
+            that.houseDoorOpen();
         }
 
-        if (that.physics.arcade.overlap(that.paintBrush, that.cat) && that.enter.isDown) {
-            that.bucketDrop();
+        if (that.physics.arcade.overlap(that.scissor, that.cat) && that.enter.isDown) {
+            that.takeScissor();
+        }
+
+        if (that.physics.arcade.overlap(that.smallNewspaper, that.cat) && that.enter.isDown) {
+            that.newspaperScreenAppear();
         }
 
         // Character movement

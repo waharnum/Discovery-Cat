@@ -88,11 +88,20 @@
         // scripts
         game.load.script("grayFilter", "filters/GrayFilter.js");
         game.load.script("invertFilter", "filters/InvertFilter.js");
-        game.load.script("colorMatrixFilter", "filters/colorMatrixFilter.js");
+        game.load.script("colorMatrixFilter",
+"https://raw.githubusercontent.com/photonstorm/phaser/master/filters/pixi/ColorMatrixFilter.js");
+
+        // simplifyPref assets
+        game.load.image("assetsip", "assets/assets-simplifyPref.png");
+        game.load.image("popupScreensip", "assets/popupScreen-simplifyPref.png");
+        game.load.spritesheet("cellNewspapersip",
+                                    "assets/cellNewspaper-simplifyPref.png", 500, 482);
+        game.load.spritesheet("extraAssetsip", "assets/extraAssets-simplifyPref.png", 250, 218);
+        game.load.spritesheet("scissorCutsip", "assets/scissors-simplifyPref.png", 150, 61);
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("prelude");
+        game.state.start("simplifyPref");
     };
 
     demo.state.Preload.update = function() {
