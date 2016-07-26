@@ -14,15 +14,19 @@
             },
             update: {
                 funcName: "demo.state.colorPref.update",
-                args: ["{that}", "{demo.discoveryCat}.textToSpeech"]
+                args: ["{that}"]
             },
             houseDoor: {
                 funcName: "demo.state.colorPref.houseDoor",
                 args: "{that}"
             },
-            bucketDrop: {
-                funcName: "demo.state.colorPref.bucketDrop",
+            aisleAppear: {
+                funcName: "demo.state.colorPref.aisleAppear",
                 args: "{that}"
+            },
+            aisleScreenAppear: {
+                funcName: "demo.state.colorPref.aisleScreenAppear",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             colorBucketCallback: {
                 funcName: "demo.state.colorPref.colorBucketCallback",
@@ -32,16 +36,8 @@
                 funcName: "demo.state.colorPref.contrastBucketCallback",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
-            clockCallback: {
-                funcName: "demo.state.colorPref.clockCallback",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
-            },
-            fanCallback: {
-                funcName: "demo.state.colorPref.fanCallback",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
-            },
-            telephoneCallback: {
-                funcName: "demo.state.colorPref.telephoneCallback",
+            goButtonCallback: {
+                funcName: "demo.state.colorPref.goButtonCallback",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             passcodeCallback: {
@@ -52,9 +48,20 @@
                 funcName: "demo.state.colorPref.contrastFilter",
                 args: "{that}"
             },
-            itemsAppear: {
-                funcName: "demo.state.colorPref.itemsAppear",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+            houseDoorNotifFunc: {
+                funcName: "demo.state.house.notifs",
+                args: ["{that}", "{that}.houseDoor", "{that}.houseDoorNotif",
+                                                            "{demo.discoveryCat}.textToSpeech"]
+            },
+            paintBrushNotifFunc: {
+                funcName: "demo.state.house.notifs",
+                args: ["{that}", "{that}.paintBrush", "{that}.paintBrushNotif",
+                                                            "{demo.discoveryCat}.textToSpeech"]
+            },
+            aisleNotifFunc: {
+                funcName: "demo.state.house.notifs",
+                args: ["{that}", "{that}.aisle", "{that}.aisleNotif",
+                                                            "{demo.discoveryCat}.textToSpeech"]
             }
         }
     });
@@ -65,42 +72,6 @@
         that.popup.scale.setTo(model.size, model.size);
         that.letterText = that.add.text(0, -120, "****\nCE",
                                                 { font: "100px Arial", fill: "#fff" });
-        that.letterText.anchor.setTo(0.5, 1);
-        that.letterText.scale.setTo(model.size, model.size);
-        that.popup.addChild(that.letterText);
-        that.add.tween(that.popup).to({ alpha: 0 }, 4000, Phaser.Easing.Sinusoidal.InOut, true);
-    };
-
-    demo.state.colorPref.telephoneCallback = function(that, model) {
-        that.popup = that.add.sprite(640, 500, "popupAll", 1);
-        that.popup.anchor.setTo(0.5, 1);
-        that.popup.scale.setTo(model.size, model.size);
-        that.letterText = that.add.text(0, -200, "Try another...This is phone",
-                                                { font: "40px Arial", fill: "#fff" });
-        that.letterText.anchor.setTo(0.5, 1);
-        that.letterText.scale.setTo(model.size, model.size);
-        that.popup.addChild(that.letterText);
-        that.add.tween(that.popup).to({ alpha: 0 }, 4000, Phaser.Easing.Sinusoidal.InOut, true);
-    };
-
-    demo.state.colorPref.fanCallback = function(that, model) {
-        that.popup = that.add.sprite(640, 500, "popupAll", 1);
-        that.popup.anchor.setTo(0.5, 1);
-        that.popup.scale.setTo(model.size, model.size);
-        that.letterText = that.add.text(0, -200, "Try another...This is fan",
-                                                { font: "40px Arial", fill: "#fff" });
-        that.letterText.anchor.setTo(0.5, 1);
-        that.letterText.scale.setTo(model.size, model.size);
-        that.popup.addChild(that.letterText);
-        that.add.tween(that.popup).to({ alpha: 0 }, 4000, Phaser.Easing.Sinusoidal.InOut, true);
-    };
-
-    demo.state.colorPref.clockCallback = function(that, model) {
-        that.popup = that.add.sprite(640, 500, "popupAll", 1);
-        that.popup.anchor.setTo(0.5, 1);
-        that.popup.scale.setTo(model.size, model.size);
-        that.letterText = that.add.text(0, -200, "Try another...This is clock",
-                                                { font: "40px Arial", fill: "#fff" });
         that.letterText.anchor.setTo(0.5, 1);
         that.letterText.scale.setTo(model.size, model.size);
         that.popup.addChild(that.letterText);
@@ -127,48 +98,45 @@
         }
     };
 
+    demo.state.colorPref.goButtonCallback = function(that) {
+        // Group these together
+        that.popupScreen.visible = false;
+        that.bucketContrast.visible = false;
+        that.bucketColor.visible = false;
+        that.goButton.visible = false;
+        // So that it can again reappear and surely this will create a new instant
+        that.aisleScreenAppearBool = false;
+    };
+
     demo.state.colorPref.houseDoor = function(that) {
         that.audioC.pause();
         that.state.start("house");
     };
 
-    demo.state.colorPref.bucketDrop = function(that) {
+    demo.state.colorPref.aisleScreenAppear = function(that, model) {
+        if (that.aisleScreenAppearBool === false) {
+            that.popupScreen = that.add.sprite(0, 0, "popupScreencp");
+            that.bucketColor = that.add.button(1100, 250, "extraAssetcp",
+                                                    that.colorBucketCallback, that, 4, 2, 2);
+            that.bucketColor.anchor.setTo(0.5, 1);
+            that.bucketColor.scale.setTo(model.size, model.size);
+
+            that.bucketContrast = that.add.button(1100, 450, "extraAssetcp",
+                                                    that.contrastBucketCallback, that, 5, 3, 3);
+            that.bucketContrast.anchor.setTo(0.5, 1);
+            that.bucketContrast.scale.setTo(model.size, model.size);
+            that.goButton = that.add.button(1030, 500, "goButtonsp",
+                                                that.goButtonCallback, that, 1, 0, 2);
+            that.aisleScreenAppearBool = true;
+        }
+    };
+
+    demo.state.colorPref.aisleAppear = function(that) {
         // Pick up paint brush
         that.paintBrush.visible = false;
         that.paintBrush.body.enable = false;
-        that.bucketTween = that.add.tween(that.bucketColorDecoy).to({ x: 300, y: 675 },
-                                                2000, Phaser.Easing.Sinusoidal.InOut, true);
-        that.add.tween(that.bucketContrastDecoy).to({ x: 450, y: 675 },
-                                                2000, Phaser.Easing.Sinusoidal.InOut, true);
-        that.bucketButtonAppear = function() {
-            that.bucketColor.visible = true;
-            that.bucketContrast.visible = true;
-            that.bucketContrastDecoy.visible = false;
-            that.bucketColorDecoy.visible = false;
-        };
-        // Problem
-        that.bucketTween.onComplete.add(that.bucketButtonAppear, that);
-    };
-
-    demo.state.colorPref.itemsAppear = function(that, model) {
-        that.box1.visible = false;
-        that.box2.visible = false;
-        that.box3.visible = false;
-        that.box4.visible = false;
-        that.clock = that.add.button(508, 206, "extraAssetcp2", that.clockCallback, that, 1, 0, 0);
-        that.clock.anchor.setTo(0.5, 1);
-        that.clock.scale.setTo(model.size, model.size);
-        that.telephone = that.add.button(767, 205, "extraAssetcp2",
-                                                            that.telephoneCallback, that, 3, 2, 2);
-        that.telephone.anchor.setTo(0.5, 1);
-        that.telephone.scale.setTo(model.size, model.size);
-        that.passcode = that.add.button(510, 412, "extraAssetcp2",
-                                                            that.passcodeCallback, that, 5, 4, 4);
-        that.passcode.anchor.setTo(0.5, 1);
-        that.passcode.scale.setTo(model.size, model.size);
-        that.fan = that.add.button(785, 412, "extraAssetcp2", that.fanCallback, that, 7, 6, 6);
-        that.fan.anchor.setTo(0.5, 1);
-        that.fan.scale.setTo(model.size, model.size);
+        that.aisle.body.enable = true;
+        that.aisle.visible = true;
     };
 
     demo.state.colorPref.contrastFilter = function(that) {
@@ -204,25 +172,15 @@
         // Environment
         that.add.sprite(0, 0, "backgroundcp");
 
-        that.paintBrush = that.add.sprite(970, 570, "extraAssetcp", 1);
+        that.paintBrush = that.add.sprite(1070, 570, "extraAssetcp", 1);
         that.paintBrush.anchor.setTo(0.5, 0.5);
         that.physics.arcade.enable(that.paintBrush);
         that.paintBrush.body.immovable = true;
 
-        // Adding boxes to the scene
-        that.boxes = that.add.group();
-        that.box1 = that.boxes.create(508, 244, "extraAssetcp", 0);
-        that.box1.anchor.setTo(0.5, 1);
-        that.box1.scale.setTo(model.size, model.size);
-        that.box2 = that.boxes.create(800, 244, "extraAssetcp", 0);
-        that.box2.anchor.setTo(0.5, 1);
-        that.box2.scale.setTo(model.size, model.size);
-        that.box3 = that.boxes.create(508, 451, "extraAssetcp", 0);
-        that.box3.anchor.setTo(0.5, 1);
-        that.box3.scale.setTo(model.size, model.size);
-        that.box4 = that.boxes.create(800, 451, "extraAssetcp", 0);
-        that.box4.anchor.setTo(0.5, 1);
-        that.box4.scale.setTo(model.size, model.size);
+        that.add.sprite(360, 37, "extraAssetcp2", 0);
+        that.add.sprite(620, 36, "extraAssetcp2", 2);
+        that.add.sprite(370, 243, "extraAssetcp2", 4);
+        that.add.sprite(635, 245, "extraAssetcp2", 6);
 
         // Adding door to house and physics
         that.houseDoor = that.add.sprite(40, 520, "doorh", 1);
@@ -234,30 +192,18 @@
         that.physics.arcade.enable(that.ground);
         that.ground.body.immovable = true;
 
-        // bucket
-        that.bucketColorDecoy = that.add.sprite(300, -300, "extraAssetcp", 2);
-        that.bucketColorDecoy.anchor.setTo(0.5, 1);
-        that.bucketColorDecoy.scale.setTo(model.size, model.size);
+        // Aisle
+        that.aisle = that.add.sprite(430, 560, "extraAssetcp", 6);
+        that.aisle.anchor.setTo(0.5, 0.5);
+        that.aisle.scale.setTo(model.size, model.size);
+        that.physics.arcade.enable(that.aisle);
+        that.aisle.body.enable = false;
+        that.aisle.visible = false;
 
-        that.bucketContrastDecoy = that.add.sprite(450, -300, "extraAssetcp", 3);
-        that.bucketContrastDecoy.anchor.setTo(0.5, 1);
-        that.bucketContrastDecoy.scale.setTo(model.size, model.size);
-
-        // Initially invisible
-        that.bucketColor = that.add.button(300, 675, "extraAssetcp",
-                                                that.colorBucketCallback, that, 4, 2, 2);
-        that.bucketColor.anchor.setTo(0.5, 1);
-        that.bucketColor.scale.setTo(model.size, model.size);
-        that.bucketColor.visible = false;
-
-        that.bucketContrast = that.add.button(450, 675, "extraAssetcp",
-                                                that.contrastBucketCallback, that, 5, 3, 3);
-        that.bucketContrast.anchor.setTo(0.5, 1);
-        that.bucketContrast.scale.setTo(model.size, model.size);
-        that.bucketContrast.visible = false;
+        that.aisleScreenAppearBool = false;
 
         // Cat
-        that.cat = that.add.sprite(50, 500, "catMoveh", 5);
+        that.cat = that.add.sprite(250, 500, "catMoveh", 5);
         that.cat.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.cat);
         that.cat.body.bounce.y = 0.2;
@@ -273,13 +219,17 @@
         that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
         // paintBrush notif test
-        that.paintBrushNotif = that.add.sprite(890, 400, "messageBoxAll", 0);
+        that.paintBrushNotif = that.add.sprite(990, 400, "messageBoxAll", 0);
         that.paintBrushNotif.addChild(that.add.text(35, 20, "ENTER"));
         that.paintBrushNotif.alpha = 0;
         // door notif test
-        that.doorNotif = that.add.sprite(40, 480, "messageBoxAll", 0);
-        that.doorNotif.addChild(that.add.text(35, 20, "ENTER"));
-        that.doorNotif.alpha = 0;
+        that.houseDoorNotif = that.add.sprite(40, 480, "messageBoxAll", 0);
+        that.houseDoorNotif.addChild(that.add.text(35, 20, "ENTER"));
+        that.houseDoorNotif.alpha = 0;
+        // aisle notif test
+        that.aisleNotif = that.add.sprite(360, 360, "messageBoxAll", 0);
+        that.aisleNotif.addChild(that.add.text(35, 20, "ENTER"));
+        that.aisleNotif.alpha = 0;
 
         // Check for room setting on revisitin the room
         if (model.visited.color && model.contrast) {
@@ -295,30 +245,15 @@
 
     };
 
-    demo.state.colorPref.update = function(that, speechComp) {
+    demo.state.colorPref.update = function(that) {
 
         that.physics.arcade.collide(that.cat, that.ground);
 
-        if (that.physics.arcade.overlap(that.paintBrush, that.cat) &&
-                                                     that.paintBrushNotif.alpha === 0) {
-            that.add.tween(that.paintBrushNotif).to({ alpha: 1 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-            speechComp.queueSpeech("ENTER", true);
-        }
-        if (!that.physics.arcade.overlap(that.paintBrush, that.cat) &&
-                                                     that.paintBrushNotif.alpha === 1) {
-            that.add.tween(that.paintBrushNotif).to({ alpha: 0 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-        }
-        if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.doorNotif.alpha === 0) {
-            that.add.tween(that.doorNotif).to({ alpha: 1 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-            speechComp.queueSpeech("ENTER", true);
-        }
-        if (!that.physics.arcade.overlap(that.houseDoor, that.cat) && that.doorNotif.alpha === 1) {
-            that.add.tween(that.doorNotif).to({ alpha: 0 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-        }
+        that.houseDoorNotifFunc();
+
+        that.paintBrushNotifFunc();
+
+        that.aisleNotifFunc();
 
         // Exit from room
         if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.enter.isDown) {
@@ -326,7 +261,11 @@
         }
 
         if (that.physics.arcade.overlap(that.paintBrush, that.cat) && that.enter.isDown) {
-            that.bucketDrop();
+            that.aisleAppear();
+        }
+
+        if (that.physics.arcade.overlap(that.aisle, that.cat) && that.enter.isDown) {
+            that.aisleScreenAppear();
         }
 
         // Character movement

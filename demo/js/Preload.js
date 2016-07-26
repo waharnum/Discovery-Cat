@@ -67,8 +67,16 @@
         game.load.spritesheet("goButtonsp", "assets/goButtons-sizePref.png", 200, 91);
         // colorPref assets
         game.load.image("backgroundcp", "assets/background-colorPref.png");
-        game.load.spritesheet("extraAssetcp", "assets/extraAssets-colorPref.png", 200, 178);
+        game.load.image("popupScreencp", "assets/popupScreen-colorPref.png");
+        game.load.spritesheet("extraAssetcp", "assets/extraAssets-colorPref.png", 200, 233);
         game.load.spritesheet("extraAssetcp2", "assets/extraAssets2-colorPref.png", 300, 169);
+        // simplifyPref assets
+        game.load.image("assetsip", "assets/assets-simplifyPref.png");
+        game.load.image("popupScreensip", "assets/popupScreen-simplifyPref.png");
+        game.load.spritesheet("cellNewspapersip",
+                                    "assets/cellNewspaper-simplifyPref.png", 500, 482);
+        game.load.spritesheet("extraAssetsip", "assets/extraAssets-simplifyPref.png", 250, 218);
+        game.load.spritesheet("scissorCutsip", "assets/scissors-simplifyPref.png", 150, 61);
 
         // message json files
         game.load.json("en-US", "messages/DiscoveryCat_en-US.json");
@@ -84,6 +92,8 @@
         // universal
         game.load.image("messageBoxAll", "assets/messageBox-allStates.png");
         game.load.spritesheet("popupAll", "assets/popups-AllStates.png", 700, 480);
+        game.load.spritesheet("backpackButtonAll", "assets/backpackPanel-allStates.png", 150, 140);
+        game.load.spritesheet("backpackIconAll", "assets/backpackIcons-allStates.png", 100, 51);
 
         // scripts
         game.load.script("grayFilter", "filters/GrayFilter.js");
@@ -91,17 +101,10 @@
         game.load.script("colorMatrixFilter",
 "https://raw.githubusercontent.com/photonstorm/phaser/master/filters/pixi/ColorMatrixFilter.js");
 
-        // simplifyPref assets
-        game.load.image("assetsip", "assets/assets-simplifyPref.png");
-        game.load.image("popupScreensip", "assets/popupScreen-simplifyPref.png");
-        game.load.spritesheet("cellNewspapersip",
-                                    "assets/cellNewspaper-simplifyPref.png", 500, 482);
-        game.load.spritesheet("extraAssetsip", "assets/extraAssets-simplifyPref.png", 250, 218);
-        game.load.spritesheet("scissorCutsip", "assets/scissors-simplifyPref.png", 150, 61);
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("simplifyPref");
+        game.state.start("prelude");
     };
 
     demo.state.Preload.update = function() {

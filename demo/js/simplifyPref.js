@@ -159,28 +159,26 @@
     };
 
     demo.state.simplifyPref.newspaperScreenAppear = function(that) {
-        // count is used as flag for making this run only once when key isDown.
         if (that.newspaperScreenAppearBool === false) {
-        // Envelope
-        that.popupScreen = that.add.sprite(0, 0, "popupScreensip");
-        that.col = that.add.group();
-        that.col1 = that.col.create(-70, 115, "cellNewspapersip", 0);
-        that.col2 = that.col.create(150, 113, "cellNewspapersip", 1);
-        that.col3 = that.col.create(420, 0, "cellNewspapersip", 2);
-        that.passcodeCol4 = that.add.button(650, 0, "cellNewspapersip",
-                                        that.passcodeCallback, that, 3, 2, 2);
-        that.passcodeCol4.addChild(that.add.text(170, 120, "****\nMB",
-                                                { font: "90px Arial" }));
-        that.col5 = that.col.create(525, 240, "cellNewspapersip", 4);
+            that.popupScreen = that.add.sprite(0, 0, "popupScreensip");
+            that.col = that.add.group();
+            that.col1 = that.col.create(-70, 115, "cellNewspapersip", 0);
+            that.col2 = that.col.create(150, 113, "cellNewspapersip", 1);
+            that.col3 = that.col.create(420, 0, "cellNewspapersip", 2);
+            that.passcodeCol4 = that.add.button(650, 0, "cellNewspapersip",
+                                            that.passcodeCallback, that, 3, 2, 2);
+            that.passcodeCol4.addChild(that.add.text(170, 120, "****\nMB",
+                                                    { font: "90px Arial" }));
+            that.col5 = that.col.create(525, 240, "cellNewspapersip", 4);
 
-        // Buttons
-        that.scissorButton = that.add.button(1070, 120, "upDownButtonsp",
-                                            that.scissorButtonCallback, that, 12, 9, 9);
-        that.putBackButton = that.add.button(1070, 450, "upDownButtonsp",
-                                            that.putBackButtonCallback, that, 11, 10, 10);
-        that.goButton = that.add.button(1090, 332, "goButtonsp",
-                                            that.goButtonCallback, that, 1, 0, 2);
-        that.newspaperScreenAppearBool = true;
+            // Buttons
+            that.scissorButton = that.add.button(1070, 120, "upDownButtonsp",
+                                                that.scissorButtonCallback, that, 12, 9, 9);
+            that.putBackButton = that.add.button(1070, 450, "upDownButtonsp",
+                                                that.putBackButtonCallback, that, 11, 10, 10);
+            that.goButton = that.add.button(1090, 332, "goButtonsp",
+                                                that.goButtonCallback, that, 1, 0, 2);
+            that.newspaperScreenAppearBool = true;
         }
     };
 
@@ -224,7 +222,7 @@
         // letter above cat.
         that.smallNewspaperAppear();
 
-        if (model.visited.size === true) {
+        if (model.visited.simplify === true) {
             that.takeScissor();
         }
 

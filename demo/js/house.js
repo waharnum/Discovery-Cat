@@ -35,9 +35,99 @@
                 funcName: "demo.state.house.notifs",
                 args: ["{that}", "{that}.safe", "{that}.safeNotif",
                                                             "{demo.discoveryCat}.textToSpeech"]
+            },
+            backpack: {
+                funcName: "demo.state.house.backpack",
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech"]
             }
         }
     });
+
+    demo.state.house.backpack = function(that, speechComp) {
+        // All sub backpack buttons
+        // callbacks
+        that.backpackIcon1Callback = function() {
+            if (that.sound.mute) {
+                that.sound.mute = false;
+                that.backpackIcon1.setFrames(3, 2, 2);
+            } else {
+                that.sound.mute = true;
+                that.backpackIcon1.setFrames(3, 4, 4);
+            }
+        };
+        that.backpackIcon2Callback = function() {
+            // volume is not taken as an option but a model thus we have used
+            // change applier here for our work which involved changed changing
+            // the utterance option of volume to volume.
+            // Initially the utteranceOpts.volume has value undefined and then
+            // we give it value 0 or 1 thus we have included both conditions in the "if".
+            if (speechComp.model.utteranceOpts.volume === 0 ||
+                                     typeof(speechComp.model.utteranceOpts.volume) === undefined) {
+                speechComp.applier.change("utteranceOpts.volume", 1);
+                that.backpackIcon2.setFrames(3, 2, 2);
+            } else {
+                speechComp.applier.change("utteranceOpts.volume", 0);
+                that.backpackIcon2.setFrames(3, 4, 4);
+            }
+        };
+        that.backpackIcon3Callback = function() {};
+        that.backpackIcon4Callback = function() {};
+        that.backpackIcon5Callback = function() {};
+        that.backpackIcon6Callback = function() {};
+
+        // Decalaring all sub buttons
+        that.backpackIcon1 = that.add.button(175, 70, "backpackButtonAll",
+                                        that.backpackIcon1Callback, that, 3, 2, 2);
+        that.backpackIcon1.anchor.setTo(0.5, 0.5);
+        that.backpackIcon1.addChild(that.add.sprite(-45, -25, "backpackIconAll", 2));
+
+        that.backpackIcon2 = that.add.button(275, 70, "backpackButtonAll",
+                                        that.backpackIcon2Callback, that, 3, 2, 2);
+        that.backpackIcon2Bool = true;
+        that.backpackIcon2.anchor.setTo(0.5, 0.5);
+        that.backpackIcon2.addChild(that.add.sprite(-50, -25, "backpackIconAll", 3));
+
+        that.backpackIcon3 = that.add.button(70, 70, "backpackButtonAll",
+                                        that.backpackIcon3Callback, that, 3, 2, 2);
+        that.backpackIcon3.anchor.setTo(0.5, 0.5);
+        that.backpackIcon3.addChild(that.add.sprite(-50, -25, "backpackIconAll", 0));
+
+        that.backpackIcon4 = that.add.button(70, 70, "backpackButtonAll",
+                                        that.backpackIcon4Callback, that, 3, 2, 2);
+        that.backpackIcon4.anchor.setTo(0.5, 0.5);
+        that.backpackIcon4.addChild(that.add.sprite(-50, -22, "backpackIconAll", 1));
+
+        that.backpackIcon5 = that.add.button(70, 70, "backpackButtonAll",
+                                        that.backpackIcon5Callback, that, 3, 2, 2);
+        that.backpackIcon5.anchor.setTo(0.5, 0.5);
+        that.backpackIcon5.addChild(that.add.sprite(-50, -25, "backpackIconAll", 4));
+
+        that.backpackIcon6 = that.add.button(70, 70, "backpackButtonAll",
+                                        that.backpackIcon6Callback, that, 3, 2, 2);
+        that.backpackIcon6.anchor.setTo(0.5, 0.5);
+        that.backpackIcon6.addChild(that.add.sprite(-50, -25, "backpackIconAll", 5));
+
+        // Main backpack button
+        that.backpackButtonBool = false;
+        that.backpackButtonAllCallback = function() {
+            if (that.backpackButtonBool) {
+                that.backpackIcon3.x = 70;
+                that.backpackIcon4.x = 70;
+                that.backpackIcon5.x = 70;
+                that.backpackIcon6.x = 70;
+                that.backpackButtonBool = false;
+            } else {
+                that.backpackIcon3.x = 375;
+                that.backpackIcon4.x = 475;
+                that.backpackIcon5.x = 575;
+                that.backpackIcon6.x = 675;
+                that.backpackButtonBool = true;
+            }
+        };
+        that.backpackButton = that.add.button(70, 70, "backpackButtonAll",
+                                        that.backpackButtonAllCallback, that, 1, 0, 0);
+        that.backpackButton.anchor.setTo(0.5, 0.5);
+    };
 
     demo.state.house.notifs = function(that, element, elementNotif, speechComp) {
         if (that.physics.arcade.overlap(element, that.cat) &&
@@ -170,6 +260,8 @@
         that.safeNotif.anchor.setTo(0.5, 1);
         that.safeNotif.scale.setTo(model.size, model.size);
         that.safeNotif.alpha = 0;
+
+        that.backpack();
 
         // Filters
         if (model.contrast) {

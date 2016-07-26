@@ -134,7 +134,8 @@
     };
 
     demo.state.sizePref.envelopeScreenAppear = function(that, model) {
-        // count is used as flag for making this run only once when key isDown.
+        // envelopeScreenAppearBool is used as flag for making this run only
+        // once when key isDown.
         if (that.envelopeScreenAppearBool === false) {
         // Envelope
         that.envelope = that.add.sprite(0, 0, "letterEnvelopesp");
