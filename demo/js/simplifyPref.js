@@ -42,7 +42,7 @@
             },
             goButtonCallback: {
                 funcName: "demo.state.simplifyPref.goButtonCallback",
-                args: ["{that}"]
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             scissorNotifFunc: {
                 funcName: "demo.state.house.notifs",
@@ -105,6 +105,8 @@
         };
         // vertical cut callback after that.t1
         that.t1.onComplete.add(that.onCompleteCallback1, that);
+        // to make simplify true
+        model.simplify = true;
     };
 
     demo.state.simplifyPref.passcodeCallback = function(that, model) {
@@ -122,10 +124,19 @@
     demo.state.simplifyPref.putBackButtonCallback = function(that) {
         that.col1.visible = true;
         that.col5.visible = true;
+        // to make simplify false
+        model.simplify = false;
     };
 
-    demo.state.simplifyPref.goButtonCallback = function(that) {
+    demo.state.simplifyPref.goButtonCallback = function(that, model) {
+        // Show simplify effect on stage
+        if (model.simplify) {
+            that.stageAssets.visible = false;
+        } else {
+            that.stageAssets.visible = true;
+        }
         // Group these together
+        that.scissorCutAnim.visible = false;
         that.popupScreen.visible = false;
         that.scissorButton.visible = false;
         that.putBackButton.visible = false;

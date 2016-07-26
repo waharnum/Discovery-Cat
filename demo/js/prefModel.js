@@ -10,6 +10,7 @@
             count: 0,
             size: 1,
             contrast: false,
+            simplify: false,
             visited: {
                 lang: false,
                 size: false,
