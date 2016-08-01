@@ -16,8 +16,8 @@
                 funcName: "demo.state.colorPref.update",
                 args: ["{that}"]
             },
-            houseDoor: {
-                funcName: "demo.state.colorPref.houseDoor",
+            houseDoorFunc: {
+                funcName: "demo.state.colorPref.houseDoorFunc",
                 args: "{that}"
             },
             aisleAppear: {
@@ -108,7 +108,7 @@
         that.aisleScreenAppearBool = false;
     };
 
-    demo.state.colorPref.houseDoor = function(that) {
+    demo.state.colorPref.houseDoorFunc = function(that) {
         that.audioC.pause();
         that.state.start("house");
     };
@@ -116,13 +116,13 @@
     demo.state.colorPref.aisleScreenAppear = function(that, model) {
         if (that.aisleScreenAppearBool === false) {
             that.popupScreen = that.add.sprite(0, 0, "popupScreencp");
-            that.bucketColor = that.add.button(1100, 250, "extraAssetcp",
-                                                    that.colorBucketCallback, that, 4, 2, 2);
+            that.bucketColor = that.add.button(1100, 250, "upDownButtonsp",
+                                                    that.colorBucketCallback, that, 19, 17, 17);
             that.bucketColor.anchor.setTo(0.5, 1);
             that.bucketColor.scale.setTo(model.size, model.size);
 
-            that.bucketContrast = that.add.button(1100, 450, "extraAssetcp",
-                                                    that.contrastBucketCallback, that, 5, 3, 3);
+            that.bucketContrast = that.add.button(1100, 450, "upDownButtonsp",
+                                                    that.contrastBucketCallback, that, 20, 18, 18);
             that.bucketContrast.anchor.setTo(0.5, 1);
             that.bucketContrast.scale.setTo(model.size, model.size);
             that.goButton = that.add.button(1030, 500, "goButtonsp",
@@ -257,7 +257,7 @@
 
         // Exit from room
         if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.enter.isDown) {
-            that.state.start("house");
+            that.houseDoorFunc();
         }
 
         if (that.physics.arcade.overlap(that.paintBrush, that.cat) && that.enter.isDown) {

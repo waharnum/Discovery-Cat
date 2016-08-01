@@ -12,7 +12,7 @@
             contrast: false,
             simplify: false,
             visited: {
-                lang: false,
+                sound: false,
                 size: false,
                 color: false,
                 simplify: false

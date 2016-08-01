@@ -40,6 +40,9 @@
             simplifyPref: {
                 type: "demo.state.simplifyPref"
             },
+            soundPref: {
+                type: "demo.state.soundPref"
+            },
             textToSpeech: {
                 type: "fluid.textToSpeech"
             }
@@ -62,6 +65,7 @@
         that.game.state.add("sizePref", that.sizePref);
         that.game.state.add("colorPref", that.colorPref);
         that.game.state.add("simplifyPref", that.simplifyPref);
+        that.game.state.add("soundPref", that.soundPref);
         // Start the initial state
         that.game.state.start("boot");
     };

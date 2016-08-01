@@ -31,6 +31,11 @@
                 args: ["{that}", "{that}.simplifyDoor", "{that}.simplifyDoorNotif",
                                                             "{demo.discoveryCat}.textToSpeech"]
             },
+            soundDoorNotifFunc: {
+                funcName: "demo.state.house.notifs",
+                args: ["{that}", "{that}.soundDoor", "{that}.soundDoorNotif",
+                                                            "{demo.discoveryCat}.textToSpeech"]
+            },
             safeNotifFunc: {
                 funcName: "demo.state.house.notifs",
                 args: ["{that}", "{that}.safe", "{that}.safeNotif",
@@ -254,6 +259,12 @@
         that.simplifyDoorNotif.anchor.setTo(0.5, 1);
         that.simplifyDoorNotif.scale.setTo(model.size, model.size);
         that.simplifyDoorNotif.alpha = 0;
+        // Notif sound pref door
+        that.soundDoorNotif = that.add.sprite(800, 339, "messageBoxAll", 0);
+        that.soundDoorNotif.addChild(that.add.text(-50, -80, "ENTER"));
+        that.soundDoorNotif.anchor.setTo(0.5, 1);
+        that.soundDoorNotif.scale.setTo(model.size, model.size);
+        that.soundDoorNotif.alpha = 0;
         // Notif safe
         that.safeNotif = that.add.sprite(450, 570, "messageBoxAll", 0);
         that.safeNotif.addChild(that.add.text(-75, -100, "  PROVIDE\nPASSCODE"));
@@ -302,6 +313,11 @@
             that.state.start("simplifyPref");
         }
 
+        if (that.physics.arcade.overlap(that.soundDoor, that.cat) && that.enter.isDown) {
+            that.audioG.pause();
+            that.state.start("soundPref");
+        }
+
         // character movement
         if (that.cursors.left.isDown) {
             that.cat.body.velocity.x = -150;
@@ -326,6 +342,9 @@
 
         // Simplify Door Notif
         that.simplifyDoorNotifFunc();
+
+        // Sound Door Notif
+        that.soundDoorNotifFunc();
 
         // Safe Notif
         that.safeNotifFunc();

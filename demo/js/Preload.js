@@ -77,6 +77,11 @@
                                     "assets/cellNewspaper-simplifyPref.png", 500, 482);
         game.load.spritesheet("extraAssetsip", "assets/extraAssets-simplifyPref.png", 250, 218);
         game.load.spritesheet("scissorCutsip", "assets/scissors-simplifyPref.png", 150, 61);
+        // soundPref assets
+        game.load.image("backgroundsop", "assets/background-soundPref.png");
+        game.load.image("popupScreensop", "assets/popupScreen-soundPref.png");
+        game.load.spritesheet("assetsop", "assets/assets-soundPref.png", 300, 241);
+
 
         // message json files
         game.load.json("en-US", "messages/DiscoveryCat_en-US.json");
@@ -104,7 +109,7 @@
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("prelude");
+        game.state.start("house");
     };
 
     demo.state.Preload.update = function() {
