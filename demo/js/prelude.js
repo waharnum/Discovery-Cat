@@ -119,6 +119,7 @@
     };
 
     demo.state.prelude.create = function(that) {
+        that.stage.backgroundColor = "#9fcaf6";
         that.add.sprite(0, 0, "backgrounds1");
         that.ratHead = that.add.sprite(380, 280, "ratHeads1");
         that.ratHead.anchor.setTo(0.5, 0.9);

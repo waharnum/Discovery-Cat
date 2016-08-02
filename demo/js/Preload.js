@@ -96,6 +96,7 @@
 
         // universal
         game.load.image("messageBoxAll", "assets/messageBox-allStates.png");
+        game.load.image("messageBarAll", "assets/messageBar-allStates.png");
         game.load.spritesheet("popupAll", "assets/popups-AllStates.png", 700, 480);
         game.load.spritesheet("backpackButtonAll", "assets/backpackPanel-allStates.png", 150, 140);
         game.load.spritesheet("backpackIconAll", "assets/backpackIcons-allStates.png", 100, 51);

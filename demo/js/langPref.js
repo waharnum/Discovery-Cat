@@ -236,7 +236,6 @@
 
     // All four buttons callbacks are handled by this, to add web speech and lang selection here
     demo.state.langPref.buttonCallback = function(that, model, language) {
-        console.log("hello");
         model.lang.type = language;
         model.lang.obj = that.cache.getJSON(language);
         // To remove keys so that they dont flood the browser
@@ -252,7 +251,7 @@
     demo.state.langPref.create = function(that) {
         // count to be later added to the model, this is responsible for selection using tab
         that.count = 0;
-
+        that.stage.backgroundColor = "#8d6e63";
         that.add.sprite(0, 0, "backgroundlp");
 
         // Cat in the scene

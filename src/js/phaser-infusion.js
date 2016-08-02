@@ -7,7 +7,7 @@ var fluid = fluid || {};
         gradeNames: "fluid.viewComponent",
         gameRendererInfo:{
             dimensions: {
-                height: 720,
+                height: 840,
                 width: 1280
             },
             rendererType: "Phaser.AUTO"

@@ -108,6 +108,7 @@
     };
 
     demo.state.prelude2.create = function(that) {
+        that.stage.backgroundColor = "#9fcaf6";
         // Tip: Put all var together anchor together animation together
         // code
         that.add.sprite(0, 0, "backgrounds2");

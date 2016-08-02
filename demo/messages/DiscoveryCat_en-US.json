@@ -4,5 +4,8 @@
     "twocs": "To open that safe you will need a passcode",
     "threecs": "The passcode is present in pieces in all the rooms",
     "fourcs": "Go to each room and collect the passcode to open the safe",
-    "fivecs": "Hope you find the yarn balls"
+    "fivecs": "Hope you find the yarn balls",
+    "controlInstruction": "Use up, down, left, right arrow keys for movement. Press ENTER to perform actions\nlike entering room and picking items.",
+    "enterRoom": "ENTER\n ROOM",
+    "safeNotif": "PROVIDE\nPASSCODE"
 }

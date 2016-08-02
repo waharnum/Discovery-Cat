@@ -67,9 +67,9 @@
 
     // Runs at t = 1000ms
     demo.state.cutScene.textAppear1 = function(that, model, speechComp) {
-        that.text1 = that.add.text(640, 650, model.lang.obj.onecs);
+        that.text1 = that.add.text(640, 750, model.lang.obj.onecs);
         that.text1.anchor.setTo(0.5, 0.5);
-        speechComp.queueSpeech(model.lang.obj.onecs, false, { model: model.lang.type });
+        speechComp.queueSpeech(model.lang.obj.onecs, false, { lang: model.lang.type });
     };
 
     // Runs at t = 2000ms
@@ -87,9 +87,9 @@
     demo.state.cutScene.passcodeAppear = function(that, model, speechComp) {
         that.add.tween(that.passcode).to({ alpha: 1 }, 2000, Phaser.Easing.Sinusoidal.InOut, true);
         that.text1.visible = false;
-        that.text2 = that.add.text(640, 650, model.lang.obj.twocs);
+        that.text2 = that.add.text(640, 750, model.lang.obj.twocs);
         that.text2.anchor.setTo(0.5, 0.5);
-        speechComp.queueSpeech(model.lang.obj.twocs, false, { model: model.lang.type });
+        speechComp.queueSpeech(model.lang.obj.twocs, false, { lang: model.lang.type });
     };
 
     // Runs at t = 9000ms
@@ -105,30 +105,30 @@
         that.door5.visible = false;
         that.door0.visible = false;
         that.text2.visible = false;
-        that.text3 = that.add.text(640, 650, model.lang.obj.threecs);
+        that.text3 = that.add.text(640, 750, model.lang.obj.threecs);
         that.text3.anchor.setTo(0.5, 0.5);
-        speechComp.queueSpeech(model.lang.obj.threecs, false, { model: model.lang.type });
+        speechComp.queueSpeech(model.lang.obj.threecs, false, { lang: model.lang.type });
         that.add.tween(that.doors).to({ alpha: 1 }, 2000, Phaser.Easing.Sinusoidal.InOut, true);
     };
 
     // Runs at t = 12000ms
     demo.state.cutScene.passcodeDistribute = function(that) {
-        that.add.tween(that.textPa).to({ x: 210, y: 130 },
+        that.add.tween(that.textPa).to({ x: 230, y: 130 },
                                                 2000, Phaser.Easing.Sinusoidal.InOut, true);
-        that.add.tween(that.textSs).to({ x: 970, y: 130 },
+        that.add.tween(that.textSs).to({ x: 990, y: 130 },
                                                 2000, Phaser.Easing.Sinusoidal.InOut, true);
-        that.add.tween(that.textCo).to({ x: 210, y: 530 },
+        that.add.tween(that.textCo).to({ x: 230, y: 530 },
                                                 2000, Phaser.Easing.Sinusoidal.InOut, true);
-        that.add.tween(that.textDe).to({ x: 970, y: 530 },
+        that.add.tween(that.textDe).to({ x: 990, y: 530 },
                                                 2000, Phaser.Easing.Sinusoidal.InOut, true);
     };
 
     // Runs at t = 13500ms
     demo.state.cutScene.passcodeWhite = function(that, model, speechComp) {
         that.text3.visible = false;
-        that.text4 = that.add.text(640, 650, model.lang.obj.fourcs);
+        that.text4 = that.add.text(640, 750, model.lang.obj.fourcs);
         that.text4.anchor.setTo(0.5, 0.5);
-        speechComp.queueSpeech(model.lang.obj.fourcs, false, { model: model.lang.type });
+        speechComp.queueSpeech(model.lang.obj.fourcs, false, { lang: model.lang.type });
         that.textPa.fill = "#fff";
         that.textSs.fill = "#fff";
         that.textCo.fill = "#fff";
@@ -155,7 +155,7 @@
         that.text5 = that.add.text(640, 360, model.lang.obj.fivecs,
                                                         { font: "40px Arial", fill: "#fff" });
         that.text5.anchor.setTo(0.5, 0.5);
-        speechComp.queueSpeech(model.lang.obj.fivecs, false, { model: model.lang.type });
+        speechComp.queueSpeech(model.lang.obj.fivecs, false, { lang: model.lang.type });
         that.add.tween(that.yarn).to({ alpha: 0 }, 2000, Phaser.Easing.Sinusoidal.InOut, true);
         that.stage.backgroundColor = "#f36f46";
     };
@@ -205,10 +205,10 @@
         that.safe.scale.setTo(0.3, 0.3);
 
         that.passcode = that.add.group();
-        that.textPa = that.add.text(450, 30, "**", { font:"70px Arial" }, that.passcode);
-        that.textSs = that.add.text(545, 30, "**", { font:"70px Arial" }, that.passcode);
-        that.textCo = that.add.text(640, 30, "**", { font:"70px Arial" }, that.passcode);
-        that.textDe = that.add.text(750, 30, "**", { font:"70px Arial" }, that.passcode);
+        that.textPa = that.add.text(470, 30, "**", { font:"70px Arial" }, that.passcode);
+        that.textSs = that.add.text(565, 30, "**", { font:"70px Arial" }, that.passcode);
+        that.textCo = that.add.text(660, 30, "**", { font:"70px Arial" }, that.passcode);
+        that.textDe = that.add.text(770, 30, "**", { font:"70px Arial" }, that.passcode);
         that.passcode.alpha = 0;
 
         // time events

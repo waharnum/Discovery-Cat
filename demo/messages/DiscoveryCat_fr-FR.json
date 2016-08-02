@@ -4,5 +4,8 @@
     "twocs": "Pour ouvrir ce coffre-fort , vous aurez besoin d'un code d'accès",
     "threecs": "Le code d'accès est présente en morceaux dans toutes les chambres",
     "fourcs": "Allez dans chaque chambre et recueillir le mot de passe pour ouvrir le coffre-fort",
-    "fivecs": "Espérons que vous trouverez les boules de fils"
+    "fivecs": "Espérons que vous trouverez les boules de fils",
+    "controlInstruction": "Les touches haut, bas, gauche, flèche droite pour le mouvement. Appuyez sur entrée\npour exécuter des actions comme entrant dans la chambre, choisir les éléments ",
+    "enterRoom": "Entrar\na sala",
+    "safeNotif": "fournir le\ncode d’accès"
 }

@@ -11,11 +11,19 @@
             size: 1,
             contrast: false,
             simplify: false,
+            sound: false,
             visited: {
                 sound: false,
                 size: false,
                 color: false,
-                simplify: false
+                simplify: false,
+                house: false
+            },
+            position: {
+                catHousex: 70,
+                catHousey: 45,
+                catx: 235,
+                caty: 500
             }
         }
     });
