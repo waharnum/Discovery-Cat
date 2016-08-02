@@ -13,11 +13,11 @@
             simplify: false,
             sound: false,
             visited: {
-                sound: false,
-                size: false,
-                color: false,
-                simplify: false,
-                house: false
+                sound: true,
+                size: true,
+                color: true,
+                simplify: true,
+                house: true
             },
             position: {
                 catHousex: 70,

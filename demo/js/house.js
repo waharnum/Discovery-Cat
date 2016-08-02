@@ -78,10 +78,34 @@
     });
 
     demo.state.house.backpackIconSimplifyCallback = function(that, model) {
-        // SOLUTION TAKE CAT POSITION AND RERENDER WHOLE SCENE
+        if (model.simplify) {
+            model.simplify = false;
+            that.backpackIconSimplify.setFrames(3, 2, 2);
+        } else {
+            model.simplify = true;
+            that.backpackIconSimplify.setFrames(3, 4, 4);
+        }
+        that.state.start("house");
     };
 
     demo.state.house.backpackIconSizeCallback = function(that, model) {
+        // Remove current image in the button
+        that.backpackIconSize.removeChild(that.backpackIconSizeChild);
+        if (model.size === 1) {
+            model.size = 1.1;
+            // Add new image in the button
+            that.backpackIconSizeChild = that.add.sprite(-50, -25, "backpackIconAll", 5);
+            that.backpackIconSize.addChild(that.backpackIconSizeChild);
+        } else if (model.size === 1.1) {
+            model.size = 1.2;
+            that.backpackIconSizeChild = that.add.sprite(-50, -25, "backpackIconAll", 6);
+            that.backpackIconSize.addChild(that.backpackIconSizeChild);
+        } else {
+            model.size = 1;
+            that.backpackIconSizeChild = that.add.sprite(-50, -25, "backpackIconAll", 4);
+            that.backpackIconSize.addChild(that.backpackIconSizeChild);
+        }
+        that.state.start("house");
         // SOLUTION TAKE CAT POSITION AND RERENDER WHOLE SCENE
     };
 
@@ -121,11 +145,16 @@
         that.backpackIconColorCallback = function() {
             if (model.contrast === false) {
                 that.colorPrefFilter();
+                that.backpackIconColor.removeChild(that.backpackIconColorChild);
                 that.backpackIconColorChild = that.add.sprite(-50, -25, "backpackIconAll", 0);
+                that.backpackIconColor.addChild(that.backpackIconColorChild);
                 model.contrast = true;
             } else {
                 that.world.filters = null;
+                // First removing child to destroy chance of having sprite overlap
+                that.backpackIconColor.removeChild(that.backpackIconColorChild);
                 that.backpackIconColorChild = that.add.sprite(-50, -25, "backpackIconAll", 8);
+                that.backpackIconColor.addChild(that.backpackIconColorChild);
                 model.contrast = false;
             }
         };
@@ -331,6 +360,7 @@
 
     demo.state.house.messageBar = function(that, speechComp, model, message) {
         that.messageBar = that.add.sprite(0, 595, "messageBarAll");
+        // It is just a bit small in size so to make it fit the screen.
         that.messageBar.scale.setTo(1.001, 1);
         that.messageBarText = that.add.text(50, 50, message);
         that.messageBarText.scale.setTo(model.size, model.size);
@@ -495,6 +525,8 @@
         if (!model.visited.house) {
             that.messageBarMovement();
         }
+        // Now user has visited the house
+        model.visited.house = true;
     };
 
     demo.state.house.update = function(that, model) {
