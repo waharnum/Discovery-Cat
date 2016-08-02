@@ -6,6 +6,9 @@
     "fourcs": "Ir a cada habitación y recoger el código de acceso para abrir la caja fuerte",
     "fivecs": "Esperamos que las bolas de hilo",
     "controlInstruction": "Las teclas arriba, abajo, izquierda, flecha derecha para el movimiento. Presione Entrar\npara realizar acciones como entrar en la habitación, recogiendo elementos",
-    "enterRoom": "Entrar\na sala",
-    "safeNotif": "proporcionar clave\n de acceso"
+    "enterRoom": "ENTRAR\NA SALA",
+    "exitRoom": "HABITACIÓN DE SALIDA",
+    "pickItem": "ELEGIR ELEMENTO",
+    "useItem": "ARTÍCULO DE USO",
+    "safeNotif": "PROPORCIONAR CLAVE\N DE ACCESO"
 }

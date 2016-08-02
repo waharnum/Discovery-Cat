@@ -110,7 +110,7 @@
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("house");
+        game.state.start("simplifyPref");
     };
 
     demo.state.Preload.update = function() {

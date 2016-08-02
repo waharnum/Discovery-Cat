@@ -7,5 +7,8 @@
     "fivecs": "Espérons que vous trouverez les boules de fils",
     "controlInstruction": "Les touches haut, bas, gauche, flèche droite pour le mouvement. Appuyez sur entrée\npour exécuter des actions comme entrant dans la chambre, choisir les éléments ",
     "enterRoom": "Entrar\na sala",
-    "safeNotif": "fournir le\ncode d’accès"
+    "exitRoom": "SORTIE SALLE",
+    "pickItem": "SÉLECTIONNEZ ARTICLE",
+    "useItem": "POINT D’UTILISATION",
+    "safeNotif": "FOURNIR LE\NCODE D’ACCÈS"
 }

@@ -51,17 +51,23 @@
             houseDoorNotifFunc: {
                 funcName: "demo.state.house.notifs",
                 args: ["{that}", "{that}.houseDoor", "{that}.houseDoorNotif",
-                                                            "{demo.discoveryCat}.textToSpeech"]
+                                "{demo.discoveryCat}.textToSpeech",
+                                    "{demo.discoveryCat}.prefModel.model.lang.obj.exitRoom",
+                                    "{demo.discoveryCat}.prefModel.model"]
             },
             paintBrushNotifFunc: {
                 funcName: "demo.state.house.notifs",
                 args: ["{that}", "{that}.paintBrush", "{that}.paintBrushNotif",
-                                                            "{demo.discoveryCat}.textToSpeech"]
+                                "{demo.discoveryCat}.textToSpeech",
+                                    "{demo.discoveryCat}.prefModel.model.lang.obj.pickItem",
+                                    "{demo.discoveryCat}.prefModel.model"]
             },
             aisleNotifFunc: {
                 funcName: "demo.state.house.notifs",
                 args: ["{that}", "{that}.aisle", "{that}.aisleNotif",
-                                                            "{demo.discoveryCat}.textToSpeech"]
+                                "{demo.discoveryCat}.textToSpeech",
+                                    "{demo.discoveryCat}.prefModel.model.lang.obj.useItem",
+                                    "{demo.discoveryCat}.prefModel.model"]
             }
         }
     });
@@ -220,15 +226,18 @@
 
         // paintBrush notif test
         that.paintBrushNotif = that.add.sprite(990, 400, "messageBoxAll", 0);
-        that.paintBrushNotif.addChild(that.add.text(35, 20, "ENTER"));
+        that.paintBrushNotif.addChild(that.add.text(10, 25, model.lang.obj.pickItem));
+        that.paintBrushNotif.scale.setTo(model.size, model.size);
         that.paintBrushNotif.alpha = 0;
         // door notif test
         that.houseDoorNotif = that.add.sprite(40, 480, "messageBoxAll", 0);
-        that.houseDoorNotif.addChild(that.add.text(35, 20, "ENTER"));
+        that.houseDoorNotif.addChild(that.add.text(10, 25, model.lang.obj.exitRoom));
+        that.houseDoorNotif.scale.setTo(model.size, model.size);
         that.houseDoorNotif.alpha = 0;
         // aisle notif test
         that.aisleNotif = that.add.sprite(360, 360, "messageBoxAll", 0);
-        that.aisleNotif.addChild(that.add.text(35, 20, "ENTER"));
+        that.aisleNotif.addChild(that.add.text(10, 25, model.lang.obj.useItem));
+        that.aisleNotif.scale.setTo(model.size, model.size);
         that.aisleNotif.alpha = 0;
 
         // Check for room setting on revisitin the room

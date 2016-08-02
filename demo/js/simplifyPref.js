@@ -47,17 +47,23 @@
             scissorNotifFunc: {
                 funcName: "demo.state.house.notifs",
                 args: ["{that}", "{that}.scissor", "{that}.scissorNotif",
-                                                            "{demo.discoveryCat}.textToSpeech"]
+                                "{demo.discoveryCat}.textToSpeech",
+                                    "{demo.discoveryCat}.prefModel.model.lang.obj.pickItem",
+                                    "{demo.discoveryCat}.prefModel.model"]
             },
             houseDoorNotifFunc: {
                 funcName: "demo.state.house.notifs",
                 args: ["{that}", "{that}.houseDoor", "{that}.houseDoorNotif",
-                                                            "{demo.discoveryCat}.textToSpeech"]
+                                "{demo.discoveryCat}.textToSpeech",
+                                    "{demo.discoveryCat}.prefModel.model.lang.obj.exitRoom",
+                                    "{demo.discoveryCat}.prefModel.model"]
             },
             smallNewspaperNotifFunc: {
                 funcName: "demo.state.house.notifs",
                 args: ["{that}", "{that}.smallNewspaper", "{that}.newspaperNotif",
-                                                            "{demo.discoveryCat}.textToSpeech"]
+                                "{demo.discoveryCat}.textToSpeech",
+                                    "{demo.discoveryCat}.prefModel.model.lang.obj.useItem",
+                                    "{demo.discoveryCat}.prefModel.model"]
             },
             passcodeCallback: {
                 funcName: "demo.state.simplifyPref.passcodeCallback",
@@ -136,7 +142,7 @@
             that.stageAssets.visible = true;
         }
         // Group these together
-        that.scissorCutAnim.visible = false;
+        // scissor buttton may or may not be pressed by user
         that.popupScreen.visible = false;
         that.scissorButton.visible = false;
         that.putBackButton.visible = false;
@@ -258,22 +264,19 @@
         that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
         // spects notif
-        that.scissorNotif = that.add.sprite(1080, 470, "messageBoxAll", 0);
-        that.scissorNotif.anchor.setTo(0.5, 1);
+        that.scissorNotif = that.add.sprite(990, 350, "messageBoxAll", 0);
+        that.scissorNotif.addChild(that.add.text(10, 25, model.lang.obj.pickItem));
         that.scissorNotif.scale.setTo(model.size, model.size);
-        that.scissorNotif.addChild(that.add.text(-47, -80, "ENTER"));
         that.scissorNotif.alpha = 0;
         // door notif
-        that.houseDoorNotif = that.add.sprite(135, 470, "messageBoxAll", 0);
-        that.houseDoorNotif.anchor.setTo(0.5, 1);
+        that.houseDoorNotif = that.add.sprite(35, 400, "messageBoxAll", 0);
+        that.houseDoorNotif.addChild(that.add.text(10, 25, model.lang.obj.exitRoom));
         that.houseDoorNotif.scale.setTo(model.size, model.size);
-        that.houseDoorNotif.addChild(that.add.text(-47, -80, "ENTER"));
         that.houseDoorNotif.alpha = 0;
         // envelope notif
-        that.newspaperNotif = that.add.sprite(430, 470, "messageBoxAll", 0);
-        that.newspaperNotif.anchor.setTo(0.5, 1);
+        that.newspaperNotif = that.add.sprite(360, 340, "messageBoxAll", 0);
+        that.newspaperNotif.addChild(that.add.text(10, 25, model.lang.obj.useItem));
         that.newspaperNotif.scale.setTo(model.size, model.size);
-        that.newspaperNotif.addChild(that.add.text(-47, -80, "ENTER"));
         that.newspaperNotif.alpha = 0;
     };
 

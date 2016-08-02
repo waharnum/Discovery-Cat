@@ -43,6 +43,27 @@
             goButtonCallback: {
                 funcName: "demo.state.sizePref.goButtonCallback",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+            },
+            houseDoorNotifFunc: {
+                funcName: "demo.state.house.notifs",
+                args: ["{that}", "{that}.houseDoor", "{that}.houseDoorNotif",
+                                "{demo.discoveryCat}.textToSpeech",
+                                    "{demo.discoveryCat}.prefModel.model.lang.obj.exitRoom",
+                                    "{demo.discoveryCat}.prefModel.model"]
+            },
+            spectsNotifFunc: {
+                funcName: "demo.state.house.notifs",
+                args: ["{that}", "{that}.spects", "{that}.spectsNotif",
+                                "{demo.discoveryCat}.textToSpeech",
+                                    "{demo.discoveryCat}.prefModel.model.lang.obj.pickItem",
+                                    "{demo.discoveryCat}.prefModel.model"]
+            },
+            envelopeNotifFunc: {
+                funcName: "demo.state.house.notifs",
+                args: ["{that}", "{that}.envelopePreview", "{that}.envelopeNotif",
+                                "{demo.discoveryCat}.textToSpeech",
+                                    "{demo.discoveryCat}.prefModel.model.lang.obj.useItem",
+                                    "{demo.discoveryCat}.prefModel.model"]
             }
         }
     });
@@ -228,18 +249,18 @@
 
         // spects notif
         that.spectsNotif = that.add.sprite(950, 450, "messageBoxAll", 0);
+        that.spectsNotif.addChild(that.add.text(10, 25, model.lang.obj.pickItem));
         that.spectsNotif.scale.setTo(model.size, model.size);
-        that.spectsNotif.addChild(that.add.text(35, 20, "ENTER"));
         that.spectsNotif.alpha = 0;
         // door notif
-        that.doorNotif = that.add.sprite(40, 380, "messageBoxAll", 0);
-        that.doorNotif.scale.setTo(model.size, model.size);
-        that.doorNotif.addChild(that.add.text(35, 20, "ENTER"));
-        that.doorNotif.alpha = 0;
+        that.houseDoorNotif = that.add.sprite(40, 380, "messageBoxAll", 0);
+        that.houseDoorNotif.addChild(that.add.text(10, 25, model.lang.obj.exitRoom));
+        that.houseDoorNotif.scale.setTo(model.size, model.size);
+        that.houseDoorNotif.alpha = 0;
         // envelope notif
         that.envelopeNotif = that.add.sprite(490, 420, "messageBoxAll", 0);
+        that.envelopeNotif.addChild(that.add.text(10, 25, model.lang.obj.useItem));
         that.envelopeNotif.scale.setTo(model.size, model.size);
-        that.envelopeNotif.addChild(that.add.text(35, 20, "ENTER"));
         that.envelopeNotif.alpha = 0;
     };
 
@@ -247,35 +268,11 @@
         // Create seperation between ground and cat
         that.physics.arcade.collide(that.cat, that.ground);
 
-        if (that.physics.arcade.overlap(that.spects, that.cat) && that.spectsNotif.alpha === 0) {
-            that.add.tween(that.spectsNotif).to({ alpha: 1 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-            speechComp.queueSpeech("ENTER", true);
-        }
-        if (!that.physics.arcade.overlap(that.spects, that.cat) && that.spectsNotif.alpha === 1) {
-            that.add.tween(that.spectsNotif).to({ alpha: 0 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-        }
-        if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.doorNotif.alpha === 0) {
-            that.add.tween(that.doorNotif).to({ alpha: 1 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-            speechComp.queueSpeech("ENTER", true);
-        }
-        if (!that.physics.arcade.overlap(that.houseDoor, that.cat) && that.doorNotif.alpha === 1) {
-            that.add.tween(that.doorNotif).to({ alpha: 0 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-        }
-        if (that.physics.arcade.overlap(that.envelopePreview, that.cat) &&
-                                                                that.envelopeNotif.alpha === 0) {
-            that.add.tween(that.envelopeNotif).to({ alpha: 1 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-            speechComp.queueSpeech("ENTER", true);
-        }
-        if (!that.physics.arcade.overlap(that.envelopePreview, that.cat) &&
-                                                                 that.envelopeNotif.alpha === 1) {
-            that.add.tween(that.envelopeNotif).to({ alpha: 0 },
-                            800, Phaser.Easing.Sinusoidal.InOut, true);
-        }
+        that.houseDoorNotifFunc();
+
+        that.spectsNotifFunc();
+
+        that.envelopeNotifFunc();
 
         // Exit from room
         if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.enter.isDown) {
