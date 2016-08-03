@@ -47,9 +47,30 @@
             skipButtonCallback: {
                 funcName: "demo.state.prelude.skipButtonCallback",
                 args: "{that}"
+            },
+            stateEnterAnimation: {
+                funcName: "demo.state.prelude.stateEnterAnimation",
+                args: ["{that}", 380, 280]
             }
         }
     });
+
+    demo.state.prelude.stateEnterAnimation = function(that, x, y) {
+        // A mask is a Graphics object
+        that.mask = that.add.graphics(x, y);
+
+        //  Shapes drawn to the Graphics object must be filled.
+        that.mask.beginFill(0xffffff);
+
+        //  Here we'll draw a circle
+        that.mask.drawCircle(0, 0, 10);
+
+        //  And apply it to the Sprite
+        that.world.mask = that.mask;
+
+        that.add.tween(that.mask.scale).to({ x: 1000, y: 1000 },
+                                    4000, Phaser.Easing.Sinusoidal.InOut, true);
+    };
 
     demo.state.prelude.start = function(that) {
         // Play audio G chord
@@ -158,6 +179,8 @@
                                             that.skipButtonCallback, that, 7, 6, 8);
         that.skipButton.scale.setTo(0.6, 0.6);
         that.skipButton.alpha = 0.7;
+
+        that.stateEnterAnimation();
     };
 
     demo.state.prelude.update = function() {

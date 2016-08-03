@@ -6,9 +6,9 @@
     "fourcs": "Gehen Sie zu jedem Raum und sammeln Sie den Passcode , den Safe zu öffnen",
     "fivecs": "Hoffe, dass Sie die Garnkugeln finden",
     "controlInstruction": "Verwenden Sie oben, unten, links, rechts Pfeiltasten für Bewegung. Eingabetaste zum\nAusführen von Aktionen wie das Betreten der Zimmer, Kommissionieren von Artikeln",
-    "enterRoom": "  RAUM\NBETRETEN ",
+    "enterRoom": "  RAUM\nBETRETEN ",
     "exitRoom": "AUSFAHRT ZIMMER",
     "pickItem": "WÄHLEN SIE ELEMENT",
     "useItem": "VERWENDUNGSZWECK",
-    "safeNotif": "PASSCODE\NBIETEN"
+    "safeNotif": "PASSCODE\nBIETEN"
 }

@@ -73,6 +73,11 @@
                 args: ["{that}", "{demo.discoveryCat}.textToSpeech",
                         "{demo.discoveryCat}.prefModel.model",
                             "{demo.discoveryCat}.prefModel.model.lang.obj.controlInstruction"]
+            },
+            stateEnterAnimation: {
+                funcName: "demo.state.prelude.stateEnterAnimation",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model.position.catHousex",
+                                    "{demo.discoveryCat}.prefModel.model.position.catHousey"]
             }
         }
     });
@@ -399,9 +404,13 @@
         // Audio to play
         that.audioG.play("", 0, 0.1, true);
 
-        if (model.simplify) {
-            that.stage.backgroundColor = "#f36f46";
-        } else {
+        // We could have put this background color in the if..else just below but
+        // we thought we should have a background color always so that bacckground
+        // color from other levels dont always keep on changing the background,
+        // because raw background color is present in the backpack region.
+        that.stage.backgroundColor = "#f36f46";
+
+        if (!model.simplify) {
             that.background = that.add.sprite(0, 0, "backgroundh");
         }
 
@@ -527,6 +536,8 @@
         }
         // Now user has visited the house
         model.visited.house = true;
+
+        that.stateEnterAnimation();
     };
 
     demo.state.house.update = function(that, model) {

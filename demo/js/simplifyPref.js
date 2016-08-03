@@ -68,6 +68,10 @@
             passcodeCallback: {
                 funcName: "demo.state.simplifyPref.passcodeCallback",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+            },
+            stateEnterAnimation: {
+                funcName: "demo.state.prelude.stateEnterAnimation",
+                args: ["{that}", 1080, 670]
             }
         }
     });
@@ -278,6 +282,8 @@
         that.newspaperNotif.addChild(that.add.text(10, 25, model.lang.obj.useItem));
         that.newspaperNotif.scale.setTo(model.size, model.size);
         that.newspaperNotif.alpha = 0;
+
+        that.stateEnterAnimation();
     };
 
     demo.state.simplifyPref.update = function(that) {

@@ -64,6 +64,10 @@
                                 "{demo.discoveryCat}.textToSpeech",
                                     "{demo.discoveryCat}.prefModel.model.lang.obj.useItem",
                                     "{demo.discoveryCat}.prefModel.model"]
+            },
+            stateEnterAnimation: {
+                funcName: "demo.state.prelude.stateEnterAnimation",
+                args: ["{that}", 950, 550]
             }
         }
     });
@@ -262,6 +266,8 @@
         that.envelopeNotif.addChild(that.add.text(10, 25, model.lang.obj.useItem));
         that.envelopeNotif.scale.setTo(model.size, model.size);
         that.envelopeNotif.alpha = 0;
+
+        that.stateEnterAnimation();
     };
 
     demo.state.sizePref.update = function(that, speechComp) {

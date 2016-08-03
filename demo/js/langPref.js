@@ -81,6 +81,10 @@
             button4Callback: {
                 funcName: "demo.state.langPref.buttonCallback",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model", "de"]
+            },
+            stateEnterAnimation: {
+                funcName: "demo.state.prelude.stateEnterAnimation",
+                args: ["{that}", 170, 90]
             }
         }
     });
@@ -308,6 +312,8 @@
         that.audioG = that.add.audio("gChord");
         that.audioC = that.add.audio("cChord");
         that.audioEm = that.add.audio("emChord");
+
+        that.stateEnterAnimation();
     };
 
     demo.state.langPref.update = function() {

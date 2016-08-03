@@ -60,6 +60,10 @@
             skipButtonCallback: {
                 funcName: "demo.state.cutScene.skipButtonCallback",
                 args: "{that}"
+            },
+            stateEnterAnimation: {
+                funcName: "demo.state.prelude.stateEnterAnimation",
+                args: ["{that}", 640, 420]
             }
         }
     });
@@ -227,6 +231,8 @@
                                             that.skipButtonCallback, that, 7, 6, 8);
         that.skipButton.scale.setTo(0.6, 0.6);
         that.skipButton.alpha = 0.7;
+
+        that.stateEnterAnimation();
     };
 
     demo.state.cutScene.update = function() {

@@ -72,6 +72,10 @@
                                 "{demo.discoveryCat}.textToSpeech",
                                     "{demo.discoveryCat}.prefModel.model.lang.obj.useItem",
                                     "{demo.discoveryCat}.prefModel.model"]
+            },
+            stateEnterAnimation: {
+                funcName: "demo.state.prelude.stateEnterAnimation",
+                args: ["{that}", 1070, 570]
             }
         }
     });
@@ -239,6 +243,8 @@
             that.stick.body.enable = false;
             // FILL
         }
+
+        that.stateEnterAnimation();
     };
 
     demo.state.soundPref.update = function(that) {

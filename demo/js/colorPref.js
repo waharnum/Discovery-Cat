@@ -68,6 +68,10 @@
                                 "{demo.discoveryCat}.textToSpeech",
                                     "{demo.discoveryCat}.prefModel.model.lang.obj.useItem",
                                     "{demo.discoveryCat}.prefModel.model"]
+            },
+            stateEnterAnimation: {
+                funcName: "demo.state.prelude.stateEnterAnimation",
+                args: ["{that}", 1070, 570]
             }
         }
     });
@@ -251,6 +255,8 @@
             that.paintBrush.body.enable = false;
             that.colorBucketCallback();
         }
+
+        that.stateEnterAnimation();
 
     };
 
