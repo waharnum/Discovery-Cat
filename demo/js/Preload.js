@@ -60,6 +60,7 @@
         game.load.spritesheet("catMoveh", "assets/catMove-house.png", 162.5, 123);
         // sizePref assets
         game.load.image("backgroundsp", "assets/background-sizePref.png");
+        game.load.image("envelopeForLettersp", "assets/envelopeForLetter-sizePref.png");
         game.load.image("letterEnvelopesp", "assets/letterEnvelope-sizePref.png");
         game.load.spritesheet("extraAssetsp", "assets/extraAssets-sizePref.png", 200, 120);
         game.load.spritesheet("letterAssetsp", "assets/letterAssets-sizePref.png", 400, 188);
@@ -104,13 +105,12 @@
         // scripts
         game.load.script("grayFilter", "filters/GrayFilter.js");
         game.load.script("invertFilter", "filters/InvertFilter.js");
-        game.load.script("colorMatrixFilter",
-"https://raw.githubusercontent.com/photonstorm/phaser/master/filters/pixi/ColorMatrixFilter.js");
+        game.load.script("colorMatrixFilter", "filters/ColorMatrixFilter.js");
 
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("simplifyPref");
+        game.state.start("sizePref");
     };
 
     demo.state.Preload.update = function() {

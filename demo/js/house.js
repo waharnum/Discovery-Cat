@@ -54,15 +54,7 @@
             backpack: {
                 funcName: "demo.state.house.backpack",
                 args: ["{that}", "{demo.discoveryCat}.textToSpeech",
-                                                    "{demo.discoveryCat}.prefModel.model"]
-            },
-            backpackIconSimplifyCallback: {
-                funcName: "demo.state.house.backpackIconSimplifyCallback",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
-            },
-            backpackIconSizeCallback: {
-                funcName: "demo.state.house.backpackIconSizeCallback",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+                                        "{demo.discoveryCat}.prefModel.model", "house"]
             },
             colorPrefFilter: {
                 funcName: "demo.state.colorPref.contrastFilter",
@@ -71,8 +63,8 @@
             messageBarMovement: {
                 funcName: "demo.state.house.messageBar",
                 args: ["{that}", "{demo.discoveryCat}.textToSpeech",
-                        "{demo.discoveryCat}.prefModel.model",
-                            "{demo.discoveryCat}.prefModel.model.lang.obj.controlInstruction"]
+                    "{demo.discoveryCat}.prefModel.model",
+                    "{demo.discoveryCat}.prefModel.model.lang.obj.controlInstruction", 12000, 595]
             },
             stateEnterAnimation: {
                 funcName: "demo.state.prelude.stateEnterAnimation",
@@ -82,39 +74,8 @@
         }
     });
 
-    demo.state.house.backpackIconSimplifyCallback = function(that, model) {
-        if (model.simplify) {
-            model.simplify = false;
-            that.backpackIconSimplify.setFrames(3, 2, 2);
-        } else {
-            model.simplify = true;
-            that.backpackIconSimplify.setFrames(3, 4, 4);
-        }
-        that.state.start("house");
-    };
 
-    demo.state.house.backpackIconSizeCallback = function(that, model) {
-        // Remove current image in the button
-        that.backpackIconSize.removeChild(that.backpackIconSizeChild);
-        if (model.size === 1) {
-            model.size = 1.1;
-            // Add new image in the button
-            that.backpackIconSizeChild = that.add.sprite(-50, -25, "backpackIconAll", 5);
-            that.backpackIconSize.addChild(that.backpackIconSizeChild);
-        } else if (model.size === 1.1) {
-            model.size = 1.2;
-            that.backpackIconSizeChild = that.add.sprite(-50, -25, "backpackIconAll", 6);
-            that.backpackIconSize.addChild(that.backpackIconSizeChild);
-        } else {
-            model.size = 1;
-            that.backpackIconSizeChild = that.add.sprite(-50, -25, "backpackIconAll", 4);
-            that.backpackIconSize.addChild(that.backpackIconSizeChild);
-        }
-        that.state.start("house");
-        // SOLUTION TAKE CAT POSITION AND RERENDER WHOLE SCENE
-    };
-
-    demo.state.house.backpack = function(that, speechComp, model) {
+    demo.state.house.backpack = function(that, speechComp, model, stateName) {
         // BackPack is made of 3 things this main backpack functions and 2 other
         // backpackIconSizeCallback and backpackIconSimplifyCallback functions
         // which could not be incorporated in this function unlike other because
@@ -123,6 +84,40 @@
 
         // All sub backpack buttons
         // callbacks
+
+        that.backpackIconSimplifyCallback = function() {
+            if (model.simplify) {
+                model.simplify = false;
+                that.backpackIconSimplify.setFrames(3, 2, 2);
+            } else {
+                model.simplify = true;
+                that.backpackIconSimplify.setFrames(3, 4, 4);
+            }
+            that.state.start(stateName);
+        };
+
+        that.backpackIconSizeCallback = function() {
+            // Remove current image in the button
+            that.backpackIconSize.removeChild(that.backpackIconSizeChild);
+            if (model.size === 1) {
+                model.size = 1.1;
+                // Add new image in the button
+                that.backpackIconSizeChild = that.add.sprite(-50, -25, "backpackIconAll", 5);
+                that.backpackIconSize.addChild(that.backpackIconSizeChild);
+            } else if (model.size === 1.1) {
+                model.size = 1.2;
+                that.backpackIconSizeChild = that.add.sprite(-50, -25, "backpackIconAll", 6);
+                that.backpackIconSize.addChild(that.backpackIconSizeChild);
+            } else {
+                model.size = 1;
+                that.backpackIconSizeChild = that.add.sprite(-50, -25, "backpackIconAll", 4);
+                that.backpackIconSize.addChild(that.backpackIconSizeChild);
+            }
+            that.state.start(stateName);
+            // SOLUTION TAKE CAT POSITION AND RERENDER WHOLE SCENE
+        };
+
+
         that.backpackIconAudioCallback = function() {
             if (that.sound.mute) {
                 that.sound.mute = false;
@@ -363,15 +358,15 @@
         //  that.key2.onDown.add(that.acceptSelection, that);
     };
 
-    demo.state.house.messageBar = function(that, speechComp, model, message) {
-        that.messageBar = that.add.sprite(0, 595, "messageBarAll");
+    demo.state.house.messageBar = function(that, speechComp, model, message, time, y) {
+        that.messageBar = that.add.sprite(0, y, "messageBarAll");
         // It is just a bit small in size so to make it fit the screen.
         that.messageBar.scale.setTo(1.001, 1);
         that.messageBarText = that.add.text(50, 50, message);
         that.messageBarText.scale.setTo(model.size, model.size);
         that.messageBar.addChild(that.messageBarText);
         speechComp.queueSpeech(message, true, { lang: model.lang.type });
-        that.time.events.add(15000, that.messageBar.destroy, that.messageBar);
+        that.time.events.add(time, that.messageBar.destroy, that.messageBar);
     };
 
     // Message Option added Fix
@@ -410,14 +405,19 @@
         // because raw background color is present in the backpack region.
         that.stage.backgroundColor = "#f36f46";
 
+        // Ensuring simplify Pref
         if (!model.simplify) {
             that.background = that.add.sprite(0, 0, "backgroundh");
         }
 
-        // Filters
+        // Ensuring color Pref
         if (model.contrast) {
             that.colorPrefFilter();
         }
+
+        // Size implemented throughly using model.size
+
+        // Sound implementation remaining
 
         // Create platforms group and added arcade physics to it
         that.platforms = that.add.group();

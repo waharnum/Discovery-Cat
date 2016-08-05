@@ -69,7 +69,7 @@
         that.world.mask = that.mask;
 
         that.add.tween(that.mask.scale).to({ x: 1000, y: 1000 },
-                                    4000, Phaser.Easing.Sinusoidal.InOut, true);
+                                    3000, Phaser.Easing.Sinusoidal.InOut, true);
     };
 
     demo.state.prelude.start = function(that) {

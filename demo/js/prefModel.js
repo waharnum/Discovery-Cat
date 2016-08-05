@@ -19,6 +19,12 @@
                 simplify: false,
                 house: false
             },
+            passcodeCollected: {
+                sound: false,
+                size: false,
+                color: false,
+                simplify: false
+            },
             position: {
                 catHousex: 70,
                 catHousey: 45,

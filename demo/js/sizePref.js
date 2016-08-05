@@ -14,7 +14,7 @@
             },
             update: {
                 funcName: "demo.state.sizePref.update",
-                args: ["{that}", "{demo.discoveryCat}.textToSpeech"]
+                args: ["{that}"]
             },
             envelopeScreenAppear: {
                 funcName: "demo.state.sizePref.envelopeScreenAppear",
@@ -68,9 +68,45 @@
             stateEnterAnimation: {
                 funcName: "demo.state.prelude.stateEnterAnimation",
                 args: ["{that}", 950, 550]
+            },
+            colorPrefFilter: {
+                funcName: "demo.state.colorPref.contrastFilter",
+                args: "{that}"
+            },
+            backpack: {
+                funcName: "demo.state.house.backpack",
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech",
+                                    "{demo.discoveryCat}.prefModel.model", "sizePref"]
+            },
+            passcodeFound: {
+                funcName: "demo.state.sizePref.passcodeFound",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+            },
+            messageBarInstruction: {
+                funcName: "demo.state.house.messageBar",
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech",
+                    "{demo.discoveryCat}.prefModel.model",
+                    "{demo.discoveryCat}.prefModel.model.lang.obj.sizePrefInstruction", 8000, 615]
             }
         }
     });
+
+    demo.state.sizePref.passcodeFound = function(that, model) {
+        that.passcodeFound = that.add.sprite(640, -500, "popupAll", 1);
+        that.passcodeFound.anchor.setTo(0.5, 1);
+        that.letterText = that.add.text(-300, -250, "PASSCODE FOUND",
+                                                { font: "60px Arial", fill: "#fff" });
+        that.passcodeFound.addChild(that.letterText);
+        that.passcodeFound.scale.setTo(model.size, model.size);
+        that.add.tween(that.passcodeFound).to({ x: 640, y: 500 }, 1000,
+                Phaser.Easing.Sinusoidal.InOut, true).onComplete.add(
+                function() {
+                    that.time.events.add(2500, function() {
+                    that.add.tween(that.passcodeFound).to({ x: 640, y: 1500 }, 1000,
+                        Phaser.Easing.Sinusoidal.InOut, true);
+                    }, that.passcodeFound);
+                }, that.passcodeFound);
+    };
 
     demo.state.sizePref.houseDoorOpen = function(that) {
         that.audioC.pause();
@@ -105,34 +141,51 @@
         that.upButton.visible = false;
         that.downButton.visible = false;
         that.goButton.visible = false;
+
+        // This is to make sure instructions also get dissappeared, as if
+        // user presses GO really quickly and the desired time for the
+        // instructions(here 7secs) is not passed then it still is visible on
+        // screen.
+        that.messageBar.visible = false;
+
         // So that it can again reappear and surely this will create a new instant
         that.envelopeScreenAppearBool = false;
         that.houseDoor.scale.setTo(model.size, model.size);
         that.envelopePreview.scale.setTo(model.size, model.size);
         that.cat.scale.setTo(model.size, model.size);
         that.cat.y = 450;
-        that.doorNotif.scale.setTo(model.size, model.size);
+        that.houseDoorNotif.scale.setTo(model.size, model.size);
         that.envelopeNotif.scale.setTo(model.size, model.size);
+        // So that again and again passcode screen does not come.
+        if (model.passcodeCollected.size === false) {
+            that.popup = that.add.sprite(640, 1400, "popupAll", 0);
+            that.popup.anchor.setTo(0.5, 1);
 
-        that.popup = that.add.sprite(640, 1400, "popupAll", 0);
-        that.popup.anchor.setTo(0.5, 1);
-        that.popup.scale.setTo(model.size, model.size);
-        that.letterText = that.add.text(0, -160, "****",
-                                                { font: "250px Arial", fill: "#808080" });
-        that.letterText.anchor.setTo(0.5, 1);
-        that.letterText.scale.setTo(model.size, model.size);
-        that.letterText2 = that.add.text(0, -20, "AC", { font: "250px Arial" });
-        that.letterText2.anchor.setTo(0.5, 1);
-        that.letterText2.scale.setTo(model.size, model.size);
-        that.popup.addChild(that.letterText);
-        that.popup.addChild(that.letterText2);
-        that.t1 = that.add.tween(that.popup).to({ x: 640, y: 600 },
-                                                1500, Phaser.Easing.Sinusoidal.InOut, true);
-        that.t1.onComplete.add(function() {
-            that.add.tween(that.popup).to({ alpha: 0 },
-                                                5000, Phaser.Easing.Sinusoidal.InOut, true);
-        }, that);
+            that.letterText = that.add.text(-150, -360, "******\n  AC",
+                                                    { font: "125px Arial", fill: "#808080" });
+            that.letterText.scale.setTo(model.size, model.size);
+            that.popup.addChild(that.letterText);
 
+            that.envelopeForLetter = that.add.sprite(640, 1500, "envelopeForLettersp");
+            that.envelopeForLetter.anchor.setTo(0.5, 1);
+            that.add.tween(that.envelopeForLetter).to({ x: 640, y: 1100 },
+                        1000, Phaser.Easing.Sinusoidal.InOut, true);
+
+            that.add.tween(that.popup).to({ x: 640, y: 600 },
+                1500, Phaser.Easing.Sinusoidal.InOut, true).to({ x: 640, y: 600 },
+                10000, Phaser.Easing.Sinusoidal.InOut, true).onComplete.add(
+                function() {
+                    that.time.events.add(4000, function() {
+                        that.add.tween(that.popup).to({ x: 640, y: 1400 },
+                                    500, Phaser.Easing.Sinusoidal.InOut, true);
+                        that.add.tween(that.envelopeForLetter).to({ x: 640, y: 1500 },
+                                    1500, Phaser.Easing.Sinusoidal.InOut, true);
+                        }, that.popup);
+                    that.time.events.add(4000, that.passcodeFound, that);
+
+                }, that);
+            model.passcodeCollected.size = true;
+        }
     };
 
     demo.state.sizePref.takeSpects = function(that, model) {
@@ -162,31 +215,36 @@
         // envelopeScreenAppearBool is used as flag for making this run only
         // once when key isDown.
         if (that.envelopeScreenAppearBool === false) {
-        // Envelope
-        that.envelope = that.add.sprite(0, 0, "letterEnvelopesp");
+            // Envelope
+            that.envelope = that.add.sprite(0, 0, "letterEnvelopesp");
 
-        that.envelopeAirMail = that.add.sprite(240, 260, "letterAssetsp", 1);
-        that.envelopeAirMail.anchor.setTo(0.5, 0.5);
-        that.envelopeAirMail.scale.setTo(model.size, model.size);
+            that.envelopeAirMail = that.add.sprite(240, 260, "letterAssetsp", 1);
+            that.envelopeAirMail.anchor.setTo(0.5, 0.5);
+            that.envelopeAirMail.scale.setTo(model.size, model.size);
 
-        that.envelopeStamp = that.add.sprite(660, 280, "letterAssetsp", 0);
-        that.envelopeStamp.anchor.setTo(0.5, 0.5);
-        that.envelopeStamp.scale.setTo(model.size, model.size);
+            that.envelopeStamp = that.add.sprite(660, 280, "letterAssetsp", 0);
+            that.envelopeStamp.anchor.setTo(0.5, 0.5);
+            that.envelopeStamp.scale.setTo(model.size, model.size);
 
-        // Replace text with all options
-        that.envelopeText = that.add.text(260, 490, "To\nThe Cat\nChasing the Rat",
-                                                 { font: "40px Arial" });
-        that.envelopeText.anchor.setTo(0.5, 0.5);
-        that.envelopeText.scale.setTo(model.size, model.size);
+            // Replace text with all options
+            that.envelopeText = that.add.text(260, 490, "To\nThe Cat\nChasing the Rat",
+                                                     { font: "40px Arial" });
+            that.envelopeText.anchor.setTo(0.5, 0.5);
+            that.envelopeText.scale.setTo(model.size, model.size);
 
-        // Buttons
-        that.upButton = that.add.button(980, 170, "upDownButtonsp",
-                                            that.upButtonCallback, that, 2, 0, 4);
-        that.downButton = that.add.button(980, 400, "upDownButtonsp",
-                                            that.downButtonCallback, that, 3, 1, 5);
-        that.goButton = that.add.button(1120, 332, "goButtonsp",
-                                            that.goButtonCallback, that, 1, 0, 2);
-        that.envelopeScreenAppearBool = true;
+            // Buttons
+            that.upButton = that.add.button(980, 170, "upDownButtonsp",
+                                                that.upButtonCallback, that, 2, 0, 4);
+            that.downButton = that.add.button(980, 400, "upDownButtonsp",
+                                                that.downButtonCallback, that, 3, 1, 5);
+            that.goButton = that.add.button(1120, 332, "goButtonsp",
+                                                that.goButtonCallback, that, 1, 0, 2);
+            that.envelopeScreenAppearBool = true;
+
+            // Instruction messages, these will be shown only the first time user visits room
+            if (model.passcodeCollected.size === false) {
+                that.messageBarInstruction();
+            }
         }
     };
 
@@ -204,9 +262,20 @@
 
         // Audio play
         that.audioC.play("", 0, 0.1, true);
-        // Environment
-        that.add.sprite(0, 0, "backgroundsp");
+        that.stage.backgroundColor = "#b72025";
 
+        // Ensuring simplify Pref
+        if (!model.simplify) {
+            that.background = that.add.sprite(0, 0, "backgroundsp");
+        }
+
+        // Ensuring color Pref
+        if (model.contrast) {
+            that.colorPrefFilter();
+        }
+
+        // Environment
+        // Does not require model.size anyways will get disappeared
         that.spects = that.add.sprite(950, 550, "extraAssetsp", 0);
         that.physics.arcade.enable(that.spects);
         that.spects.body.immovable = true;
@@ -267,10 +336,12 @@
         that.envelopeNotif.scale.setTo(model.size, model.size);
         that.envelopeNotif.alpha = 0;
 
+        that.backpack();
+
         that.stateEnterAnimation();
     };
 
-    demo.state.sizePref.update = function(that, speechComp) {
+    demo.state.sizePref.update = function(that) {
         // Create seperation between ground and cat
         that.physics.arcade.collide(that.cat, that.ground);
 
