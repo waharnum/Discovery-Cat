@@ -94,18 +94,13 @@
     demo.state.sizePref.passcodeFound = function(that, model) {
         that.passcodeFound = that.add.sprite(640, -500, "popupAll", 1);
         that.passcodeFound.anchor.setTo(0.5, 1);
-        that.letterText = that.add.text(-300, -250, "PASSCODE FOUND",
+        that.letterText = that.add.text(-280, -250, "PASSCODE FOUND",
                                                 { font: "60px Arial", fill: "#fff" });
         that.passcodeFound.addChild(that.letterText);
         that.passcodeFound.scale.setTo(model.size, model.size);
         that.add.tween(that.passcodeFound).to({ x: 640, y: 500 }, 1000,
-                Phaser.Easing.Sinusoidal.InOut, true).onComplete.add(
-                function() {
-                    that.time.events.add(2500, function() {
-                    that.add.tween(that.passcodeFound).to({ x: 640, y: 1500 }, 1000,
-                        Phaser.Easing.Sinusoidal.InOut, true);
-                    }, that.passcodeFound);
-                }, that.passcodeFound);
+            Phaser.Easing.Sinusoidal.InOut, false, 0).to({ x: 640, y: 1500 }, 1000,
+            Phaser.Easing.Sinusoidal.InOut, true, 2500);
     };
 
     demo.state.sizePref.houseDoorOpen = function(that) {
