@@ -7,6 +7,7 @@
     "fivecs": "Hoffe, dass Sie die Garnkugeln finden",
     "controlInstruction": "Verwenden Sie oben, unten, links, rechts Pfeiltasten für Bewegung. Eingabetaste zum\nAusführen von Aktionen wie das Betreten der Zimmer, Kommissionieren von Artikeln",
     "sizePrefInstruction": "Probieren Sie verschiedene Größen mit Tasten auf und ab. Press ENTER nach der Auswahl\num das Passwort zu erhalten",
+    "colorPrefInstruction": "Try different themes using UP and DOWN buttons. Press ENTER after making\nthe selection to get the passcode.",
     "enterRoom": "  RAUM\nBETRETEN ",
     "exitRoom": "AUSFAHRT ZIMMER",
     "pickItem": "WÄHLEN SIE ELEMENT",

@@ -291,10 +291,6 @@
         // letter above cat.
         that.smallEnvelopeAppear();
 
-        if (model.visited.size === true) {
-            that.takeSpects();
-        }
-
         // This envelopeScreenAppearBool is present to ensure that envelopeappear callback
         // from update is called only once.
         that.envelopeScreenAppearBool = false;
@@ -330,6 +326,11 @@
         that.envelopeNotif.addChild(that.add.text(10, 25, model.lang.obj.useItem));
         that.envelopeNotif.scale.setTo(model.size, model.size);
         that.envelopeNotif.alpha = 0;
+
+        // Revisiting room scenerio
+        if (model.visited.size) {
+            that.takeSpects();
+        }
 
         that.backpack();
 

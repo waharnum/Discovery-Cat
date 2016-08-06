@@ -7,6 +7,7 @@
     "fivecs": "Esperamos que las bolas de hilo",
     "controlInstruction": "Las teclas arriba, abajo, izquierda, flecha derecha para el movimiento. Presione Entrar\npara realizar acciones como entrar en la habitación, recogiendo elementos",
     "sizePrefInstruction": "Try different sizes using UP and DOWN buttons. Press ENTER after making the\nselection to get the passcode",
+    "colorPrefInstruction": "Try different themes using UP and DOWN buttons. Press ENTER after making\nthe selection to get the passcode.",
     "enterRoom": "ENTRAR\nA SALA",
     "exitRoom": "HABITACIÓN DE SALIDA",
     "pickItem": "ELEGIR ELEMENTO",

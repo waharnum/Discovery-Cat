@@ -70,7 +70,6 @@
         game.load.image("backgroundcp", "assets/background-colorPref.png");
         game.load.image("popupScreencp", "assets/popupScreen-colorPref.png");
         game.load.spritesheet("extraAssetcp", "assets/extraAssets-colorPref.png", 200, 233);
-        game.load.spritesheet("extraAssetcp2", "assets/extraAssets2-colorPref.png", 300, 169);
         // simplifyPref assets
         game.load.image("assetsip", "assets/assets-simplifyPref.png");
         game.load.image("popupScreensip", "assets/popupScreen-simplifyPref.png");
@@ -110,7 +109,7 @@
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("sizePref");
+        game.state.start("colorPref");
     };
 
     demo.state.Preload.update = function() {

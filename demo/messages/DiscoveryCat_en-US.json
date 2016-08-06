@@ -7,6 +7,7 @@
     "fivecs": "Hope you find the yarn balls",
     "controlInstruction": "Use UP, DOWN, LEFT, RIGHT arrow keys for movement. Press ENTER to perform actions\nlike entering room and picking items.",
     "sizePrefInstruction": "Try different sizes using UP and DOWN buttons. Press ENTER after making\nthe selection to get the passcode.",
+    "colorPrefInstruction": "Try different themes using UP and DOWN buttons. Press ENTER after making\nthe selection to get the passcode.",
     "enterRoom": "ENTER\n ROOM",
     "exitRoom": "EXIT ROOM",
     "pickItem": " PICK ITEM",

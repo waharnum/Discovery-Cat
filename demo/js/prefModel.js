@@ -14,7 +14,7 @@
             sound: false,
             visited: {
                 sound: false,
-                size: false,
+                size: true,
                 color: false,
                 simplify: false,
                 house: false

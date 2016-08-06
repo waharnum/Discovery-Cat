@@ -22,7 +22,7 @@
             },
             aisleAppear: {
                 funcName: "demo.state.colorPref.aisleAppear",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             aisleScreenAppear: {
                 funcName: "demo.state.colorPref.aisleScreenAppear",
@@ -38,10 +38,6 @@
             },
             goButtonCallback: {
                 funcName: "demo.state.colorPref.goButtonCallback",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
-            },
-            passcodeCallback: {
-                funcName: "demo.state.colorPref.passcodeCallback",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             contrastFilter: {
@@ -72,50 +68,103 @@
             stateEnterAnimation: {
                 funcName: "demo.state.prelude.stateEnterAnimation",
                 args: ["{that}", 1070, 570]
+            },
+            backpack: {
+                funcName: "demo.state.house.backpack",
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech",
+                                    "{demo.discoveryCat}.prefModel.model", "colorPref"]
+            },
+            gainFocusAnimation: {
+                funcName: "demo.state.colorPref.gainFocusAnimation",
+                args: ["{that}", 535, 190]
+            },
+            passcodeFound: {
+                funcName: "demo.state.sizePref.passcodeFound",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+            },
+            inactionFeedback: {
+                funcName: "demo.state.colorPref.inactionFeedback",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+            },
+            messageBarInstruction: {
+                funcName: "demo.state.house.messageBar",
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech",
+                    "{demo.discoveryCat}.prefModel.model",
+                    "{demo.discoveryCat}.prefModel.model.lang.obj.colorPrefInstruction", 8000, 615]
             }
         }
     });
 
-    demo.state.colorPref.passcodeCallback = function(that, model) {
-        that.popup = that.add.sprite(640, 500, "popupAll", 1);
-        that.popup.anchor.setTo(0.5, 1);
-        that.popup.scale.setTo(model.size, model.size);
-        that.letterText = that.add.text(0, -120, "****\nCE",
-                                                { font: "100px Arial", fill: "#fff" });
-        that.letterText.anchor.setTo(0.5, 1);
-        that.letterText.scale.setTo(model.size, model.size);
-        that.popup.addChild(that.letterText);
-        that.add.tween(that.popup).to({ alpha: 0 }, 4000, Phaser.Easing.Sinusoidal.InOut, true);
+    demo.state.colorPref.inactionFeedback = function(that, model) {
+        if (model.contrast) {
+            var obj = that.bucketContrast;
+        } else {
+            var obj = that.bucketColor;
+        }
+
+        that.t1 = that.add.tween(obj).to({ x: 986, y: obj.y }, 100,
+            Phaser.Easing.Sinusoidal.InOut, false, 0).to({ x: 974, y: obj.y }, 200,
+            Phaser.Easing.Sinusoidal.InOut, false, 0).to({ x: 980, y: obj.y }, 100,
+            Phaser.Easing.Sinusoidal.InOut, false, 0);
+        that.t1.start();
     };
 
+    demo.state.colorPref.gainFocusAnimation = function(that, x, y) {
+        that.circle = that.add.graphics(x, y);
+        that.circle.lineStyle(10, 0xffd900, 1);
+        that.focus = that.circle.drawCircle(0, 0, 200);
+        that.focus.scale.setTo(10, 10);
+        that.t2 = that.add.tween(that.focus.scale).to({ x: 1, y: 1 }, 1000,
+            Phaser.Easing.Sinusoidal.InOut, false, 0).to({ x: 2, y: 2 }, 500,
+            Phaser.Easing.Sinusoidal.InOut, false, 0).to({ x: 1, y: 1 }, 500,
+            Phaser.Easing.Sinusoidal.InOut, false, 0);
+        that.t2.start();
+    };
+
+
     demo.state.colorPref.contrastBucketCallback = function(that, model) {
-        that.itemsAppear();
         // This saves the filter from being applied again and again on multiple clicks
         if (!model.contrast) {
             that.contrastFilter();
         }
+        if (model.contrast) {
+            that.inactionFeedback();
+        }
         model.contrast = true;
-        model.visited.color = true;
     };
 
     demo.state.colorPref.colorBucketCallback = function(that, model) {
-        model.contrast = false;
-        model.visited.color = true;
-        that.itemsAppear();
         // To remove filters from the game world
         if (!(that.world.filters === undefined)) {
             that.world.filters = null;
         }
+        if (!model.contrast) {
+            that.inactionFeedback();
+        }
+        model.contrast = false;
     };
 
-    demo.state.colorPref.goButtonCallback = function(that) {
+    demo.state.colorPref.goButtonCallback = function(that, model) {
         // Group these together
-        that.popupScreen.visible = false;
         that.bucketContrast.visible = false;
         that.bucketColor.visible = false;
         that.goButton.visible = false;
         // So that it can again reappear and surely this will create a new instant
-        that.aisleScreenAppearBool = false;
+        if (!model.passcodeCollected.color) {
+            that.gainFocusAnimation();
+            that.time.events.add(4000, function() {
+                that.popupScreen.visible = false;
+                that.aisleScreenAppearBool = false;
+                that.circle.visible = false;
+                that.passcodeText.visible = false;
+                that.passcodeFound();
+            }, that);
+            model.passcodeCollected.color = true;
+        } else {
+            that.popupScreen.visible = false;
+            that.aisleScreenAppearBool = false;
+            that.passcodeText.visible = false;
+        }
     };
 
     demo.state.colorPref.houseDoorFunc = function(that) {
@@ -126,27 +175,30 @@
     demo.state.colorPref.aisleScreenAppear = function(that, model) {
         if (that.aisleScreenAppearBool === false) {
             that.popupScreen = that.add.sprite(0, 0, "popupScreencp");
-            that.bucketColor = that.add.button(1100, 250, "upDownButtonsp",
+            that.passcodeText = that.add.text(465, 130, "******\n  AC",
+                                                    { font: "60px Arial", fill: "#000" });
+            that.bucketColor = that.add.button(980, 170, "upDownButtonsp",
                                                     that.colorBucketCallback, that, 19, 17, 17);
-            that.bucketColor.anchor.setTo(0.5, 1);
-            that.bucketColor.scale.setTo(model.size, model.size);
-
-            that.bucketContrast = that.add.button(1100, 450, "upDownButtonsp",
+            that.bucketContrast = that.add.button(980, 400, "upDownButtonsp",
                                                     that.contrastBucketCallback, that, 20, 18, 18);
-            that.bucketContrast.anchor.setTo(0.5, 1);
-            that.bucketContrast.scale.setTo(model.size, model.size);
-            that.goButton = that.add.button(1030, 500, "goButtonsp",
+            that.goButton = that.add.button(1120, 332, "goButtonsp",
                                                 that.goButtonCallback, that, 1, 0, 2);
             that.aisleScreenAppearBool = true;
+
+            if (model.passcodeCollected.color === false) {
+                that.messageBarInstruction();
+            }
         }
     };
 
-    demo.state.colorPref.aisleAppear = function(that) {
+    demo.state.colorPref.aisleAppear = function(that, model) {
         // Pick up paint brush
         that.paintBrush.visible = false;
         that.paintBrush.body.enable = false;
         that.aisle.body.enable = true;
         that.aisle.visible = true;
+        // When picked up the brush
+        model.visited.color = true;
     };
 
     demo.state.colorPref.contrastFilter = function(that) {
@@ -179,21 +231,29 @@
         // Audio play
         that.audioC.play("", 0, 0.1, true);
 
-        // Environment
-        that.add.sprite(0, 0, "backgroundcp");
+        that.stage.backgroundColor = "#5cbd6c";
 
-        that.paintBrush = that.add.sprite(1070, 570, "extraAssetcp", 1);
-        that.paintBrush.anchor.setTo(0.5, 0.5);
+        // Ensuring simplify Pref
+        if (!model.simplify) {
+            that.background = that.add.sprite(0, 0, "backgroundcp");
+        }
+
+        // Ensuring color Pref
+        if (model.contrast) {
+            that.contrastFilter();
+        }
+
+
+        that.paintBrush = that.add.sprite(1070, 670, "extraAssetcp", 1);
+        that.paintBrush.anchor.setTo(0.5, 1);
+        that.paintBrush.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.paintBrush);
         that.paintBrush.body.immovable = true;
 
-        that.add.sprite(360, 37, "extraAssetcp2", 0);
-        that.add.sprite(620, 36, "extraAssetcp2", 2);
-        that.add.sprite(370, 243, "extraAssetcp2", 4);
-        that.add.sprite(635, 245, "extraAssetcp2", 6);
-
         // Adding door to house and physics
-        that.houseDoor = that.add.sprite(40, 520, "doorh", 1);
+        that.houseDoor = that.add.sprite(135, 678, "doorh", 1);
+        that.houseDoor.anchor.setTo(0.5, 1);
+        that.houseDoor.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.houseDoor);
         that.houseDoor.body.immovable = true;
 
@@ -203,8 +263,8 @@
         that.ground.body.immovable = true;
 
         // Aisle
-        that.aisle = that.add.sprite(430, 560, "extraAssetcp", 6);
-        that.aisle.anchor.setTo(0.5, 0.5);
+        that.aisle = that.add.sprite(430, 675, "extraAssetcp", 6);
+        that.aisle.anchor.setTo(0.5, 1);
         that.aisle.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.aisle);
         that.aisle.body.enable = false;
@@ -244,20 +304,13 @@
         that.aisleNotif.scale.setTo(model.size, model.size);
         that.aisleNotif.alpha = 0;
 
-        // Check for room setting on revisitin the room
-        if (model.visited.color && model.contrast) {
-            that.paintBrush.visible = false;
-            that.paintBrush.body.enable = false;
-            that.contrastBucketCallback();
-        }
-        if (model.visited.color && !model.contrast) {
-            that.paintBrush.visible = false;
-            that.paintBrush.body.enable = false;
-            that.colorBucketCallback();
+        if (model.visited.color) {
+            that.aisleAppear();
         }
 
         that.stateEnterAnimation();
 
+        that.backpack();
     };
 
     demo.state.colorPref.update = function(that) {
