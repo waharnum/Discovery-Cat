@@ -80,7 +80,9 @@
             },
             passcodeFound: {
                 funcName: "demo.state.sizePref.passcodeFound",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model",
+                        "{demo.discoveryCat}.textToSpeech",
+                            "{demo.discoveryCat}.prefModel.model.lang.obj.passcodeFound"]
             },
             inactionFeedback: {
                 funcName: "demo.state.colorPref.inactionFeedback",
@@ -96,10 +98,11 @@
     });
 
     demo.state.colorPref.inactionFeedback = function(that, model) {
+        var obj;
         if (model.contrast) {
-            var obj = that.bucketContrast;
+            obj = that.bucketContrast;
         } else {
-            var obj = that.bucketColor;
+            obj = that.bucketColor;
         }
 
         that.t1 = that.add.tween(obj).to({ x: 986, y: obj.y }, 100,
@@ -149,12 +152,12 @@
         that.bucketContrast.visible = false;
         that.bucketColor.visible = false;
         that.goButton.visible = false;
-        // So that it can again reappear and surely this will create a new instant
+
         if (!model.passcodeCollected.color) {
             that.gainFocusAnimation();
             that.time.events.add(4000, function() {
                 that.popupScreen.visible = false;
-                that.aisleScreenAppearBool = false;
+
                 that.circle.visible = false;
                 that.passcodeText.visible = false;
                 that.passcodeFound();
@@ -162,9 +165,10 @@
             model.passcodeCollected.color = true;
         } else {
             that.popupScreen.visible = false;
-            that.aisleScreenAppearBool = false;
             that.passcodeText.visible = false;
         }
+        // So that it can again reappear and surely this will create a new instant
+        that.aisleScreenAppearBool = false;
     };
 
     demo.state.colorPref.houseDoorFunc = function(that) {
@@ -308,9 +312,10 @@
             that.aisleAppear();
         }
 
-        that.stateEnterAnimation();
 
         that.backpack();
+
+        that.stateEnterAnimation();
     };
 
     demo.state.colorPref.update = function(that) {

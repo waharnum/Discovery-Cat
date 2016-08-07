@@ -109,7 +109,7 @@
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("colorPref");
+        game.state.start("simplifyPref");
     };
 
     demo.state.Preload.update = function() {

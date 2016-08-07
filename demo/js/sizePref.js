@@ -80,7 +80,9 @@
             },
             passcodeFound: {
                 funcName: "demo.state.sizePref.passcodeFound",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model",
+                        "{demo.discoveryCat}.textToSpeech",
+                            "{demo.discoveryCat}.prefModel.model.lang.obj.passcodeFound"]
             },
             messageBarInstruction: {
                 funcName: "demo.state.house.messageBar",
@@ -91,13 +93,14 @@
         }
     });
 
-    demo.state.sizePref.passcodeFound = function(that, model) {
+    demo.state.sizePref.passcodeFound = function(that, model, speechComp, message) {
         that.passcodeFound = that.add.sprite(640, -500, "popupAll", 1);
         that.passcodeFound.anchor.setTo(0.5, 1);
-        that.letterText = that.add.text(-280, -250, "PASSCODE FOUND",
+        that.letterText = that.add.text(-280, -250, message,
                                                 { font: "60px Arial", fill: "#fff" });
         that.passcodeFound.addChild(that.letterText);
         that.passcodeFound.scale.setTo(model.size, model.size);
+        speechComp.queueSpeech(message, true, { lang: model.lang.type });
         that.add.tween(that.passcodeFound).to({ x: 640, y: 500 }, 1000,
             Phaser.Easing.Sinusoidal.InOut, false, 0).to({ x: 640, y: 1500 }, 1000,
             Phaser.Easing.Sinusoidal.InOut, true, 2500);
