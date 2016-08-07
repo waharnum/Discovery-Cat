@@ -157,6 +157,7 @@
                 that.backpackIconColor.addChild(that.backpackIconColorChild);
                 model.contrast = false;
             }
+            that.state.start(stateName);
         };
         // These 2 will be specified outside of the backpack function
         // STATE SPECIFIC BOTH REQUIRE RERENDERING CANVAS
@@ -164,25 +165,15 @@
         // STATE SPECIFIC
         // that.backpackIconSizeCallback = function() {};
         // STATE SPECIFIC
-        that.backpackIconSoundCallback = function() {};
-
-        // FIX Justin_o help, declared var name b4 calling in the function still varr not taking
-        // value from inside the function
-        // that.backpackIconCreate = function(backpackIconNo, backpackIconNoCallback, x, y) {
-        //     backpackIconNo = that.add.button(175, 784, "backpackButtonAll",
-        //                                     backpackIconNoCallback, that, 3, 2, 2);
-        //     backpackIconNo.anchor.setTo(0.5, 0.5);
-        //     backpackIconNo.scale.setTo(0.8, 0.8);
-        //     backpackIconNo.addChild(that.add.sprite(-45, -25, "backpackIconAll", 2));
-        // };
-        // that.backpackIcon1, that.backpackIcon2, that.backpackIcon3;
-        // that.backpackIcon4, that.backpackIcon5, that.backpackIcon6;
-        // that.backpackIconCreate(that.backpackIcon1, that.backpackIcon1Callback, 175, 784);
-        // that.backpackIconCreate(that.backpackIcon2, that.backpackIcon2Callback, 175, 784);
-        // that.backpackIconCreate(that.backpackIcon3, that.backpackIcon3Callback, 175, 784);
-        // that.backpackIconCreate(that.backpackIcon4, that.backpackIcon4Callback, 175, 784);
-        // that.backpackIconCreate(that.backpackIcon5, that.backpackIcon5Callback, 175, 784);
-        // that.backpackIconCreate(that.backpackIcon6, that.backpackIcon6Callback, 175, 784);
+        that.backpackIconSoundCallback = function() {
+            if (model.sound) {
+                model.sound = false;
+                that.backpackIconSound.setFrames(3, 4, 4);
+            } else {
+                model.sound = true;
+                that.backpackIconSound.setFrames(3, 2, 2);
+            }
+        };
 
         // Decalaring all sub buttons
         // Not scaling these

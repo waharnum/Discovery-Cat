@@ -68,8 +68,8 @@
         //  And apply it to the Sprite
         that.world.mask = that.mask;
 
-        that.add.tween(that.mask.scale).to({ x: 1000, y: 1000 },
-                                    3000, Phaser.Easing.Sinusoidal.InOut, true);
+        that.add.tween(that.mask.scale).to({ x: 350, y: 350 },
+                                    1000, Phaser.Easing.Sinusoidal.InOut, true);
     };
 
     demo.state.prelude.start = function(that) {

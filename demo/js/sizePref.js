@@ -267,6 +267,10 @@
             that.background = that.add.sprite(0, 0, "backgroundsp");
         }
 
+        if (model.simplify && model.contrast) {
+            that.stage.backgroundColor = "#a8a8a8";
+        }
+
         // Ensuring color Pref
         if (model.contrast) {
             that.colorPrefFilter();

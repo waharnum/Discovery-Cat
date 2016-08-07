@@ -93,6 +93,8 @@
         game.load.audio("cChord", ["assets/C-Chord.mp3", "assets/C-Chord.ogg"]);
         game.load.audio("gChord", ["assets/G-Chord.mp3", "assets/G-Chord.ogg"]);
         game.load.audio("emChord", ["assets/Em-Chord.mp3", "assets/Em-Chord.ogg"]);
+        game.load.audio("drum", ["assets/drum.mp3", "assets/drum.ogg"]);
+        game.load.audio("trumpet", ["assets/trumpet.mp3", "assets/trumpet.ogg"]);
 
         // universal
         game.load.image("messageBoxAll", "assets/messageBox-allStates.png");
@@ -109,7 +111,7 @@
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("simplifyPref");
+        game.state.start("prelude");
     };
 
     demo.state.Preload.update = function() {

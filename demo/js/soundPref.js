@@ -18,11 +18,11 @@
             },
             houseDoorFunc: {
                 funcName: "demo.state.soundPref.houseDoorFunc",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             standAppear: {
                 funcName: "demo.state.soundPref.standAppear",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             standScreenAppear: {
                 funcName: "demo.state.soundPref.standScreenAppear",
@@ -38,10 +38,6 @@
             },
             goButtonCallback: {
                 funcName: "demo.state.soundPref.goButtonCallback",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
-            },
-            passcodeCallback: {
-                funcName: "demo.state.soundPref.passcodeCallback",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             wiggleDrum: {
@@ -76,44 +72,119 @@
             stateEnterAnimation: {
                 funcName: "demo.state.prelude.stateEnterAnimation",
                 args: ["{that}", 1070, 570]
+            },
+            colorPrefFilter: {
+                funcName: "demo.state.colorPref.contrastFilter",
+                args: "{that}"
+            },
+            backpack: {
+                funcName: "demo.state.house.backpack",
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech",
+                                    "{demo.discoveryCat}.prefModel.model", "soundPref"]
+            },
+            showSoundZigDrum: {
+                funcName: "demo.state.soundPref.showSoundZig",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model", "DHUPP", 570, 10]
+            },
+            showSoundZigTrumpet: {
+                funcName: "demo.state.soundPref.showSoundZig",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model", "PEE..EN", 240, 10]
+            },
+            showSoundZigPasscode: {
+                funcName: "demo.state.soundPref.showSoundZig",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model", "**GH**", 440, 200]
+            },
+            inactionFeedback: {
+                funcName: "demo.state.soundPref.inactionFeedback",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+            },
+            passcodeFound: {
+                funcName: "demo.state.sizePref.passcodeFound",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model",
+                        "{demo.discoveryCat}.textToSpeech",
+                            "{demo.discoveryCat}.prefModel.model.lang.obj.passcodeFound"]
+            },
+            messageBarInstruction: {
+                funcName: "demo.state.house.messageBar",
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech",
+                    "{demo.discoveryCat}.prefModel.model",
+                    "{demo.discoveryCat}.prefModel.model.lang.obj.soundPrefInstruction",
+                                                    8000, 615]
             }
         }
     });
 
-    demo.state.soundPref.passcodeCallback = function(that, model) {
-        that.popup = that.add.sprite(640, 500, "popupAll", 1);
-        that.popup.anchor.setTo(0.5, 1);
-        that.popup.scale.setTo(model.size, model.size);
-        that.passcodeText = that.add.text(0, -120, "****\nDH",
-                                                { font: "100px Arial", fill: "#fff" });
-        that.passcodeText.anchor.setTo(0.5, 1);
-        that.passcodeText.scale.setTo(model.size, model.size);
-        that.popup.addChild(that.passcodeText);
-        that.add.tween(that.popup).to({ alpha: 0 }, 4000, Phaser.Easing.Sinusoidal.InOut, true);
+    demo.state.soundPref.inactionFeedback = function(that, model) {
+        var obj;
+        if (model.sound) {
+            obj = that.soundAppearButton;
+        } else {
+            obj = that.noSoundAppearButton;
+        }
+        that.t1 = that.add.tween(obj).to({ x: 986, y: obj.y }, 100,
+            Phaser.Easing.Sinusoidal.InOut, false, 0).to({ x: 974, y: obj.y }, 200,
+            Phaser.Easing.Sinusoidal.InOut, false, 0).to({ x: 980, y: obj.y }, 100,
+            Phaser.Easing.Sinusoidal.InOut, false, 0);
+        that.t1.start();
+    };
+
+    demo.state.soundPref.showSoundZig = function(that, model, message, x, y) {
+        that.soundZig = that.add.sprite(x, y, "assetsop", 2);
+        that.soundZig.addChild(that.add.text(80, 100, message,
+                                            { font: "40px Arial", fill: "#fff" }));
+        that.soundZig.scale.setTo(model.size, model.size);
+        that.time.events.add(3000, function() {
+            that.soundZig.visible = false;
+        }, that);
     };
 
     demo.state.soundPref.wiggle = function(that, object) {
-        that.onCompleteCallback = function() {
-            that.add.tween(object).to({ x: object.x - 20, y: object.y }, 300,
-                                                            Phaser.Easing.Sinusoidal.InOut, true);
-        };
-        that.t1 = that.add.tween(object).to({ x: object.x + 20, y: object.y }, 100,
-                                                        Phaser.Easing.Sinusoidal.InOut, true);
-        that.t1.onComplete.add(that.onCompleteCallback, that);
+        that.t1 = that.add.tween(object).to({ x: object.x - 20, y: object.y }, 200,
+            Phaser.Easing.Sinusoidal.InOut, false).to({ x: object.x + 40, y: object.y }, 400,
+                Phaser.Easing.Sinusoidal.InOut, false).to({ x: object.x - 20, y: object.y }, 200,
+                    Phaser.Easing.Sinusoidal.InOut, false);
+        that.t1.start();
     };
 
-
-    // FIX
     demo.state.soundPref.noSoundAppearButtonCallback = function(that, model) {
-        that.wiggleDrum();
+        if (model.sound) {
+            that.time.events.add(0, function() {
+                that.wiggleTrumpet();
+                that.drumSound.pause();
+                that.trumpetSound.play();
+            }, that);
+
+            that.time.events.add(3500, function() {
+                that.wiggleDrum();
+                that.drumSound.play();
+            }, that);
+            model.sound = false;
+        } else {
+            that.inactionFeedback();
+        }
     };
 
-    // FIX
     demo.state.soundPref.soundAppearButtonCallback = function(that, model) {
-        that.wiggleTrumpet();
+        if (!model.sound) {
+            that.time.events.add(0, function() {
+                that.showSoundZigTrumpet();
+                that.wiggleTrumpet();
+                that.drumSound.pause();
+                that.trumpetSound.play();
+            }, that);
+
+            that.time.events.add(3500, function() {
+                that.showSoundZigDrum();
+                that.wiggleDrum();
+                that.drumSound.play();
+            }, that);
+            model.sound = true;
+        } else {
+            that.inactionFeedback();
+        }
     };
 
-    demo.state.soundPref.goButtonCallback = function(that) {
+    demo.state.soundPref.goButtonCallback = function(that, model) {
         // Group these together
         that.popupScreen.visible = false;
         that.soundAppearButton.visible = false;
@@ -123,6 +194,11 @@
         that.goButton.visible = false;
         // So that it can again reappear and surely this will create a new instant
         that.standScreenAppearBool = false;
+        if (!model.passcodeCollected.sound) {
+            that.time.events.add(0, that.showSoundZigPasscode, that);
+            that.time.events.add(3500, that.passcodeFound, that);
+        }
+        model.passcodeCollected.sound = true;
     };
 
     demo.state.soundPref.houseDoorFunc = function(that) {
@@ -134,32 +210,35 @@
         if (that.standScreenAppearBool === false) {
             that.popupScreen = that.add.sprite(0, 0, "popupScreensop");
 
-            that.drum = that.add.sprite(250, 200, "assetsop", 0);
-            that.trumpet = that.add.sprite(580, 200, "assetsop", 1);
+            that.trumpet = that.add.sprite(400, 450, "assetsop", 1);
+            that.trumpet.anchor.setTo(0.5, 1);
+            that.trumpet.scale.setTo(model.size, model.size);
 
-            that.soundAppearButton = that.add.button(1100, 250, "upDownButtonsp",
+            that.drum = that.add.sprite(750, 450, "assetsop", 0);
+            that.drum.anchor.setTo(0.5, 1);
+            that.drum.scale.setTo(model.size, model.size);
+
+            that.soundAppearButton = that.add.button(980, 170, "upDownButtonsp",
                                                 that.soundAppearButtonCallback, that, 15, 13, 13);
-            that.soundAppearButton.anchor.setTo(0.5, 1);
-            that.soundAppearButton.scale.setTo(model.size, model.size);
-
-            that.noSoundAppearButton = that.add.button(1100, 450, "upDownButtonsp",
+            that.noSoundAppearButton = that.add.button(980, 400, "upDownButtonsp",
                                                 that.noSoundAppearButtonCallback, that, 16, 14, 14);
-            that.noSoundAppearButton.anchor.setTo(0.5, 1);
-            that.noSoundAppearButton.scale.setTo(model.size, model.size);
-
-            that.goButton = that.add.button(1030, 500, "goButtonsp",
+            that.goButton = that.add.button(1120, 332, "goButtonsp",
                                                 that.goButtonCallback, that, 1, 0, 2);
             that.standScreenAppearBool = true;
+            if (!model.passcodeCollected.sound) {
+                that.messageBarInstruction();
+            }
         }
     };
 
 // WORKS
-    demo.state.soundPref.standAppear = function(that) {
+    demo.state.soundPref.standAppear = function(that, model) {
         // Pick up paint brush
         that.stick.visible = false;
         that.stick.body.enable = false;
         that.stand.body.enable = true;
         that.stand.visible = true;
+        model.visited.sound = true;
     };
 
     // Phaser functions
@@ -173,20 +252,39 @@
         that.audioG = that.add.audio("gChord");
         that.audioC = that.add.audio("cChord");
         that.audioEm = that.add.audio("emChord");
+        that.drumSound = that.add.audio("drum");
+        that.trumpetSound = that.add.audio("trumpet");
 
         // Audio play
         that.audioC.play("", 0, 0.1, true);
 
-        // Environment
-        that.add.sprite(0, 0, "backgroundsop");
+        that.stage.backgroundColor = "#44aae0";
 
-        that.stick = that.add.sprite(1070, 570, "assetsop", 4);
-        that.stick.anchor.setTo(0.5, 0.5);
+        // Ensuring simplify Pref
+        if (!model.simplify) {
+            that.background = that.add.sprite(0, 0, "backgroundsop");
+        }
+
+        if (model.simplify && model.contrast) {
+            that.stage.backgroundColor = "#a8a8a8";
+        }
+
+        // Ensuring color Pref
+        if (model.contrast) {
+            that.colorPrefFilter();
+        }
+
+        // Environment
+        that.stick = that.add.sprite(1070, 700, "assetsop", 4);
+        that.stick.anchor.setTo(0.5, 1);
+        that.stick.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.stick);
         that.stick.body.immovable = true;
 
         // Adding door to house and physics
-        that.houseDoor = that.add.sprite(40, 520, "doorh", 1);
+        that.houseDoor = that.add.sprite(135, 678, "doorh", 1);
+        that.houseDoor.anchor.setTo(0.5, 1);
+        that.houseDoor.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.houseDoor);
         that.houseDoor.body.immovable = true;
 
@@ -196,8 +294,8 @@
         that.ground.body.immovable = true;
 
         // stand
-        that.stand = that.add.sprite(430, 556, "assetsop", 3);
-        that.stand.anchor.setTo(0.5, 0.5);
+        that.stand = that.add.sprite(430, 675, "assetsop", 3);
+        that.stand.anchor.setTo(0.5, 1);
         that.stand.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.stand);
         that.stand.body.enable = false;
@@ -241,8 +339,10 @@
         if (model.visited.sound) {
             that.stick.visible = false;
             that.stick.body.enable = false;
-            // FILL
+            that.standAppear();
         }
+
+        that.backpack();
 
         that.stateEnterAnimation();
     };
