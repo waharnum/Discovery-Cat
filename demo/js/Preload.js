@@ -109,10 +109,12 @@
         game.load.script("invertFilter", "filters/InvertFilter.js");
         game.load.script("colorMatrixFilter", "filters/ColorMatrixFilter.js");
 
+        // pattern
+        game.load.image("pattern", "assets/pattern.png");
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("prelude");
+        game.state.start("endingScreen");
     };
 
     demo.state.Preload.update = function() {

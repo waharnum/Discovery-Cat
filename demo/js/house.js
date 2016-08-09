@@ -221,9 +221,12 @@
             if (that.sound.mute) {
                 that.sound.mute = false;
                 that.backpackIconAudio.setFrames(3, 2, 2);
+                model.music = true;
             } else {
                 that.sound.mute = true;
                 that.backpackIconAudio.setFrames(3, 4, 4);
+                // Because if we mute music will stop
+                model.music = false;
             }
         };
         that.backpackIconVoiceCallback = function() {
@@ -236,9 +239,11 @@
                                      typeof(speechComp.model.utteranceOpts.volume) === undefined) {
                 speechComp.applier.change("utteranceOpts.volume", 1);
                 that.backpackIconVoice.setFrames(3, 2, 2);
+                model.voice = true;
             } else {
                 speechComp.applier.change("utteranceOpts.volume", 0);
                 that.backpackIconVoice.setFrames(3, 4, 4);
+                model.voice = false;
             }
         };
         that.backpackIconColorCallback = function() {
@@ -369,7 +374,7 @@
         that.messageBar = that.add.sprite(0, y, "messageBarAll");
         // It is just a bit small in size so to make it fit the screen.
         that.messageBar.scale.setTo(1.001, 1);
-        that.messageBarText = that.add.text(50, 50, message);
+        that.messageBarText = that.add.text(50, 40, message);
         that.messageBarText.scale.setTo(model.size, model.size);
         that.messageBar.addChild(that.messageBarText);
         speechComp.queueSpeech(message, true, { lang: model.lang.type });
@@ -582,7 +587,7 @@
         that.yarnBallNotif.alpha = 0;
         // Notif mainExitDoor
         that.mainExitDoorNotif = that.add.sprite(1045, 500, "messageBoxAll", 0);
-        that.mainExitDoorNotif.addChild(that.add.text(-50, -100, model.lang.obj.exitRoom));
+        that.mainExitDoorNotif.addChild(that.add.text(-70, -60, model.lang.obj.exitRoom));
         that.mainExitDoorNotif.anchor.setTo(0.5, 1);
         that.mainExitDoorNotif.scale.setTo(model.size, model.size);
         that.mainExitDoorNotif.alpha = 0;
@@ -693,7 +698,9 @@
         that.safeNotifFunc();
 
         // yarn Ball Notif
-        that.yarnBallNotifFunc();
+        if (that.gameEndSafeAnimationBool) {
+            that.yarnBallNotifFunc();
+        }
 
         // This will come only after user has collected the yarn Ball
         if (that.yarnBallFoundBool) {

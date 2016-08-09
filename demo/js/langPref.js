@@ -85,6 +85,11 @@
             stateEnterAnimation: {
                 funcName: "demo.state.prelude.stateEnterAnimation",
                 args: ["{that}", 170, 90]
+            },
+            backpack: {
+                funcName: "demo.state.house.backpack",
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech",
+                                        "{demo.discoveryCat}.prefModel.model", "langPref"]
             }
         }
     });
@@ -312,6 +317,8 @@
         that.audioG = that.add.audio("gChord");
         that.audioC = that.add.audio("cChord");
         that.audioEm = that.add.audio("emChord");
+
+        that.backpack();
 
         that.stateEnterAnimation();
     };

@@ -94,6 +94,11 @@
     });
 
     demo.state.sizePref.passcodeFound = function(that, model, speechComp, message) {
+        // Pattern falling from top
+        that.emitter = that.add.emitter(that.world.centerX, -200, 200);
+        that.emitter.makeParticles("pattern");
+        that.emitter.start(false, 8000, 10);
+
         that.passcodeFound = that.add.sprite(640, -500, "popupAll", 1);
         that.passcodeFound.anchor.setTo(0.5, 1);
         that.letterText = that.add.text(-280, -250, message,
@@ -101,9 +106,11 @@
         that.passcodeFound.addChild(that.letterText);
         that.passcodeFound.scale.setTo(model.size, model.size);
         speechComp.queueSpeech(message, true, { lang: model.lang.type });
-        that.add.tween(that.passcodeFound).to({ x: 640, y: 500 }, 1000,
+        that.t = that.add.tween(that.passcodeFound).to({ x: 640, y: 500 }, 1000,
             Phaser.Easing.Sinusoidal.InOut, false, 0).to({ x: 640, y: 1500 }, 1000,
-            Phaser.Easing.Sinusoidal.InOut, true, 2500);
+            Phaser.Easing.Sinusoidal.InOut, false, 2500);
+        that.t.start();
+        that.time.events.add(5000, that.emitter.destroy, that.emitter);
     };
 
     demo.state.sizePref.houseDoorOpen = function(that) {

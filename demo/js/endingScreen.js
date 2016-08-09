@@ -50,6 +50,12 @@
 
     demo.state.endingScreen.create = function(that, model) {
         that.stage.backgroundColor = "#000";
+
+        that.emitter = that.add.emitter(that.world.centerX, -200, 200);
+        that.emitter.makeParticles("pattern");
+        that.emitter.start(false, 8000, 50);
+        that.emitter.width = 800;
+
         that.heading = that.add.text(640, 80, model.lang.obj.thankyou,
                                             { font: "65px Arial", fill: "#fff" });
         that.heading.anchor.setTo(0.5, 0.5);

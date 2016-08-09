@@ -12,6 +12,8 @@
             contrast: false,
             simplify: false,
             sound: false,
+            music: true,
+            voice: true,
             visited: {
                 sound: false,
                 size: false,
