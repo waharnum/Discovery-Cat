@@ -179,7 +179,7 @@
     demo.state.colorPref.aisleScreenAppear = function(that, model) {
         if (that.aisleScreenAppearBool === false) {
             that.popupScreen = that.add.sprite(0, 0, "popupScreencp");
-            that.passcodeText = that.add.text(465, 130, "******\n  AC",
+            that.passcodeText = that.add.text(465, 130, "******\n  KL",
                                                     { font: "60px Arial", fill: "#000" });
             that.bucketColor = that.add.button(980, 170, "upDownButtonsp",
                                                     that.colorBucketCallback, that, 19, 17, 17);

@@ -19,5 +19,8 @@
     "exitRoom": "AUSFAHRT ZIMMER",
     "pickItem": "WÄHLEN SIE ELEMENT",
     "useItem": "VERWENDUNGSZWECK",
-    "safeNotif": "PASSCODE\nBIETEN"
+    "safeNotif": "PASSCODE\nBIETEN",
+    "yarnBallNotif": "PICK THE BALL",
+    "thankyou": "THANKYOU FOR PLAYING THE GAME",
+    "cookieNote": "**All these settings have been saved as a cookie in your browser"
 }

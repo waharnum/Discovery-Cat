@@ -19,5 +19,8 @@
     "exitRoom": "SORTIE SALLE",
     "pickItem": "SÉLECTIONNEZ ARTICLE",
     "useItem": "POINT D’UTILISATION",
-    "safeNotif": "FOURNIR LE\nCODE D’ACCÈS"
+    "safeNotif": "FOURNIR LE\nCODE D’ACCÈS",
+    "yarnBallNotif": "PICK THE BALL",
+    "thankyou": "THANKYOU FOR PLAYING THE GAME",
+    "cookieNote": "**All these settings have been saved as a cookie in your browser"
 }

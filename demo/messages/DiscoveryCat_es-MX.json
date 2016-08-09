@@ -19,5 +19,8 @@
     "exitRoom": "HABITACIÓN DE SALIDA",
     "pickItem": "ELEGIR ELEMENTO",
     "useItem": "ARTÍCULO DE USO",
-    "safeNotif": "PROPORCIONAR CLAVE\n DE ACCESO"
+    "safeNotif": "PROPORCIONAR CLAVE\n DE ACCESO",
+    "yarnBallNotif": "PICK THE BALL",
+    "thankyou": "THANKYOU FOR PLAYING THE GAME",
+    "cookieNote": "**All these settings have been saved as a cookie in your browser"
 }

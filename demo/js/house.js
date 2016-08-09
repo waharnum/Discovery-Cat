@@ -51,6 +51,20 @@
                                     "{demo.discoveryCat}.prefModel.model.lang.obj.safeNotif",
                                     "{demo.discoveryCat}.prefModel.model"]
             },
+            yarnBallNotifFunc: {
+                funcName: "demo.state.house.notifs",
+                args: ["{that}", "{that}.yarnBall", "{that}.yarnBallNotif",
+                                "{demo.discoveryCat}.textToSpeech",
+                                    "{demo.discoveryCat}.prefModel.model.lang.obj.yarnBallNotif",
+                                    "{demo.discoveryCat}.prefModel.model"]
+            },
+            mainExitDoorNotifFunc: {
+                funcName: "demo.state.house.notifs",
+                args: ["{that}", "{that}.mainExitDoor", "{that}.mainExitDoorNotif",
+                                "{demo.discoveryCat}.textToSpeech",
+                                    "{demo.discoveryCat}.prefModel.model.lang.obj.exitRoom",
+                                    "{demo.discoveryCat}.prefModel.model"]
+            },
             backpack: {
                 funcName: "demo.state.house.backpack",
                 args: ["{that}", "{demo.discoveryCat}.textToSpeech",
@@ -70,10 +84,95 @@
                 funcName: "demo.state.prelude.stateEnterAnimation",
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model.position.catHousex",
                                     "{demo.discoveryCat}.prefModel.model.position.catHousey"]
+            },
+            storeCookie: {
+                funcName: "demo.state.house.storeCookie",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model",
+                                        "{demo.discoveryCat}.cookieStore"]
+            },
+            retrieveCookie: {
+                funcName: "demo.state.house.retrieveCookie",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model",
+                                        "{demo.discoveryCat}.cookieStore"]
+            },
+            gameEndSafeAnimation: {
+                funcName: "demo.state.house.gameEndSafeAnimation",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+            },
+            yarnBallFound: {
+                funcName: "demo.state.sizePref.passcodeFound",
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model",
+                        "{demo.discoveryCat}.textToSpeech",
+                            "  Congo! Ball Found"]
             }
         }
     });
 
+    demo.state.house.gameEndSafeAnimation = function(that, model) {
+        if (that.physics.arcade.overlap(that.safe, that.cat) &&
+                model.visited.color &&
+                     model.visited.size &&
+                         model.visited.simplify &&
+                             model.visited.sound &&
+                                !that.gameEndSafeAnimationBool) {
+            that.gameEndSafeAnimationBool = true;
+            that.safeNotif.visible = false;
+            that.audioG.pause();
+            that.popUp = that.add.sprite(0, -800, "popupScreensop");
+            that.popDown = that.add.sprite(0, 840, "popupScreensop");
+            that.time.events.add(0, function() {
+                that.add.tween(that.popUp).to({ x: 0, y: -230 }, 2000,
+                                    Phaser.Easing.Sinusoidal.InOut, true);
+                that.add.tween(that.popDown).to({ x: 0, y: 722 }, 2000,
+                                    Phaser.Easing.Sinusoidal.InOut, true);
+            }, that);
+
+            that.time.events.add(2500, function() {
+                that.t1 = that.add.tween(that.safeDial).to({ angle: 270 }, 600,
+                        Phaser.Easing.Sinusoidal.InOut, false).to({ angle: -180 }, 600,
+                        Phaser.Easing.Sinusoidal.InOut, false).to({ angle: 200 }, 600,
+                        Phaser.Easing.Sinusoidal.InOut, false);
+                that.t1.start();
+                that.add.tween(that.safeHandle).to({ angle: 720 }, 1800,
+                                    Phaser.Easing.Sinusoidal.InOut, true);
+            }, that);
+
+            that.time.events.add(4500, function() {
+                that.safe.visible = false;
+                that.yarnBall.body.enableBody = true;
+                that.openSafe.visible = true;
+            }, that);
+        }
+
+    };
+
+    // Though we might use it or not but still we have it in case we need it.
+    demo.state.house.retrieveCookie = function(that, model, cookieStore) {
+        // get with the cookieName which one to get
+        that.cookie = cookieStore.get("discoveryCat");
+        // We get identical object as we stored on retrieval
+        model.count = that.cookie.count;
+        model.size = that.cookie.size;
+        model.contrast = that.cookie.contrast;
+        model.simplify = that.cookie.simplify;
+        model.sound = that.cookie.sound;
+    };
+
+    demo.state.house.storeCookie = function(that, model, cookieStore) {
+        that.settings = {
+            count: model.count,
+            size: model.size,
+            contrast: model.contrast,
+            simplify: model.simplify,
+            sound: model.sound
+        };
+        that.cookieOptions = {
+            name: "discoveryCat",
+            expires: 86400,
+            path: "/"
+        };
+        cookieStore.set(that.settings, that.cookieOptions);
+    };
 
     demo.state.house.backpack = function(that, speechComp, model, stateName) {
         // BackPack is made of 3 things this main backpack functions and 2 other
@@ -347,11 +446,36 @@
         that.ground.body.immovable = true;
 
         // Safe with yarn balls
+        that.safeDial = that.add.sprite(0, -110, "safeAsseth", 0);
+        that.safeDial.anchor.setTo(0.5, 0.5);
+        that.safeDial.scale.setTo(0.4, 0.4);
+        that.safeHandle = that.add.sprite(0, -50, "safeAsseth", 1);
+        that.safeHandle.anchor.setTo(0.5, 0.5);
+        that.safeHandle.scale.setTo(0.4, 0.4);
+        that.safeRotater = that.add.sprite(45, -80, "safeAsseth", 2);
+        that.safeRotater.anchor.setTo(0.5, 0.5);
+        that.safeRotater.scale.setTo(0.4, 0.4);
         that.safe = that.add.sprite(450, 675, "doorh", 2);
         that.safe.anchor.setTo(0.5, 1);
+        that.safe.addChild(that.safeDial);
+        that.safe.addChild(that.safeHandle);
+        that.safe.addChild(that.safeRotater);
         that.safe.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.safe);
         that.safe.body.immovable = true;
+
+
+        that.openSafe = that.add.sprite(450, 675, "doorh", 3);
+        that.openSafe.anchor.setTo(0.5, 1);
+        that.yarnBall = that.add.sprite(-5, -90, "safeAsseth", 3);
+        that.physics.arcade.enable(that.yarnBall);
+        that.yarnBall.body.immovable = true;
+        that.yarnBall.enableBody = false;
+        that.yarnBall.scale.setTo(0.5, 0.5);
+        that.openSafe.addChild(that.yarnBall);
+        that.openSafe.scale.setTo(model.size, model.size);
+        that.openSafe.visible = false;
+
 
         // door or the room state, will see them for collision
         // Entry Door
@@ -359,24 +483,40 @@
         // Size Pref Door
         that.sizeDoor = that.add.sprite(460, 200, "doorh", 1);
         that.sizeDoor.anchor.setTo(0.5, 1);
+        if (model.passcodeCollected.size) {
+            that.sizeDoor.addChild(that.add.text(-60, -130, "****\nAC",
+                                            { font: "50px Arial", fill: "#fff" }));
+        }
         that.sizeDoor.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.sizeDoor);
         that.sizeDoor.body.immovable = true;
         // Color Pref Door
         that.colorDoor = that.add.sprite(830, 200, "doorh", 1);
         that.colorDoor.anchor.setTo(0.5, 1);
+        if (model.passcodeCollected.color) {
+            that.colorDoor.addChild(that.add.text(-60, -130, "****\n KL",
+                                            { font: "50px Arial", fill: "#fff" }));
+        }
         that.colorDoor.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.colorDoor);
         that.colorDoor.body.immovable = true;
         // Simplify Pref Door
         that.simplifyDoor = that.add.sprite(460, 440, "doorh", 1);
         that.simplifyDoor.anchor.setTo(0.5, 1);
+        if (model.passcodeCollected.simplify) {
+            that.simplifyDoor.addChild(that.add.text(-60, -130, "****\nMB",
+                                            { font: "50px Arial", fill: "#fff" }));
+        }
         that.simplifyDoor.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.simplifyDoor);
         that.simplifyDoor.body.immovable = true;
         // Sounds Pref Door
         that.soundDoor = that.add.sprite(830, 440, "doorh", 1);
         that.soundDoor.anchor.setTo(0.5, 1);
+        if (model.passcodeCollected.sound) {
+            that.soundDoor.addChild(that.add.text(-60, -130, "****\nGH",
+                                            { font: "50px Arial", fill: "#fff" }));
+        }
         that.soundDoor.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.soundDoor);
         that.soundDoor.body.immovable = true;
@@ -434,6 +574,22 @@
         that.safeNotif.anchor.setTo(0.5, 1);
         that.safeNotif.scale.setTo(model.size, model.size);
         that.safeNotif.alpha = 0;
+        // Yarn Ball Notif
+        that.yarnBallNotif = that.add.sprite(480, 570, "messageBoxAll", 0);
+        that.yarnBallNotif.addChild(that.add.text(-75, -100, model.lang.obj.yarnBallNotif));
+        that.yarnBallNotif.anchor.setTo(0.5, 1);
+        that.yarnBallNotif.scale.setTo(model.size, model.size);
+        that.yarnBallNotif.alpha = 0;
+        // Notif mainExitDoor
+        that.mainExitDoorNotif = that.add.sprite(1045, 500, "messageBoxAll", 0);
+        that.mainExitDoorNotif.addChild(that.add.text(-50, -100, model.lang.obj.exitRoom));
+        that.mainExitDoorNotif.anchor.setTo(0.5, 1);
+        that.mainExitDoorNotif.scale.setTo(model.size, model.size);
+        that.mainExitDoorNotif.alpha = 0;
+
+        // To make endGameAnimation work
+        that.gameEndSafeAnimationBool = false;
+        that.yarnBallFoundBool = false;
 
         // This is for the backpack menu
         that.backpack();
@@ -483,6 +639,28 @@
             that.state.start("soundPref");
         }
 
+        that.gameEndSafeAnimation();
+
+        if (that.physics.arcade.overlap(that.yarnBall, that.cat) &&
+                                                !that.yarnBallFoundBool &&
+                                                    that.enter.isDown) {
+            that.yarnBall.visible = false;
+            that.yarnBallFound();
+            that.yarnBallFoundBool = true;
+        }
+
+        if (that.yarnBallFoundBool) {
+            that.mainExitDoorNotifFunc();
+        }
+
+        if (that.physics.arcade.overlap(that.mainExitDoor, that.cat) &&
+                            that.yarnBallFoundBool &&
+                                that.enter.isDown) {
+            that.audioG.pause();
+            that.storeCookie();
+            that.state.start("endingScreen");
+        }
+
         // character movement
         if (that.cursors.left.isDown) {
             that.cat.body.velocity.x = -150;
@@ -513,6 +691,14 @@
 
         // Safe Notif
         that.safeNotifFunc();
+
+        // yarn Ball Notif
+        that.yarnBallNotifFunc();
+
+        // This will come only after user has collected the yarn Ball
+        if (that.yarnBallFoundBool) {
+            that.mainExitDoorNotifFunc();
+        }
 
     };
 

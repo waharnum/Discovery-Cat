@@ -43,8 +43,14 @@
             soundPref: {
                 type: "demo.state.soundPref"
             },
+            endingScreen: {
+                type: "demo.state.endingScreen"
+            },
             textToSpeech: {
                 type: "fluid.textToSpeech"
+            },
+            cookieStore: {
+                type: "fluid.prefs.cookieStore"
             }
         },
         listeners: {
@@ -66,6 +72,7 @@
         that.game.state.add("colorPref", that.colorPref);
         that.game.state.add("simplifyPref", that.simplifyPref);
         that.game.state.add("soundPref", that.soundPref);
+        that.game.state.add("endingScreen", that.endingScreen);
         // Start the initial state
         that.game.state.start("boot");
     };
