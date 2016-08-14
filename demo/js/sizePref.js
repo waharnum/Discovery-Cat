@@ -10,7 +10,8 @@
             },
             create: {
                 funcName: "demo.state.sizePref.create",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model",
+                                        "{demo.discoveryCat}.textToSpeech"]
             },
             update: {
                 funcName: "demo.state.sizePref.update",
@@ -258,8 +259,7 @@
 
     };
 
-    demo.state.sizePref.create = function(that, model) {
-
+    demo.state.sizePref.create = function(that, model, speechComp) {
         // Audio
         that.audioG = that.add.audio("gChord");
         that.audioC = that.add.audio("cChord");
@@ -281,6 +281,14 @@
         // Ensuring color Pref
         if (model.contrast) {
             that.colorPrefFilter();
+        }
+
+        if (!model.music) {
+            that.sound.mute = true;
+        }
+
+        if (!model.voice) {
+            speechComp.applier.change("utteranceOpts.volume", 0);
         }
 
         // Environment

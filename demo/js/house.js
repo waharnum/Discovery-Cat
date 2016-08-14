@@ -10,7 +10,8 @@
             },
             create: {
                 funcName: "demo.state.house.create",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model",
+                                            "{demo.discoveryCat}.textToSpeech"]
             },
             update: {
                 funcName: "demo.state.house.update",
@@ -192,6 +193,9 @@
                 model.simplify = true;
                 that.backpackIconSimplify.setFrames(3, 4, 4);
             }
+            that.audioG.pause();
+            that.audioC.pause();
+            that.audioEm.pause();
             that.state.start(stateName);
         };
 
@@ -212,6 +216,9 @@
                 that.backpackIconSizeChild = that.add.sprite(-50, -25, "backpackIconAll", 4);
                 that.backpackIconSize.addChild(that.backpackIconSizeChild);
             }
+            that.audioG.pause();
+            that.audioC.pause();
+            that.audioEm.pause();
             that.state.start(stateName);
             // SOLUTION TAKE CAT POSITION AND RERENDER WHOLE SCENE
         };
@@ -261,6 +268,9 @@
                 that.backpackIconColor.addChild(that.backpackIconColorChild);
                 model.contrast = false;
             }
+            that.audioG.pause();
+            that.audioC.pause();
+            that.audioEm.pause();
             that.state.start(stateName);
         };
         // These 2 will be specified outside of the backpack function
@@ -282,17 +292,28 @@
         // Decalaring all sub buttons
         // Not scaling these
         // General
+
         that.backpackIconAudio = that.add.button(175, 784, "backpackButtonAll",
                                         that.backpackIconAudioCallback, that, 3, 2, 2);
         that.backpackIconAudio.anchor.setTo(0.5, 0.5);
         that.backpackIconAudio.scale.setTo(0.8, 0.8);
         that.backpackIconAudio.addChild(that.add.sprite(-45, -25, "backpackIconAll", 2));
+        if (model.music) {
+            that.backpackIconAudio.setFrames(3, 2, 2);
+        } else {
+            that.backpackIconAudio.setFrames(3, 4, 4);
+        }
 
         that.backpackIconVoice = that.add.button(275, 784, "backpackButtonAll",
                                         that.backpackIconVoiceCallback, that, 3, 2, 2);
         that.backpackIconVoice.anchor.setTo(0.5, 0.5);
         that.backpackIconVoice.scale.setTo(0.8, 0.8);
         that.backpackIconVoice.addChild(that.add.sprite(-50, -25, "backpackIconAll", 3));
+        if (model.voice) {
+            that.backpackIconVoice.setFrames(3, 2, 2);
+        } else {
+            that.backpackIconVoice.setFrames(3, 4, 4);
+        }
 
         // Preferences
 
@@ -402,7 +423,7 @@
     demo.state.house.preload = function() {
     };
 
-    demo.state.house.create = function(that, model) {
+    demo.state.house.create = function(that, model, speechComp) {
         // Audio
         that.audioG = that.add.audio("gChord");
         that.audioC = that.add.audio("cChord");
@@ -422,11 +443,22 @@
             that.background = that.add.sprite(0, 0, "backgroundh");
         }
 
+        if (model.simplify && model.contrast) {
+            that.stage.backgroundColor = "#a8a8a8";
+        }
+
         // Ensuring color Pref
         if (model.contrast) {
             that.colorPrefFilter();
         }
 
+        if (!model.music) {
+            that.sound.mute = true;
+        }
+
+        if (!model.voice) {
+            speechComp.applier.change("utteranceOpts.volume", 0);
+        }
         // Size implemented throughly using model.size
 
         // Sound implementation remaining

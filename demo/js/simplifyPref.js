@@ -10,7 +10,8 @@
             },
             create: {
                 funcName: "demo.state.simplifyPref.create",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model",
+                                        "{demo.discoveryCat}.textToSpeech"]
             },
             update: {
                 funcName: "demo.state.simplifyPref.update",
@@ -273,7 +274,7 @@
 
     };
 
-    demo.state.simplifyPref.create = function(that, model) {
+    demo.state.simplifyPref.create = function(that, model, speechComp) {
 
         // Audio
         that.audioG = that.add.audio("gChord");
@@ -291,6 +292,15 @@
 
         if (model.simplify && model.contrast) {
             that.stage.backgroundColor = "#a8a8a8";
+        }
+
+
+        if (!model.music) {
+            that.sound.mute = true;
+        }
+
+        if (!model.voice) {
+            speechComp.applier.change("utteranceOpts.volume", 0);
         }
 
         // Ensuring color Pref

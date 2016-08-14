@@ -114,7 +114,7 @@
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("endingScreen");
+        game.state.start("prelude");
     };
 
     demo.state.Preload.update = function() {

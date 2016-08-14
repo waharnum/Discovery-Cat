@@ -10,7 +10,8 @@
             },
             create: {
                 funcName: "demo.state.colorPref.create",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model",
+                                        "{demo.discoveryCat}.textToSpeech"]
             },
             update: {
                 funcName: "demo.state.colorPref.update",
@@ -225,7 +226,7 @@
 
     };
 
-    demo.state.colorPref.create = function(that, model) {
+    demo.state.colorPref.create = function(that, model, speechComp) {
 
         // Audio
         that.audioG = that.add.audio("gChord");
@@ -246,11 +247,19 @@
             that.stage.backgroundColor = "#a8a8a8";
         }
 
+
+        if (!model.music) {
+            that.sound.mute = true;
+        }
+
+        if (!model.voice) {
+            speechComp.applier.change("utteranceOpts.volume", 0);
+        }
+
         // Ensuring color Pref
         if (model.contrast) {
             that.contrastFilter();
         }
-
 
         that.paintBrush = that.add.sprite(1070, 670, "extraAssetcp", 1);
         that.paintBrush.anchor.setTo(0.5, 1);

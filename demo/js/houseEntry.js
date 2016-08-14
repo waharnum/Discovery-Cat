@@ -10,7 +10,8 @@
             },
             create: {
                 funcName: "demo.state.houseEntry.create",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model",
+                                            "{demo.discoveryCat}.textToSpeech"]
             },
             update: {
                 funcName: "demo.state.houseEntry.update",
@@ -75,8 +76,16 @@
 
     };
 
-    demo.state.houseEntry.create = function(that) {
+    demo.state.houseEntry.create = function(that, model, speechComp) {
         that.add.sprite(0, 0, "backgroundlp");
+
+        if (!model.music) {
+            that.sound.mute = true;
+        }
+
+        if (!model.voice) {
+            speechComp.applier.change("utteranceOpts.volume", 0);
+        }
 
         that.cat = that.add.sprite(500, 150, "catMovelp", 1);
         that.cat.scale.setTo(0.8, 0.8);

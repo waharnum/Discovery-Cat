@@ -10,7 +10,8 @@
             },
             create: {
                 funcName: "demo.state.cutScene.create",
-                args: "{that}"
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model",
+                                            "{demo.discoveryCat}.textToSpeech"]
             },
             update: {
                 funcName: "demo.state.cutScene.update",
@@ -180,7 +181,7 @@
 
     };
 
-    demo.state.cutScene.create = function(that) {
+    demo.state.cutScene.create = function(that, model, speechComp) {
         // Audio
         that.audioG = that.add.audio("gChord");
         that.audioC = that.add.audio("cChord");
@@ -189,6 +190,14 @@
         that.audioG.play("", 0, 0.1, true);
 
         that.stage.backgroundColor = "#fff";
+
+        if (!model.music) {
+            that.sound.mute = true;
+        }
+
+        if (!model.voice) {
+            speechComp.applier.change("utteranceOpts.volume", 0);
+        }
 
         that.background = that.add.sprite(0, 0, "backgroundh");
         that.platforms = that.add.group();
