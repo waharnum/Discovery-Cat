@@ -111,10 +111,10 @@
 
     demo.state.house.gameEndSafeAnimation = function(that, model) {
         if (that.physics.arcade.overlap(that.safe, that.cat) &&
-                model.visited.color &&
-                     model.visited.size &&
-                         model.visited.simplify &&
-                             model.visited.sound &&
+                model.passcodeCollected.color &&
+                     model.passcodeCollected.size &&
+                         model.passcodeCollected.simplify &&
+                             model.passcodeCollected.sound &&
                                 !that.gameEndSafeAnimationBool) {
             that.gameEndSafeAnimationBool = true;
             that.safeNotif.visible = false;
@@ -142,6 +142,7 @@
                 that.safe.visible = false;
                 that.yarnBall.body.enableBody = true;
                 that.openSafe.visible = true;
+                that.yarnBallNotifAppear = true;
             }, that);
         }
 
@@ -627,6 +628,7 @@
         // To make endGameAnimation work
         that.gameEndSafeAnimationBool = false;
         that.yarnBallFoundBool = false;
+        that.yarnBallNotifAppear = false;
 
         // This is for the backpack menu
         that.backpack();
@@ -678,12 +680,17 @@
 
         that.gameEndSafeAnimation();
 
+        // This extra yarnBallNotifAppear is a endtime fix, the Bool we had
+        // had for the Notif we used here. This ensures that yarnBall is not
+        // picked up before safe opens
         if (that.physics.arcade.overlap(that.yarnBall, that.cat) &&
                                                 !that.yarnBallFoundBool &&
-                                                    that.enter.isDown) {
+                                                    that.enter.isDown &&
+                                                    that.yarnBallNotifAppear) {
             that.yarnBall.visible = false;
             that.yarnBallFound();
             that.yarnBallFoundBool = true;
+            that.yarnBallNotif.visible = false;
         }
 
         if (that.yarnBallFoundBool) {
@@ -730,7 +737,7 @@
         that.safeNotifFunc();
 
         // yarn Ball Notif
-        if (that.gameEndSafeAnimationBool) {
+        if (that.yarnBallNotifAppear) {
             that.yarnBallNotifFunc();
         }
 
