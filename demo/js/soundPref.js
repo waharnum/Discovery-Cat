@@ -387,7 +387,7 @@
         that.standScreenAppearBool = false;
 
         // Cat
-        that.cat = that.add.sprite(250, 500, "catMoveh", 5);
+        that.cat = that.add.sprite(270, 500, "catMoveh", 5);
         that.cat.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.cat);
         that.cat.body.bounce.y = 0.2;

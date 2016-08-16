@@ -406,7 +406,7 @@
         that.envelopeScreenAppearBool = false;
         // Cat
         // x distance such that cat does not land on door and ENTER notif plays
-        that.cat = that.add.sprite(235, 500, "catMoveh", 5);
+        that.cat = that.add.sprite(270, 500, "catMoveh", 5);
         that.cat.scale.setTo(model.size, model.size);
         that.physics.arcade.enable(that.cat);
         that.cat.body.bounce.y = 0.2;
