@@ -373,6 +373,7 @@
         // Ensuring color Pref
         if (model.contrast) {
             that.colorPrefFilter();
+            that.stage.backgroundColor = "#a8a8a8";
         }
 
         that.scissor = that.add.sprite(1080, 670, "extraAssetsip", 1);

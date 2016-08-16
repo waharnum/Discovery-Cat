@@ -106,6 +106,10 @@
             catMovementUpdate: {
                 funcName: "demo.state.sizePref.catMovementUpdate",
                 args: ["{that}"]
+            },
+            colorPrefFilter: {
+                funcName: "demo.state.colorPref.contrastFilter",
+                args: "{that}"
             }
         }
     });

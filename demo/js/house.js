@@ -290,6 +290,12 @@
             }
         };
 
+        // Decoy Sprite for showing selection when using q and w for navigation.
+        that.decoySprite = that.add.sprite(75, 784, "backpackButtonAll", 3);
+        that.decoySprite.anchor.setTo(0.5, 0.5);
+        that.decoySprite.scale.setTo(0.8, 0.8);
+        that.decoySprite.visible = false;
+
         // Decalaring all sub buttons
         // Not scaling these
         // General
@@ -316,47 +322,10 @@
             that.backpackIconVoice.setFrames(3, 4, 4);
         }
 
-        // Preferences
-
-
-
-        that.count = 0;
-        // Intially maxcount is 2 for audio and voice are already present
-        that.maxcount = 2;
-
-
-
         // that.pointer is to ensure that all the backpack icons are in position and appear
         // only when the room has been visited. It is to maintain order of icons in the prefBar
         that.pointer = 375;
 
-        if (model.visited.color) {
-            that.backpackIconColor = that.add.button(that.pointer, 784, "backpackButtonAll",
-                                            that.backpackIconColorCallback, that, 3, 2, 2);
-            that.backpackIconColor.anchor.setTo(0.5, 0.5);
-            that.backpackIconColor.scale.setTo(0.8, 0.8);
-            if (model.contrast) {
-                that.backpackIconColorChild = that.add.sprite(-50, -25, "backpackIconAll", 0);
-            } else {
-                that.backpackIconColorChild = that.add.sprite(-50, -25, "backpackIconAll", 8);
-            }
-            that.backpackIconColor.addChild(that.backpackIconColorChild);
-            that.pointer = that.pointer + 100;
-        }
-
-        if (model.visited.simplify) {
-            that.backpackIconSimplify = that.add.button(that.pointer, 784, "backpackButtonAll",
-                                            that.backpackIconSimplifyCallback, that, 3, 2, 2);
-            that.backpackIconSimplify.anchor.setTo(0.5, 0.5);
-            that.backpackIconSimplify.scale.setTo(0.8, 0.8);
-            that.backpackIconSimplify.addChild(that.add.sprite(-50, -22, "backpackIconAll", 1));
-            if (model.simplify) {
-                that.backpackIconSimplify.setFrames(3, 2, 2);
-            } else {
-                that.backpackIconSimplify.setFrames(3, 4, 4);
-            }
-            that.pointer = that.pointer + 100;
-        }
         if (model.visited.sound) {
             that.backpackIconSound = that.add.button(that.pointer, 784, "backpackButtonAll",
                                             that.backpackIconSoundCallback, that, 3, 2, 2);
@@ -385,11 +354,95 @@
             that.backpackIconSize.addChild(that.backpackIconSizeChild);
             that.pointer = that.pointer + 100;
         }
+        if (model.visited.color) {
+            that.backpackIconColor = that.add.button(that.pointer, 784, "backpackButtonAll",
+                                            that.backpackIconColorCallback, that, 3, 2, 2);
+            that.backpackIconColor.anchor.setTo(0.5, 0.5);
+            that.backpackIconColor.scale.setTo(0.8, 0.8);
+            if (model.contrast) {
+                that.backpackIconColorChild = that.add.sprite(-50, -25, "backpackIconAll", 0);
+            } else {
+                that.backpackIconColorChild = that.add.sprite(-50, -25, "backpackIconAll", 8);
+            }
+            that.backpackIconColor.addChild(that.backpackIconColorChild);
+            that.pointer = that.pointer + 100;
+        }
+
+        if (model.visited.simplify) {
+            that.backpackIconSimplify = that.add.button(that.pointer, 784, "backpackButtonAll",
+                                            that.backpackIconSimplifyCallback, that, 3, 2, 2);
+            that.backpackIconSimplify.anchor.setTo(0.5, 0.5);
+            that.backpackIconSimplify.scale.setTo(0.8, 0.8);
+            that.backpackIconSimplify.addChild(that.add.sprite(-50, -22, "backpackIconAll", 1));
+            if (model.simplify) {
+                that.backpackIconSimplify.setFrames(3, 2, 2);
+            } else {
+                that.backpackIconSimplify.setFrames(3, 4, 4);
+            }
+            that.pointer = that.pointer + 100;
+        }
 
         // Just the big backpack Icon that is present leftmost.
         that.backpackButton = that.add.sprite(70, 784, "backpackButtonAll", 0);
         that.backpackButton.anchor.setTo(0.5, 0.5);
         that.backpackButton.scale.setTo(0.8, 0.8);
+
+        // selection sake
+        that.backpackCount = 0;
+        that.backpackList = ["audio", "voice"];
+
+        // Populate list with properties that are present(visited).
+        for (var item in model.visited) {
+            if (model.visited[item] === true && item !== "house") {
+                that.backpackList.push(item);
+            }
+        }
+
+        that.acceptSelectionBackpack = function() {
+            // So that selections start happening only once user has started selecting
+            if (that.decoySprite.visible) {
+                that.prop = that.backpackList[that.backpackCount - 1];
+                if (that.prop === "size") {
+                    that.backpackIconSizeCallback();
+                }
+                if (that.prop === "color") {
+                    that.backpackIconColorCallback();
+                }
+                if (that.prop === "simplify") {
+                    that.backpackIconSimplifyCallback();
+                }
+                if (that.prop === "sound") {
+                    that.backpackIconSoundCallback();
+                }
+                if (that.prop === "voice") {
+                    that.backpackIconVoiceCallback();
+                }
+                if (that.prop === "audio") {
+                    that.backpackIconAudioCallback();
+                }
+            }
+        };
+
+        that.changeSelectionBackpack = function() {
+            that.backpackCount++;
+            that.decoySprite.visible = true;
+
+            if (that.backpackCount === (that.backpackList.length + 1)) {
+                that.backpackCount = 1;
+                that.decoySprite.x = 175;
+                return;
+            }
+
+            that.decoySprite.x = that.decoySprite.x + 100;
+
+        };
+
+        that.q = that.input.keyboard.addKey(Phaser.Keyboard.Q);
+        that.w = that.input.keyboard.addKey(Phaser.Keyboard.W);
+
+        that.q.onDown.add(that.changeSelectionBackpack, that);
+        that.w.onDown.add(that.acceptSelectionBackpack, that);
+
     };
 
     demo.state.house.messageBar = function(that, speechComp, model, message, time, y) {
