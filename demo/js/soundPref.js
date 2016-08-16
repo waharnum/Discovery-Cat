@@ -111,9 +111,58 @@
                     "{demo.discoveryCat}.prefModel.model",
                     "{demo.discoveryCat}.prefModel.model.lang.obj.soundPrefInstruction",
                                                     8000, 615]
+            },
+            changeSelectionUp: {
+                funcName: "demo.state.soundPref.changeSelection",
+                args: ["{that}", "{that}.soundAppearButton"]
+            },
+            changeSelectionDown: {
+                funcName: "demo.state.soundPref.changeSelection",
+                args: ["{that}", "{that}.noSoundAppearButton"]
+            },
+            catMovementUpdate: {
+                funcName: "demo.state.sizePref.catMovementUpdate",
+                args: ["{that}"]
             }
         }
     });
+
+
+    demo.state.soundPref.changeSelection = function(that, button) {
+        if (button === that.soundAppearButton) {
+            that.count--;
+        }
+
+        if (button === that.noSoundAppearButton) {
+            that.count++;
+        }
+
+        if (that.count === 3) {
+            that.count = 2;
+        }
+
+        if (that.count === 0) {
+            that.count = 1;
+        }
+
+        if (that.count === 1) {
+            // Fix the over, out, in states of last button
+            that.noSoundAppearButton.setFrames(16, 14, 14);
+            // Change the over, out, in states of this button
+            that.soundAppearButton.setFrames(13, 15, 15);
+            that.oldCount = 1;
+            that.soundAppearButtonCallback();
+        }
+        if (that.count === 2) {
+            // Change the over, out, in states of this button
+            that.soundAppearButton.setFrames(15, 13, 13);
+            // Fix the over, out, in states of last button
+            that.noSoundAppearButton.setFrames(14, 16, 16);
+            that.oldCount = 2;
+            that.noSoundAppearButtonCallback();
+        }
+
+    };
 
     demo.state.soundPref.inactionFeedback = function(that, model) {
         var obj;
@@ -194,12 +243,30 @@
         that.trumpet.visible = false;
         that.goButton.visible = false;
         // So that it can again reappear and surely this will create a new instant
-        that.standScreenAppearBool = false;
+
         if (!model.passcodeCollected.sound) {
             that.time.events.add(0, that.showSoundZigPasscode, that);
             that.time.events.add(3500, that.passcodeFound, that);
         }
         model.passcodeCollected.sound = true;
+
+
+        // Removes all the key Captures till now.
+        that.input.keyboard.removeKey(Phaser.Keyboard.UP);
+        that.input.keyboard.removeKey(Phaser.Keyboard.DOWN);
+        that.input.keyboard.removeKey(Phaser.Keyboard.ENTER);
+
+        that.cursors = that.input.keyboard.createCursorKeys();
+        that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+
+        // So that it can again reappear and surely this will create a new instant
+        // The reason for time event is that when the user presses Enter for Go
+        // the screenDisappears and the game starts registering isDown for Enter in
+        // the update section, so suddenly screen disappears and again appears. So
+        // we will introduce some time b4 control moves to isDown.
+        that.time.events.add(4000, function() {
+                    that.standScreenAppearBool = false;
+        }, that);
     };
 
     demo.state.soundPref.houseDoorFunc = function(that) {
@@ -229,6 +296,12 @@
             if (!model.passcodeCollected.sound) {
                 that.messageBarInstruction();
             }
+
+            that.upKey = that.input.keyboard.addKey(Phaser.Keyboard.UP);
+            that.downKey = that.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+            that.upKey.onDown.add(that.changeSelectionUp, that);
+            that.downKey.onDown.add(that.changeSelectionDown, that);
+            that.enter.onDown.add(that.goButtonCallback, that);
         }
     };
 
@@ -355,6 +428,8 @@
         that.backpack();
 
         that.stateEnterAnimation();
+
+        that.count = 1;
     };
 
     demo.state.soundPref.update = function(that) {
@@ -380,20 +455,9 @@
             that.standScreenAppear();
         }
 
-        // Character movement
-        if (that.cursors.left.isDown) {
-            that.cat.body.velocity.x = -150;
-            that.cat.animations.play("moveLeft");
-        } else if (that.cursors.right.isDown) {
-            that.cat.body.velocity.x = 150;
-            that.cat.animations.play("moveRight");
-        } else {
-            that.cat.animations.stop();
-            that.cat.body.velocity.x = 0;
-        }
-
-        if (that.cursors.up.isDown && that.cat.body.touching.down) {
-            that.cat.body.velocity.y = -700;
+        // Character movement and envelope screen up down key movement
+        if (!that.standScreenAppearBool) {
+            that.catMovementUpdate();
         }
 
     };

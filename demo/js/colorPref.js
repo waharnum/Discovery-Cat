@@ -94,9 +94,57 @@
                 args: ["{that}", "{demo.discoveryCat}.textToSpeech",
                     "{demo.discoveryCat}.prefModel.model",
                     "{demo.discoveryCat}.prefModel.model.lang.obj.colorPrefInstruction", 8000, 615]
+            },
+            changeSelectionUp: {
+                funcName: "demo.state.colorPref.changeSelection",
+                args: ["{that}", "{that}.bucketColor"]
+            },
+            changeSelectionDown: {
+                funcName: "demo.state.colorPref.changeSelection",
+                args: ["{that}", "{that}.bucketContrast"]
+            },
+            catMovementUpdate: {
+                funcName: "demo.state.sizePref.catMovementUpdate",
+                args: ["{that}"]
             }
         }
     });
+
+    demo.state.colorPref.changeSelection = function(that, button) {
+        if (button === that.bucketColor) {
+            that.count--;
+        }
+
+        if (button === that.bucketContrast) {
+            that.count++;
+        }
+
+        if (that.count === 3) {
+            that.count = 2;
+        }
+
+        if (that.count === 0) {
+            that.count = 1;
+        }
+
+        if (that.count === 1) {
+            // Fix the over, out, in states of last button
+            that.bucketContrast.setFrames(20, 18, 18);
+            // Change the over, out, in states of this button
+            that.bucketColor.setFrames(17, 19, 19);
+            that.oldCount = 1;
+            that.colorBucketCallback();
+        }
+        if (that.count === 2) {
+            // Change the over, out, in states of this button
+            that.bucketColor.setFrames(19, 17, 17);
+            // Fix the over, out, in states of last button
+            that.bucketContrast.setFrames(18, 20, 20);
+            that.oldCount = 2;
+            that.contrastBucketCallback();
+        }
+
+    };
 
     demo.state.colorPref.inactionFeedback = function(that, model) {
         var obj;
@@ -170,6 +218,18 @@
         }
         // So that it can again reappear and surely this will create a new instant
         that.aisleScreenAppearBool = false;
+        // Removes all the key Captures till now.
+        that.input.keyboard.removeKey(Phaser.Keyboard.UP);
+        that.input.keyboard.removeKey(Phaser.Keyboard.DOWN);
+        that.input.keyboard.removeKey(Phaser.Keyboard.ENTER);
+
+        that.cursors = that.input.keyboard.createCursorKeys();
+        that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+
+        // Reason for this in sizePref same section
+        that.time.events.add(4000, function() {
+                        that.aisleScreenAppearBool = false;
+        }, that);
     };
 
     demo.state.colorPref.houseDoorFunc = function(that) {
@@ -193,6 +253,12 @@
             if (model.passcodeCollected.color === false) {
                 that.messageBarInstruction();
             }
+
+            that.upKey = that.input.keyboard.addKey(Phaser.Keyboard.UP);
+            that.downKey = that.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+            that.upKey.onDown.add(that.changeSelectionUp, that);
+            that.downKey.onDown.add(that.changeSelectionDown, that);
+            that.enter.onDown.add(that.goButtonCallback, that);
         }
     };
 
@@ -325,10 +391,11 @@
             that.aisleAppear();
         }
 
-
         that.backpack();
 
         that.stateEnterAnimation();
+
+        that.count = 1;
     };
 
     demo.state.colorPref.update = function(that) {
@@ -354,20 +421,9 @@
             that.aisleScreenAppear();
         }
 
-        // Character movement
-        if (that.cursors.left.isDown) {
-            that.cat.body.velocity.x = -150;
-            that.cat.animations.play("moveLeft");
-        } else if (that.cursors.right.isDown) {
-            that.cat.body.velocity.x = 150;
-            that.cat.animations.play("moveRight");
-        } else {
-            that.cat.animations.stop();
-            that.cat.body.velocity.x = 0;
-        }
-
-        if (that.cursors.up.isDown && that.cat.body.touching.down) {
-            that.cat.body.velocity.y = -700;
+        // Character movement and envelope screen up down key movement
+        if (!that.aisleScreenAppearBool) {
+            that.catMovementUpdate();
         }
 
     };

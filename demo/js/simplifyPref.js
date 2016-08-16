@@ -99,9 +99,54 @@
                     "{demo.discoveryCat}.prefModel.model",
                     "{demo.discoveryCat}.prefModel.model.lang.obj.simplifyPrefInstruction",
                                                     8000, 615]
+            },
+            changeSelectionUp: {
+                funcName: "demo.state.simplifyPref.changeSelection",
+                args: ["{that}", "{that}.scissorButton"]
+            },
+            changeSelectionDown: {
+                funcName: "demo.state.simplifyPref.changeSelection",
+                args: ["{that}", "{that}.putBackButton"]
+            },
+            catMovementUpdate: {
+                funcName: "demo.state.sizePref.catMovementUpdate",
+                args: ["{that}"]
             }
         }
     });
+
+
+    demo.state.simplifyPref.changeSelection = function(that, button) {
+        if (button === that.scissorButton) {
+            that.count--;
+        }
+
+        if (button === that.putBackButton) {
+            that.count++;
+        }
+
+        if (that.count === 3) {
+            that.count = 2;
+        }
+
+        if (that.count === 0) {
+            that.count = 1;
+        }
+
+        if (that.count === 1) {
+            that.putBackButton.setFrames(11, 10, 10);
+            that.scissorButton.setFrames(9, 12, 12);
+            that.oldCount = 1;
+            that.scissorButtonCallback();
+        }
+        if (that.count === 2) {
+            that.putBackButton.setFrames(10, 11, 11);
+            that.scissorButton.setFrames(12, 9, 9);
+            that.oldCount = 2;
+            that.putBackButtonCallback();
+        }
+
+    };
 
     demo.state.simplifyPref.inactionFeedback = function(that, model) {
         var obj;
@@ -209,8 +254,24 @@
 
         // So that it can again reappear and surely this will create a new instant
         model.passcodeCollected.simplify = true;
-        that.newspaperScreenAppearBool = false;
 
+
+        // Removes all the key Captures till now.
+        that.input.keyboard.removeKey(Phaser.Keyboard.UP);
+        that.input.keyboard.removeKey(Phaser.Keyboard.DOWN);
+        that.input.keyboard.removeKey(Phaser.Keyboard.ENTER);
+
+        that.cursors = that.input.keyboard.createCursorKeys();
+        that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+
+        // So that it can again reappear and surely this will create a new instant
+        // The reason for time event is that when the user presses Enter for Go
+        // the screenDisappears and the game starts registering isDown for Enter in
+        // the update section, so suddenly screen disappears and again appears. So
+        // we will introduce some time b4 control moves to isDown.
+        that.time.events.add(4000, function() {
+                that.newspaperScreenAppearBool = false;
+        }, that);
     };
 
     demo.state.simplifyPref.takeScissor = function(that, model) {
@@ -266,6 +327,12 @@
                 that.messageBarInstruction();
             }
             that.newspaperScreenAppearBool = true;
+
+            that.upKey = that.input.keyboard.addKey(Phaser.Keyboard.UP);
+            that.downKey = that.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+            that.upKey.onDown.add(that.changeSelectionUp, that);
+            that.downKey.onDown.add(that.changeSelectionDown, that);
+            that.enter.onDown.add(that.goButtonCallback, that);
         }
     };
 
@@ -376,6 +443,8 @@
         that.backpack();
 
         that.stateEnterAnimation();
+
+        that.count = 1;
     };
 
     demo.state.simplifyPref.update = function(that) {
@@ -401,20 +470,9 @@
             that.newspaperScreenAppear();
         }
 
-        // Character movement
-        if (that.cursors.left.isDown) {
-            that.cat.body.velocity.x = -150;
-            that.cat.animations.play("moveLeft");
-        } else if (that.cursors.right.isDown) {
-            that.cat.body.velocity.x = 150;
-            that.cat.animations.play("moveRight");
-        } else {
-            that.cat.animations.stop();
-            that.cat.body.velocity.x = 0;
-        }
-
-        if (that.cursors.up.isDown && that.cat.body.touching.down) {
-            that.cat.body.velocity.y = -700;
+        // Character movement and envelope screen up down key movement
+        if (!that.newspaperScreenAppearBool) {
+            that.catMovementUpdate();
         }
 
     };

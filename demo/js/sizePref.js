@@ -90,9 +90,74 @@
                 args: ["{that}", "{demo.discoveryCat}.textToSpeech",
                     "{demo.discoveryCat}.prefModel.model",
                     "{demo.discoveryCat}.prefModel.model.lang.obj.sizePrefInstruction", 8000, 615]
+            },
+            changeSelectionUp: {
+                funcName: "demo.state.sizePref.changeSelection",
+                args: ["{that}", "{that}.upButton"]
+            },
+            changeSelectionDown: {
+                funcName: "demo.state.sizePref.changeSelection",
+                args: ["{that}", "{that}.downButton"]
+            },
+            catMovementUpdate: {
+                funcName: "demo.state.sizePref.catMovementUpdate",
+                args: ["{that}"]
             }
         }
     });
+
+    demo.state.sizePref.catMovementUpdate = function(that) {
+        if (that.cursors.left.isDown) {
+            that.cat.body.velocity.x = -150;
+            that.cat.animations.play("moveLeft");
+        } else if (that.cursors.right.isDown) {
+            that.cat.body.velocity.x = 150;
+            that.cat.animations.play("moveRight");
+        } else {
+            that.cat.animations.stop();
+            that.cat.body.velocity.x = 0;
+        }
+
+        if (that.cursors.up.isDown && that.cat.body.touching.down) {
+            that.cat.body.velocity.y = -700;
+        }
+    };
+
+    demo.state.sizePref.changeSelection = function(that, button) {
+        if (button === that.upButton) {
+            that.count--;
+        }
+
+        if (button === that.downButton) {
+            that.count++;
+        }
+
+        if (that.count === 3) {
+            that.count = 2;
+        }
+
+        if (that.count === 0) {
+            that.count = 1;
+        }
+
+        if (that.count === 1) {
+            // Fix the over, out, in states of last button
+            that.downButton.setFrames(3, 1, 1);
+            // Change the over, out, in states of this button
+            that.upButton.setFrames(0, 2, 2);
+            that.oldCount = 1;
+            that.upButtonCallback();
+        }
+        if (that.count === 2) {
+            // Change the over, out, in states of this button
+            that.upButton.setFrames(2, 0, 0);
+            // Fix the over, out, in states of last button
+            that.downButton.setFrames(1, 3, 3);
+            that.oldCount = 2;
+            that.downButtonCallback();
+        }
+
+    };
 
     demo.state.sizePref.passcodeFound = function(that, model, speechComp, message) {
         // Pattern falling from top
@@ -154,8 +219,6 @@
         // screen.
         that.messageBar.visible = false;
 
-        // So that it can again reappear and surely this will create a new instant
-        that.envelopeScreenAppearBool = false;
         that.houseDoor.scale.setTo(model.size, model.size);
         that.envelopePreview.scale.setTo(model.size, model.size);
         that.cat.scale.setTo(model.size, model.size);
@@ -192,6 +255,25 @@
                 }, that);
             model.passcodeCollected.size = true;
         }
+
+        // Removes all the key Captures till now.
+        that.input.keyboard.removeKey(Phaser.Keyboard.UP);
+        that.input.keyboard.removeKey(Phaser.Keyboard.DOWN);
+        that.input.keyboard.removeKey(Phaser.Keyboard.ENTER);
+
+        that.cursors = that.input.keyboard.createCursorKeys();
+        that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+
+        // So that it can again reappear and surely this will create a new instant
+        // The reason for time event is that when the user presses Enter for Go
+        // the screenDisappears and the game starts registering isDown for Enter in
+        // the update section, so suddenly screen disappears and again appears. So
+        // we will introduce some time b4 control moves to isDown.
+        that.time.events.add(4000, function() {
+                    that.envelopeScreenAppearBool = false;
+        }, that);
+
+
     };
 
     demo.state.sizePref.takeSpects = function(that, model) {
@@ -251,6 +333,12 @@
             if (model.passcodeCollected.size === false) {
                 that.messageBarInstruction();
             }
+
+            that.upKey = that.input.keyboard.addKey(Phaser.Keyboard.UP);
+            that.downKey = that.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+            that.upKey.onDown.add(that.changeSelectionUp, that);
+            that.downKey.onDown.add(that.changeSelectionDown, that);
+            that.enter.onDown.add(that.goButtonCallback, that);
         }
     };
 
@@ -357,6 +445,8 @@
         that.backpack();
 
         that.stateEnterAnimation();
+
+        that.count = 1;
     };
 
     demo.state.sizePref.update = function(that) {
@@ -382,20 +472,9 @@
             that.envelopeScreenAppear();
         }
 
-        // Character movement
-        if (that.cursors.left.isDown) {
-            that.cat.body.velocity.x = -150;
-            that.cat.animations.play("moveLeft");
-        } else if (that.cursors.right.isDown) {
-            that.cat.body.velocity.x = 150;
-            that.cat.animations.play("moveRight");
-        } else {
-            that.cat.animations.stop();
-            that.cat.body.velocity.x = 0;
-        }
-
-        if (that.cursors.up.isDown && that.cat.body.touching.down) {
-            that.cat.body.velocity.y = -700;
+        // Character movement and envelope screen up down key movement
+        if (!that.envelopeScreenAppearBool) {
+            that.catMovementUpdate();
         }
 
     };
