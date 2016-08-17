@@ -114,7 +114,7 @@
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("prelude");
+        game.state.start("house");
     };
 
     demo.state.Preload.update = function() {

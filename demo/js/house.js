@@ -575,7 +575,7 @@
         that.sizeDoor = that.add.sprite(460, 200, "doorh", 1);
         that.sizeDoor.anchor.setTo(0.5, 1);
         if (model.passcodeCollected.size) {
-            that.sizeDoor.addChild(that.add.text(-60, -130, "****\nAC",
+            that.sizeDoor.addChild(that.add.text(-55, -130, " **\nAC",
                                             { font: "50px Arial", fill: "#fff" }));
         }
         that.sizeDoor.scale.setTo(model.size, model.size);
@@ -585,7 +585,7 @@
         that.colorDoor = that.add.sprite(830, 200, "doorh", 1);
         that.colorDoor.anchor.setTo(0.5, 1);
         if (model.passcodeCollected.color) {
-            that.colorDoor.addChild(that.add.text(-60, -130, "****\n KL",
+            that.colorDoor.addChild(that.add.text(-57, -130, " **\n KL",
                                             { font: "50px Arial", fill: "#fff" }));
         }
         that.colorDoor.scale.setTo(model.size, model.size);
@@ -595,7 +595,7 @@
         that.simplifyDoor = that.add.sprite(460, 440, "doorh", 1);
         that.simplifyDoor.anchor.setTo(0.5, 1);
         if (model.passcodeCollected.simplify) {
-            that.simplifyDoor.addChild(that.add.text(-60, -130, "****\nMB",
+            that.simplifyDoor.addChild(that.add.text(-55, -130, " **\nMB",
                                             { font: "50px Arial", fill: "#fff" }));
         }
         that.simplifyDoor.scale.setTo(model.size, model.size);
@@ -605,7 +605,7 @@
         that.soundDoor = that.add.sprite(830, 440, "doorh", 1);
         that.soundDoor.anchor.setTo(0.5, 1);
         if (model.passcodeCollected.sound) {
-            that.soundDoor.addChild(that.add.text(-60, -130, "****\nGH",
+            that.soundDoor.addChild(that.add.text(-57, -130, " **\nGH",
                                             { font: "50px Arial", fill: "#fff" }));
         }
         that.soundDoor.scale.setTo(model.size, model.size);
