@@ -119,8 +119,7 @@
             that.gameEndSafeAnimationBool = true;
             that.safeNotif.visible = false;
             that.audioG.pause();
-            that.popUp = that.add.sprite(0, -800, "popupScreensop");
-            that.popDown = that.add.sprite(0, 840, "popupScreensop");
+
             that.time.events.add(0, function() {
                 that.add.tween(that.popUp).to({ x: 0, y: -230 }, 2000,
                                     Phaser.Easing.Sinusoidal.InOut, true);
@@ -630,6 +629,11 @@
             [0, 1, 2, 3], 10, true);
         that.cat.animations.add("moveRight",
             [4, 5, 6, 7], 10, true);
+
+        // This is present here to rearrange the order as the notifs were
+        // coming below this popup.
+        that.popUp = that.add.sprite(0, -800, "popupScreensop");
+        that.popDown = that.add.sprite(0, 840, "popupScreensop");
 
         // automatically populate the cursor key define each key
         that.cursors = that.input.keyboard.createCursorKeys();
