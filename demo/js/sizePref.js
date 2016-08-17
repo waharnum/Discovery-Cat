@@ -219,6 +219,10 @@
         // screen.
         that.messageBar.visible = false;
 
+        // This is just black transparent screen for the use of highlighting the
+        // passcode stuff happening on the screen with respect to the background.
+        that.tempBackground = that.add.sprite(0, 0, "popupScreensop");
+
         that.houseDoor.scale.setTo(model.size, model.size);
         that.envelopePreview.scale.setTo(model.size, model.size);
         that.cat.scale.setTo(model.size, model.size);
@@ -230,15 +234,15 @@
             that.popup = that.add.sprite(640, 1400, "popupAll", 0);
             that.popup.anchor.setTo(0.5, 1);
 
-            that.letterText = that.add.text(-150, -360, "******\n  AC",
-                                                    { font: "125px Arial", fill: "#808080" });
+            that.letterText = that.add.text(-160, -360, "******\n  AC",
+                                                    { font: "125px Arial", fill: "#000" });
             that.letterText.scale.setTo(model.size, model.size);
             that.popup.addChild(that.letterText);
 
-            that.envelopeForLetter = that.add.sprite(640, 1500, "envelopeForLettersp");
-            that.envelopeForLetter.anchor.setTo(0.5, 1);
-            that.add.tween(that.envelopeForLetter).to({ x: 640, y: 1100 },
-                        1000, Phaser.Easing.Sinusoidal.InOut, true);
+            // that.envelopeForLetter = that.add.sprite(640, 1500, "envelopeForLettersp");
+            // that.envelopeForLetter.anchor.setTo(0.5, 1);
+            // that.add.tween(that.envelopeForLetter).to({ x: 640, y: 1100 },
+            //             1000, Phaser.Easing.Sinusoidal.InOut, true);
 
             that.add.tween(that.popup).to({ x: 640, y: 600 },
                 1500, Phaser.Easing.Sinusoidal.InOut, true).to({ x: 640, y: 600 },
@@ -247,8 +251,9 @@
                     that.time.events.add(4000, function() {
                         that.add.tween(that.popup).to({ x: 640, y: 1400 },
                                     500, Phaser.Easing.Sinusoidal.InOut, true);
-                        that.add.tween(that.envelopeForLetter).to({ x: 640, y: 1500 },
-                                    1500, Phaser.Easing.Sinusoidal.InOut, true);
+                        // that.add.tween(that.envelopeForLetter).to({ x: 640, y: 1500 },
+                        //             1500, Phaser.Easing.Sinusoidal.InOut, true);
+                        that.tempBackground.visible = false;
                         }, that.popup);
                     that.time.events.add(4000, that.passcodeFound, that);
 
@@ -432,7 +437,7 @@
         that.houseDoorNotif.scale.setTo(model.size, model.size);
         that.houseDoorNotif.alpha = 0;
         // envelope notif
-        that.envelopeNotif = that.add.sprite(490, 420, "messageBoxAll", 0);
+        that.envelopeNotif = that.add.sprite(490, 440, "messageBoxAll", 0);
         that.envelopeNotif.addChild(that.add.text(10, 25, model.lang.obj.useItem));
         that.envelopeNotif.scale.setTo(model.size, model.size);
         that.envelopeNotif.alpha = 0;
