@@ -36,7 +36,7 @@
     });
 
     demo.state.endingScreen.yesNo = function(that, model, prop, propY) {
-        if (model.prop) {
+        if (model[prop]) {
             that.add.text(900, propY, "YES", { font: "35px Arial", fill: "#5cbd6c" });
         } else {
             that.add.text(900, propY, "NO", { font: "35px Arial", fill: "#b72025" });
@@ -61,13 +61,21 @@
         that.heading.anchor.setTo(0.5, 0.5);
 
         that.add.text(250, 300, "SIZE :", { font: "35px Arial", fill: "#fff" });
-        that.add.text(900, 300, model.size, { font: "35px Arial", fill: "#fed600" });
+        // FOR DIFFERENT SIZES
+        if (model.size === 1) {
+            that.sizeText = "SMALL";
+        } else if (model.size === 1.1) {
+            that.sizeText = "MEDIUM";
+        } else {
+            that.sizeText = "LARGE";
+        }
+        that.add.text(900, 300, that.sizeText, { font: "35px Arial", fill: "#fed600" });
 
         that.add.text(250, 360, "HIGH CONTRAST :", { font: "35px Arial", fill: "#fff" });
         that.yesNohighContrast();
 
         that.add.text(250, 420, "LANGUAGE :", { font: "35px Arial", fill: "#fff" });
-        that.add.text(900, 420, model.lang, { font: "35px Arial", fill: "#fed600" });
+        that.add.text(900, 420, model.lang.type, { font: "35px Arial", fill: "#fed600" });
 
         that.add.text(250, 480, "SIMPLIFY :", { font: "35px Arial", fill: "#fff" });
         that.yesNosimplify();
