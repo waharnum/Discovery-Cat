@@ -196,6 +196,10 @@
             that.audioG.pause();
             that.audioC.pause();
             that.audioEm.pause();
+            if (stateName === "house") {
+                model.position.catHousex = that.cat.x;
+                model.position.catHousey = that.cat.y;
+            }
             that.state.start(stateName);
         };
 
@@ -219,6 +223,10 @@
             that.audioG.pause();
             that.audioC.pause();
             that.audioEm.pause();
+            if (stateName === "house") {
+                model.position.catHousex = that.cat.x;
+                model.position.catHousey = that.cat.y - 20;
+            }
             that.state.start(stateName);
             // SOLUTION TAKE CAT POSITION AND RERENDER WHOLE SCENE
         };
@@ -271,6 +279,10 @@
             that.audioG.pause();
             that.audioC.pause();
             that.audioEm.pause();
+            if (stateName === "house") {
+                model.position.catHousex = that.cat.x;
+                model.position.catHousey = that.cat.y;
+            }
             that.state.start(stateName);
         };
         // These 2 will be specified outside of the backpack function
@@ -642,25 +654,25 @@
         that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
         // Notif size pref door
-        that.sizeDoorNotif = that.add.sprite(435, 110, "messageBoxAll", 0);
+        that.sizeDoorNotif = that.add.sprite(440, 125, "messageBoxAll", 0);
         that.sizeDoorNotif.addChild(that.add.text(-50, -100, model.lang.obj.enterRoom));
         that.sizeDoorNotif.anchor.setTo(0.5, 1);
         that.sizeDoorNotif.scale.setTo(model.size, model.size);
         that.sizeDoorNotif.alpha = 0;
         // Notif color pref door
-        that.colorDoorNotif = that.add.sprite(800, 110, "messageBoxAll", 0);
+        that.colorDoorNotif = that.add.sprite(805, 125, "messageBoxAll", 0);
         that.colorDoorNotif.addChild(that.add.text(-50, -100, model.lang.obj.enterRoom));
         that.colorDoorNotif.anchor.setTo(0.5, 1);
         that.colorDoorNotif.scale.setTo(model.size, model.size);
         that.colorDoorNotif.alpha = 0;
         // Notif simplify pref door
-        that.simplifyDoorNotif = that.add.sprite(430, 339, "messageBoxAll", 0);
+        that.simplifyDoorNotif = that.add.sprite(435, 339, "messageBoxAll", 0);
         that.simplifyDoorNotif.addChild(that.add.text(-50, -100, model.lang.obj.enterRoom));
         that.simplifyDoorNotif.anchor.setTo(0.5, 1);
         that.simplifyDoorNotif.scale.setTo(model.size, model.size);
         that.simplifyDoorNotif.alpha = 0;
         // Notif sound pref door
-        that.soundDoorNotif = that.add.sprite(800, 339, "messageBoxAll", 0);
+        that.soundDoorNotif = that.add.sprite(805, 339, "messageBoxAll", 0);
         that.soundDoorNotif.addChild(that.add.text(-50, -100, model.lang.obj.enterRoom));
         that.soundDoorNotif.anchor.setTo(0.5, 1);
         that.soundDoorNotif.scale.setTo(model.size, model.size);

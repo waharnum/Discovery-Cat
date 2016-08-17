@@ -16,7 +16,7 @@
             voice: true,
             visited: {
                 sound: false,
-                size: false,
+                size: true,
                 color: false,
                 simplify: false,
                 house: false
