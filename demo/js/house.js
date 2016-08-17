@@ -289,6 +289,8 @@
             }
         };
 
+        that.bg = that.add.sprite(0, 720, "backgroundbp");
+
         // Decoy Sprite for showing selection when using q and w for navigation.
         that.decoySprite = that.add.sprite(75, 784, "backpackButtonAll", 3);
         that.decoySprite.anchor.setTo(0.5, 0.5);

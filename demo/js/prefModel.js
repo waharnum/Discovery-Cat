@@ -22,10 +22,10 @@
                 house: false
             },
             passcodeCollected: {
-                sound: true,
-                size: true,
-                color: true,
-                simplify: true
+                sound: false,
+                size: false,
+                color: false,
+                simplify: false
             },
             position: {
                 catHousex: 70,

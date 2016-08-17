@@ -111,10 +111,13 @@
 
         // pattern
         game.load.image("pattern", "assets/pattern.png");
+
+        // backpack background
+        game.load.image("backgroundbp", "assets/background-backpack.png");
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("house");
+        game.state.start("prelude");
     };
 
     demo.state.Preload.update = function() {
