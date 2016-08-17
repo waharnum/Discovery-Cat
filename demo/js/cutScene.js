@@ -241,6 +241,9 @@
         that.skipButton.scale.setTo(0.6, 0.6);
         that.skipButton.alpha = 0.7;
 
+        that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        that.enter.onDown.add(that.skipButtonCallback, that);
+
         that.stateEnterAnimation();
     };
 
