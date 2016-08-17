@@ -58,9 +58,13 @@
                 funcName: "demo.state.langPref.messageSpeech",
                 args: ["{that}", "{demo.discoveryCat}.textToSpeech", "de", "de"]
             },
-            changeSelection: {
+            changeSelectionUp: {
                 funcName: "demo.state.langPref.changeSelection",
-                args: "{that}"
+                args: ["{that}", "UP"]
+            },
+            changeSelectionDown: {
+                funcName: "demo.state.langPref.changeSelection",
+                args: ["{that}", "DOWN"]
             },
             acceptSelection: {
                 funcName: "demo.state.langPref.acceptSelection",
@@ -165,11 +169,11 @@
     };
 
     // Actions to be performed on pressing TAB
-    demo.state.langPref.changeSelection = function(that) {
+    demo.state.langPref.changeSelection = function(that, button) {
         // For tab to work
         // For shift+tab to work
         // that.count starts as 0
-        if (that.key1.shiftKey) {
+        if (button === "UP") {
             // for backward movement
             // This will make 0 to become -1
             that.count--;
@@ -301,10 +305,13 @@
         that.time.events.add(8500, that.messageAppear, that);
 
         // Keyboard controls for changing and accepting selections
-        that.key1 = that.input.keyboard.addKey(Phaser.Keyboard.TAB);
+        that.key1 = that.input.keyboard.addKey(Phaser.Keyboard.UP);
         // Add adds the keyboard Input to the browser on the other hand addOnce adds it to
         // single state, which is what we desire here.
-        that.key1.onDown.add(that.changeSelection, that);
+        that.key1.onDown.add(that.changeSelectionUp, that);
+
+        that.key3 = that.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+        that.key3.onDown.add(that.changeSelectionDown, that);
 
         that.input.keyboard.removeKey(Phaser.Keyboard.ENTER);
         // Enter and Space both are for accepting selection
