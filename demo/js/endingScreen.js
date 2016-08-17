@@ -31,9 +31,17 @@
             stateEnterAnimation: {
                 funcName: "demo.state.prelude.stateEnterAnimation",
                 args: ["{that}", 0, 0]
+            },
+            resetButtonCallback: {
+                funcName: "demo.state.endingScreen.resetButtonCallback",
+                args: ["{that}"]
             }
         }
     });
+
+    demo.state.endingScreen.resetButtonCallback = function(that) {
+        that.state.start("prelude");
+    };
 
     demo.state.endingScreen.yesNo = function(that, model, prop, propY) {
         if (model[prop]) {
@@ -85,6 +93,15 @@
 
         that.add.text(50, 770, model.lang.obj.cookieNote,
                                             { font: "35px Arial", fill: "#fed600" });
+
+        that.resetButton = that.add.button(1110, 680, "upDownButtonsp",
+                                            that.resetButtonCallback, that, 22, 21, 21);
+        that.resetButton.scale.setTo(0.8, 0.8);
+
+        that.input.keyboard.removeKey(Phaser.Keyboard.ENTER);
+        that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        that.enter.onDown.add(that.resetButtonCallback, that);
+
         that.stateEnterAnimation();
     };
 
