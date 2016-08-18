@@ -466,7 +466,8 @@
         that.expandShrinkBackpack = function() {
             console.log("hello mike how are you");
             if (!that.expandBool) {
-                that.blackBar.scale.setTo(that.blackBarScaleX, 0.136);
+                that.add.tween(that.blackBar.scale).to({ x: that.blackBarScaleX, y: 0.136 },
+                                    200, Phaser.Easing.Sinusoidal.InOut, true);
                 that.cat.frame = 8;
                 that.decoySprite.visible = true;
                 that.travelBackpackList(true);
@@ -484,7 +485,8 @@
                 that.left.onDown.add(that.changeSelectionBackpackLeft, that);
                 that.enter.onDown.add(that.acceptSelectionBackpack, that);
             } else {
-                that.blackBar.scale.setTo(0, 0.136);
+                that.add.tween(that.blackBar.scale).to({ x: 0, y: 0.136 },
+                                    200, Phaser.Easing.Sinusoidal.InOut, true);
                 that.cat.frame = 5;
                 that.decoySprite.visible = false;
                 that.travelBackpackList(false);
