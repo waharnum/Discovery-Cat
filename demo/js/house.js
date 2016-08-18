@@ -305,6 +305,16 @@
         // Background for the backpack bar
         that.bg = that.add.sprite(0, 720, "backgroundbp");
 
+        // 52, 44, 36, 28, 20
+        that.blackBar = that.add.sprite(69, 786, "popupScreensop");
+        that.blackBar.anchor.setTo(0, 0.5);
+        that.blackBar.scale.setTo(0, 0.136);
+
+        // Just the big backpack Icon that is present leftmost.
+        that.backpackButton = that.add.sprite(70, 786, "backpackButtonAll", 0);
+        that.backpackButton.anchor.setTo(0.5, 0.5);
+        that.backpackButton.scale.setTo(0.9, 0.9);
+
         // Decoy Sprite for showing selection when using q and w for navigation.
         that.decoySprite = that.add.sprite(175, 784, "backpackButtonAll", 3);
         that.decoySprite.anchor.setTo(0.5, 0.5);
@@ -407,10 +417,7 @@
             that.backpackIconSimplify.visible = false;
         }
 
-        // Just the big backpack Icon that is present leftmost.
-        that.backpackButton = that.add.sprite(70, 784, "backpackButtonAll", 0);
-        that.backpackButton.anchor.setTo(0.5, 0.5);
-        that.backpackButton.scale.setTo(0.8, 0.8);
+
 
         // This is for alt to shrink and expand backpack on its press.
 
@@ -427,6 +434,8 @@
                 that.backpackList.push(item);
             }
         }
+
+        that.blackBarScaleX = (20 + (8 * (that.backpackList.length - 2))) / 100;
 
         that.travelBackpackList = function(bool) {
             console.log(that.backpackList);
@@ -457,6 +466,7 @@
         that.expandShrinkBackpack = function() {
             console.log("hello mike how are you");
             if (!that.expandBool) {
+                that.blackBar.scale.setTo(that.blackBarScaleX, 0.136);
                 that.cat.frame = 8;
                 that.decoySprite.visible = true;
                 that.travelBackpackList(true);
@@ -474,6 +484,7 @@
                 that.left.onDown.add(that.changeSelectionBackpackLeft, that);
                 that.enter.onDown.add(that.acceptSelectionBackpack, that);
             } else {
+                that.blackBar.scale.setTo(0, 0.136);
                 that.cat.frame = 5;
                 that.decoySprite.visible = false;
                 that.travelBackpackList(false);
