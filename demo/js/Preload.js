@@ -117,7 +117,7 @@
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("prelude");
+        game.state.start("langPref");
     };
 
     demo.state.Preload.update = function() {

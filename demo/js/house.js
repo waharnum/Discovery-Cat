@@ -105,6 +105,10 @@
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model",
                         "{demo.discoveryCat}.textToSpeech",
                             "  Congo! Ball Found"]
+            },
+            catMovementUpdate: {
+                funcName: "demo.state.sizePref.catMovementUpdate",
+                args: ["{that}"]
             }
         }
     });
@@ -244,6 +248,7 @@
                 model.music = false;
             }
         };
+
         that.backpackIconVoiceCallback = function() {
             // volume is not taken as an option but a model thus we have used
             // change applier here for our work which involved changed changing
@@ -261,6 +266,7 @@
                 model.voice = false;
             }
         };
+
         that.backpackIconColorCallback = function() {
             if (model.contrast === false) {
                 that.colorPrefFilter();
@@ -285,12 +291,7 @@
             }
             that.state.start(stateName);
         };
-        // These 2 will be specified outside of the backpack function
-        // STATE SPECIFIC BOTH REQUIRE RERENDERING CANVAS
-        // that.backpackIconSimplifyCallback = function() {};
-        // STATE SPECIFIC
-        // that.backpackIconSizeCallback = function() {};
-        // STATE SPECIFIC
+
         that.backpackIconSoundCallback = function() {
             if (model.sound) {
                 model.sound = false;
@@ -301,10 +302,11 @@
             }
         };
 
+        // Background for the backpack bar
         that.bg = that.add.sprite(0, 720, "backgroundbp");
 
         // Decoy Sprite for showing selection when using q and w for navigation.
-        that.decoySprite = that.add.sprite(75, 784, "backpackButtonAll", 3);
+        that.decoySprite = that.add.sprite(175, 784, "backpackButtonAll", 3);
         that.decoySprite.anchor.setTo(0.5, 0.5);
         that.decoySprite.scale.setTo(0.8, 0.8);
         that.decoySprite.visible = false;
@@ -323,6 +325,7 @@
         } else {
             that.backpackIconAudio.setFrames(3, 4, 4);
         }
+        that.backpackIconAudio.visible = false;
 
         that.backpackIconVoice = that.add.button(275, 784, "backpackButtonAll",
                                         that.backpackIconVoiceCallback, that, 3, 2, 2);
@@ -334,6 +337,7 @@
         } else {
             that.backpackIconVoice.setFrames(3, 4, 4);
         }
+        that.backpackIconVoice.visible = false;
 
         // that.pointer is to ensure that all the backpack icons are in position and appear
         // only when the room has been visited. It is to maintain order of icons in the prefBar
@@ -351,6 +355,8 @@
                 that.backpackIconSound.setFrames(3, 4, 4);
             }
             that.pointer = that.pointer + 100;
+
+            that.backpackIconSound.visible = false;
         }
         if (model.visited.size) {
             that.backpackIconSize = that.add.button(that.pointer, 784, "backpackButtonAll",
@@ -366,6 +372,8 @@
             }
             that.backpackIconSize.addChild(that.backpackIconSizeChild);
             that.pointer = that.pointer + 100;
+
+            that.backpackIconSize.visible = false;
         }
         if (model.visited.color) {
             that.backpackIconColor = that.add.button(that.pointer, 784, "backpackButtonAll",
@@ -379,6 +387,8 @@
             }
             that.backpackIconColor.addChild(that.backpackIconColorChild);
             that.pointer = that.pointer + 100;
+
+            that.backpackIconColor.visible = false;
         }
 
         if (model.visited.simplify) {
@@ -393,6 +403,8 @@
                 that.backpackIconSimplify.setFrames(3, 4, 4);
             }
             that.pointer = that.pointer + 100;
+
+            that.backpackIconSimplify.visible = false;
         }
 
         // Just the big backpack Icon that is present leftmost.
@@ -400,8 +412,13 @@
         that.backpackButton.anchor.setTo(0.5, 0.5);
         that.backpackButton.scale.setTo(0.8, 0.8);
 
+        // This is for alt to shrink and expand backpack on its press.
+
+        // This is bool for if the list is in expanded state
+        that.expandBool = false;
+
         // selection sake
-        that.backpackCount = 0;
+        that.backpackCount = 1;
         that.backpackList = ["audio", "voice"];
 
         // Populate list with properties that are present(visited).
@@ -410,6 +427,83 @@
                 that.backpackList.push(item);
             }
         }
+
+        that.travelBackpackList = function(bool) {
+            console.log(that.backpackList);
+
+            for (var i = 0; i < that.backpackList.length; i++) {
+                console.log(that.backpackList[i]);
+                if (that.backpackList[i] === "size") {
+                    that.backpackIconSize.visible = bool;
+                }
+                if (that.backpackList[i] === "color") {
+                    that.backpackIconColor.visible = bool;
+                }
+                if (that.backpackList[i] === "simplify") {
+                    that.backpackIconSimplify.visible = bool;
+                }
+                if (that.backpackList[i] === "sound") {
+                    that.backpackIconSound.visible = bool;
+                }
+                if (that.backpackList[i] === "voice") {
+                    that.backpackIconVoice.visible = bool;
+                }
+                if (that.backpackList[i] === "audio") {
+                    that.backpackIconAudio.visible = bool;
+                }
+            }
+        };
+
+        that.expandShrinkBackpack = function() {
+            console.log("hello mike how are you");
+            if (!that.expandBool) {
+                that.decoySprite.visible = true;
+                that.travelBackpackList(true);
+                that.expandBool = true;
+                // Keys are first removed from their captures.
+                that.input.keyboard.removeKey(Phaser.Keyboard.RIGHT);
+                that.input.keyboard.removeKey(Phaser.Keyboard.LEFT);
+                that.input.keyboard.removeKey(Phaser.Keyboard.ENTER);
+
+                // New functions are assigned to keys
+                that.right = that.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+                that.left = that.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+                that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+                that.right.onDown.add(that.changeSelectionBackpackRight, that);
+                that.left.onDown.add(that.changeSelectionBackpackLeft, that);
+                that.enter.onDown.add(that.acceptSelectionBackpack, that);
+            } else {
+                that.decoySprite.visible = false;
+                that.travelBackpackList(false);
+                that.expandBool = false;
+
+                that.input.keyboard.removeKey(Phaser.Keyboard.RIGHT);
+                that.input.keyboard.removeKey(Phaser.Keyboard.LEFT);
+                that.input.keyboard.removeKey(Phaser.Keyboard.ENTER);
+                that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+                that.cursors = that.input.keyboard.createCursorKeys();
+                that.backpackShimForEnter();
+                that.backpackShimForLangPref();
+                // that.right.reset(true);
+                // that.left.reset(true);
+                // that.enter.reset(true);
+            }
+        };
+
+        // When the selection popUp of the screens are open then enter should be
+        //  mapped to the go button on the screen and here we have kept care of that.
+        that.backpackShimForEnter = function() {
+            if (that.aisleScreenAppearBool || that.newspaperScreenAppearBool ||
+                that.standScreenAppearBool || that.envelopeScreenAppearBool) {
+                that.enter.onDown.add(that.goButtonCallback, that);
+            }
+        };
+
+        that.backpackShimForLangPref = function() {
+            if (stateName === "langPref") {
+                that.enter.onDown.addOnce(that.acceptSelection, that);
+            }
+        };
 
         that.acceptSelectionBackpack = function() {
             // So that selections start happening only once user has started selecting
@@ -436,25 +530,31 @@
             }
         };
 
-        that.changeSelectionBackpack = function() {
+        that.changeSelectionBackpackLeft = function() {
+            that.backpackCount--;
+            that.decoySprite.visible = true;
+            if (that.backpackCount === 0) {
+                that.backpackCount = that.backpackList.length;
+                that.decoySprite.x = that.decoySprite.x +
+                                        (100 * (that.backpackList.length - 1));
+                return;
+            }
+            that.decoySprite.x = that.decoySprite.x - 100;
+        };
+
+        that.changeSelectionBackpackRight = function() {
             that.backpackCount++;
             that.decoySprite.visible = true;
-
             if (that.backpackCount === (that.backpackList.length + 1)) {
                 that.backpackCount = 1;
                 that.decoySprite.x = 175;
                 return;
             }
-
             that.decoySprite.x = that.decoySprite.x + 100;
-
         };
 
-        that.q = that.input.keyboard.addKey(Phaser.Keyboard.Q);
-        that.w = that.input.keyboard.addKey(Phaser.Keyboard.W);
-
-        that.q.onDown.add(that.changeSelectionBackpack, that);
-        that.w.onDown.add(that.acceptSelectionBackpack, that);
+        that.alt = that.input.keyboard.addKey(Phaser.Keyboard.ALT);
+        that.alt.onDown.add(that.expandShrinkBackpack, that);
 
     };
 
@@ -720,32 +820,38 @@
         that.physics.arcade.collide(that.cat, that.platforms);
 
         // overlap checks if the sizeDoor and the cat are overlapping each other
-        // and at the same time the pressing ENTER makes cat move into room
-        if (that.physics.arcade.overlap(that.sizeDoor, that.cat) && that.enter.isDown) {
+        // and at the same time the pressing ENTER makes cat move into room.
+        // These -20 in cats y position because if cat increases its size inside room
+        // and comes out it will again fall to the floor below.
+        if (that.physics.arcade.overlap(that.sizeDoor, that.cat) && that.enter.isDown &&
+                                                                        !that.expandBool) {
             that.audioG.pause();
             model.position.catHousex = that.cat.x;
-            model.position.catHousey = that.cat.y;
+            model.position.catHousey = that.cat.y - 20;
             that.state.start("sizePref");
         }
 
-        if (that.physics.arcade.overlap(that.colorDoor, that.cat) && that.enter.isDown) {
+        if (that.physics.arcade.overlap(that.colorDoor, that.cat) && that.enter.isDown &&
+                                                                        !that.expandBool) {
             that.audioG.pause();
             model.position.catHousex = that.cat.x;
-            model.position.catHousey = that.cat.y;
+            model.position.catHousey = that.cat.y - 20;
             that.state.start("colorPref");
         }
 
-        if (that.physics.arcade.overlap(that.simplifyDoor, that.cat) && that.enter.isDown) {
+        if (that.physics.arcade.overlap(that.simplifyDoor, that.cat) && that.enter.isDown &&
+                                                                        !that.expandBool) {
             that.audioG.pause();
             model.position.catHousex = that.cat.x;
-            model.position.catHousey = that.cat.y;
+            model.position.catHousey = that.cat.y - 20;
             that.state.start("simplifyPref");
         }
 
-        if (that.physics.arcade.overlap(that.soundDoor, that.cat) && that.enter.isDown) {
+        if (that.physics.arcade.overlap(that.soundDoor, that.cat) && that.enter.isDown &&
+                                                                        !that.expandBool) {
             that.audioG.pause();
             model.position.catHousex = that.cat.x;
-            model.position.catHousey = that.cat.y;
+            model.position.catHousey = that.cat.y - 20;
             that.state.start("soundPref");
         }
 
@@ -757,7 +863,8 @@
         if (that.physics.arcade.overlap(that.yarnBall, that.cat) &&
                                                 !that.yarnBallFoundBool &&
                                                     that.enter.isDown &&
-                                                    that.yarnBallNotifAppear) {
+                                                        !that.expandBool &&
+                                                            that.yarnBallNotifAppear) {
             that.yarnBall.visible = false;
             that.yarnBallFound();
             that.yarnBallFoundBool = true;
@@ -770,27 +877,14 @@
 
         if (that.physics.arcade.overlap(that.mainExitDoor, that.cat) &&
                             that.yarnBallFoundBool &&
-                                that.enter.isDown) {
+                                that.enter.isDown &&
+                                    !that.expandBool) {
             that.audioG.pause();
             that.storeCookie();
             that.state.start("endingScreen");
         }
 
-        // character movement
-        if (that.cursors.left.isDown) {
-            that.cat.body.velocity.x = -150;
-            that.cat.animations.play("moveLeft");
-        } else if (that.cursors.right.isDown) {
-            that.cat.body.velocity.x = 150;
-            that.cat.animations.play("moveRight");
-        } else {
-            that.cat.animations.stop();
-            that.cat.body.velocity.x = 0;
-        }
-        // jump character
-        if (that.cursors.up.isDown && that.cat.body.touching.down) {
-            that.cat.body.velocity.y = -700;
-        }
+        that.catMovementUpdate();
 
         // Size Door Notif
         that.sizeDoorNotifFunc();

@@ -459,15 +459,18 @@
         that.smallNewspaperNotifFunc();
 
         // Exit from room
-        if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.enter.isDown) {
+        if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.enter.isDown &&
+                                                                            !that.expandBool) {
             that.houseDoorOpen();
         }
 
-        if (that.physics.arcade.overlap(that.scissor, that.cat) && that.enter.isDown) {
+        if (that.physics.arcade.overlap(that.scissor, that.cat) && that.enter.isDown &&
+                                                                            !that.expandBool) {
             that.takeScissor();
         }
 
-        if (that.physics.arcade.overlap(that.smallNewspaper, that.cat) && that.enter.isDown) {
+        if (that.physics.arcade.overlap(that.smallNewspaper, that.cat) && that.enter.isDown &&
+                                                                            !that.expandBool) {
             that.newspaperScreenAppear();
         }
 

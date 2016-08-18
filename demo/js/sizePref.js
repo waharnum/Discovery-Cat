@@ -118,7 +118,9 @@
             that.cat.body.velocity.x = 0;
         }
 
-        if (that.cursors.up.isDown && that.cat.body.touching.down) {
+        // expandBool makes sure cat does not jump when the backpack is open
+        if (that.cursors.up.isDown && that.cat.body.touching.down &&
+                                                      !that.expandBool) {
             that.cat.body.velocity.y = -700;
         }
     };
@@ -465,15 +467,18 @@
         that.envelopeNotifFunc();
 
         // Exit from room
-        if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.enter.isDown) {
+        if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.enter.isDown &&
+                                                                            !that.expandBool) {
             that.houseDoorOpen();
         }
 
-        if (that.physics.arcade.overlap(that.spects, that.cat) && that.enter.isDown) {
+        if (that.physics.arcade.overlap(that.spects, that.cat) && that.enter.isDown &&
+                                                                            !that.expandBool) {
             that.takeSpects();
         }
 
-        if (that.physics.arcade.overlap(that.envelopePreview, that.cat) && that.enter.isDown) {
+        if (that.physics.arcade.overlap(that.envelopePreview, that.cat) && that.enter.isDown &&
+                                                                            !that.expandBool) {
             that.envelopeScreenAppear();
         }
 

@@ -305,13 +305,13 @@
         that.time.events.add(8500, that.messageAppear, that);
 
         // Keyboard controls for changing and accepting selections
-        that.key1 = that.input.keyboard.addKey(Phaser.Keyboard.UP);
+        that.up = that.input.keyboard.addKey(Phaser.Keyboard.UP);
         // Add adds the keyboard Input to the browser on the other hand addOnce adds it to
         // single state, which is what we desire here.
-        that.key1.onDown.add(that.changeSelectionUp, that);
+        that.up.onDown.add(that.changeSelectionUp, that);
 
-        that.key3 = that.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-        that.key3.onDown.add(that.changeSelectionDown, that);
+        that.down = that.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+        that.down.onDown.add(that.changeSelectionDown, that);
 
         that.input.keyboard.removeKey(Phaser.Keyboard.ENTER);
         // Enter and Space both are for accepting selection
@@ -319,13 +319,13 @@
         // have appeared he wont be able to use enter again when they appear so we introduce
         // this once after messages appear.
         that.time.events.add(8500, function() {
-            that.key2 = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-            that.key2.onDown.addOnce(that.acceptSelection, that);
+            that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+            that.enter.onDown.addOnce(that.acceptSelection, that);
         }, that);
 
 
-        that.key3 = that.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        that.key3.onDown.addOnce(that.acceptSelection, that);
+        that.space = that.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        that.space.onDown.addOnce(that.acceptSelection, that);
 
         // Audio
         that.audioG = that.add.audio("gChord");

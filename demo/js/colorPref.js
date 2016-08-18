@@ -413,15 +413,18 @@
         that.aisleNotifFunc();
 
         // Exit from room
-        if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.enter.isDown) {
+        if (that.physics.arcade.overlap(that.houseDoor, that.cat) && that.enter.isDown &&
+                                                                        !that.expandBool) {
             that.houseDoorFunc();
         }
 
-        if (that.physics.arcade.overlap(that.paintBrush, that.cat) && that.enter.isDown) {
+        if (that.physics.arcade.overlap(that.paintBrush, that.cat) && that.enter.isDown &&
+                                                                        !that.expandBool) {
             that.aisleAppear();
         }
 
-        if (that.physics.arcade.overlap(that.aisle, that.cat) && that.enter.isDown) {
+        if (that.physics.arcade.overlap(that.aisle, that.cat) && that.enter.isDown &&
+                                                                        !that.expandBool) {
             that.aisleScreenAppear();
         }
 
