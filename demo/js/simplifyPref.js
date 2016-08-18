@@ -245,16 +245,14 @@
                 that.circle.visible = false;
                 that.passcodeFound();
             }, that);
-            model.passcodeCollected.color = true;
         } else {
-                that.popupScreen.visible = false;
-                that.col.visible = false;
-                that.passcodeCol4.visible = false;
+            that.popupScreen.visible = false;
+            that.col.visible = false;
+            that.passcodeCol4.visible = false;
         }
 
         // So that it can again reappear and surely this will create a new instant
         model.passcodeCollected.simplify = true;
-
 
         // Removes all the key Captures till now.
         that.input.keyboard.removeKey(Phaser.Keyboard.UP);
