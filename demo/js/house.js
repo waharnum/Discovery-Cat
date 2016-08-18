@@ -229,7 +229,7 @@
             that.audioEm.pause();
             if (stateName === "house") {
                 model.position.catHousex = that.cat.x;
-                model.position.catHousey = that.cat.y - 20;
+                model.position.catHousey = that.cat.y - 50;
             }
             that.state.start(stateName);
             // SOLUTION TAKE CAT POSITION AND RERENDER WHOLE SCENE
@@ -842,7 +842,7 @@
                                                                         !that.expandBool) {
             that.audioG.pause();
             model.position.catHousex = that.cat.x;
-            model.position.catHousey = that.cat.y - 20;
+            model.position.catHousey = that.cat.y - 50;
             that.state.start("sizePref");
         }
 
@@ -850,7 +850,7 @@
                                                                         !that.expandBool) {
             that.audioG.pause();
             model.position.catHousex = that.cat.x;
-            model.position.catHousey = that.cat.y - 20;
+            model.position.catHousey = that.cat.y - 50;
             that.state.start("colorPref");
         }
 
@@ -858,7 +858,7 @@
                                                                         !that.expandBool) {
             that.audioG.pause();
             model.position.catHousex = that.cat.x;
-            model.position.catHousey = that.cat.y - 20;
+            model.position.catHousey = that.cat.y - 50;
             that.state.start("simplifyPref");
         }
 
@@ -866,7 +866,7 @@
                                                                         !that.expandBool) {
             that.audioG.pause();
             model.position.catHousex = that.cat.x;
-            model.position.catHousey = that.cat.y - 20;
+            model.position.catHousey = that.cat.y - 50;
             that.state.start("soundPref");
         }
 
