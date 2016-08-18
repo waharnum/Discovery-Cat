@@ -29,6 +29,17 @@
             nextScreen: {
                 funcName: "demo.state.houseEntry.nextScreen",
                 args: "{that}"
+            },
+            backpackInstruction: {
+                funcName: "demo.state.house.messageBar",
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech",
+                    "{demo.discoveryCat}.prefModel.model",
+                    "{demo.discoveryCat}.prefModel.model.lang.obj.backpackInstruction", 12000, 595]
+            },
+            backpack: {
+                funcName: "demo.state.house.backpack",
+                args: ["{that}", "{demo.discoveryCat}.textToSpeech",
+                                        "{demo.discoveryCat}.prefModel.model", "house"]
             }
         }
     });
@@ -99,14 +110,17 @@
         that.rat.animations.add("walk", [0, 1, 2, 3], 5, true);
 
         // time events
-        that.time.events.add(0, that.ratMessage, that);
-        that.time.events.add(8000, that.catAndRatWalk, that);
-        that.time.events.add(14000, that.nextScreen, that);
+        that.time.events.add(0, that.backpackInstruction, that);
+        that.time.events.add(12000, that.ratMessage, that);
+        that.time.events.add(20000, that.catAndRatWalk, that);
+        that.time.events.add(26000, that.nextScreen, that);
 
         // Audio
         that.audioG = that.add.audio("gChord");
         that.audioC = that.add.audio("cChord");
         that.audioEm = that.add.audio("emChord");
+
+        that.backpack();
     };
 
     demo.state.houseEntry.update = function() {
