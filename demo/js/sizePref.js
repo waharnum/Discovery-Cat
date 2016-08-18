@@ -261,6 +261,8 @@
 
                 }, that);
             model.passcodeCollected.size = true;
+        } else {
+            that.tempBackground.visible = false;
         }
 
         // Removes all the key Captures till now.
