@@ -457,6 +457,7 @@
         that.expandShrinkBackpack = function() {
             console.log("hello mike how are you");
             if (!that.expandBool) {
+                that.cat.frame = 8;
                 that.decoySprite.visible = true;
                 that.travelBackpackList(true);
                 that.expandBool = true;
@@ -473,6 +474,7 @@
                 that.left.onDown.add(that.changeSelectionBackpackLeft, that);
                 that.enter.onDown.add(that.acceptSelectionBackpack, that);
             } else {
+                that.cat.frame = 5;
                 that.decoySprite.visible = false;
                 that.travelBackpackList(false);
                 that.expandBool = false;
