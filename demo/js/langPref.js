@@ -88,7 +88,7 @@
             },
             stateEnterAnimation: {
                 funcName: "demo.state.prelude.stateEnterAnimation",
-                args: ["{that}", 170, 90]
+                args: ["{that}", 50, 50]
             },
             backpack: {
                 funcName: "demo.state.house.backpack",

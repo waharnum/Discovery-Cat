@@ -42,12 +42,12 @@
                 args: ["{that}", "{demo.discoveryCat}.prefModel.model"]
             },
             wiggleDrum: {
-                funcName: "demo.state.soundPref.wiggle",
-                args: ["{that}", "{that}.drum"]
+                funcName: "demo.state.soundPref.wiggleDrum",
+                args: ["{that}"]
             },
             wiggleTrumpet: {
-                funcName: "demo.state.soundPref.wiggle",
-                args: ["{that}", "{that}.trumpet"]
+                funcName: "demo.state.soundPref.wiggleTrumpet",
+                args: ["{that}"]
             },
             houseDoorNotifFunc: {
                 funcName: "demo.state.house.notifs",
@@ -82,14 +82,6 @@
                 funcName: "demo.state.house.backpack",
                 args: ["{that}", "{demo.discoveryCat}.textToSpeech",
                                     "{demo.discoveryCat}.prefModel.model", "soundPref"]
-            },
-            showSoundZigDrum: {
-                funcName: "demo.state.soundPref.showSoundZig",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model", "DHUPP", 570, 10]
-            },
-            showSoundZigTrumpet: {
-                funcName: "demo.state.soundPref.showSoundZig",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model", "PEE..EN", 240, 10]
             },
             showSoundZigPasscode: {
                 funcName: "demo.state.soundPref.showSoundZig",
@@ -188,23 +180,50 @@
         }, that);
     };
 
-    demo.state.soundPref.wiggle = function(that, object) {
-        that.t1 = that.add.tween(object).to({ x: object.x - 20, y: object.y }, 200,
-            Phaser.Easing.Sinusoidal.InOut, false).to({ x: object.x + 40, y: object.y }, 400,
-                Phaser.Easing.Sinusoidal.InOut, false).to({ x: object.x - 20, y: object.y }, 200,
+    demo.state.soundPref.wiggleTrumpet = function(that) {
+        that.tTrumpet = that.add.tween(that.trumpet).to({ x: 380, y: 450 }, 200,
+            Phaser.Easing.Sinusoidal.InOut, false).to({ x: 420, y: 450 }, 400,
+                Phaser.Easing.Sinusoidal.InOut, false).to({ x: 400, y: 450 }, 200,
                     Phaser.Easing.Sinusoidal.InOut, false);
-        that.t1.start();
+        that.tTrumpet.start();
+    };
+
+    demo.state.soundPref.wiggleDrum = function(that) {
+        that.tDrum = that.add.tween(that.drum).to({ x: 730, y: 450 }, 200,
+            Phaser.Easing.Sinusoidal.InOut, false).to({ x: 770, y: 450 }, 400,
+                Phaser.Easing.Sinusoidal.InOut, false).to({ x: 750, y: 450 }, 200,
+                    Phaser.Easing.Sinusoidal.InOut, false);
+        that.tDrum.start();
     };
 
     demo.state.soundPref.noSoundAppearButtonCallback = function(that, model) {
         if (model.sound) {
+
+            // This is to ensure these tweens dont keep on running when noSound starts,
+            // also zigs disappear
+            that.drumSound.stop();
+            that.trumpetSound.stop();
+            if (!(typeof(that.tDrum) === "undefined")) {
+                that.tDrum.stop();
+            }
+            if (!(typeof(that.tTrumpet) === "undefined")) {
+                that.tTrumpet.stop();
+            }
+            if (!(typeof(that.drumSoundZig) === "undefined")) {
+                that.drumSoundZig.visible = false;
+            }
+            if (!(typeof(that.trumpetSoundZig) === "undefined")) {
+                that.trumpetSoundZig.visible = false;
+            }
+
             that.time.events.add(0, function() {
                 that.wiggleTrumpet();
                 that.drumSound.pause();
                 that.trumpetSound.play();
             }, that);
 
-            that.time.events.add(3500, function() {
+            that.time.events.add(1000, function() {
+                that.trumpetSound.pause();
                 that.wiggleDrum();
                 that.drumSound.play();
             }, that);
@@ -216,17 +235,59 @@
 
     demo.state.soundPref.soundAppearButtonCallback = function(that, model) {
         if (!model.sound) {
+
+            // All things inside this are for making sure user does not
+            // mess up.
+
+            // This is to make sure wiggle from drum and trumpet of no sound does not
+            // disturb use here
+            that.drumSound.stop();
+            that.trumpetSound.stop();
+            if (!(typeof(that.tDrum) === "undefined")) {
+                that.tDrum.stop();
+            }
+            if (!(typeof(that.tTrumpet) === "undefined")) {
+                that.tTrumpet.stop();
+            }
+
+            if (typeof(that.drumSoundZig) === "undefined") {
+                that.drumSoundZig = that.add.sprite(570, 10, "assetsop", 2);
+                that.drumSoundZig.addChild(that.add.text(80, 100, "DHUPP",
+                                                    { font: "40px Arial", fill: "#fff" }));
+                that.drumSoundZig.scale.setTo(model.size, model.size);
+                that.drumSoundZig.visible = false;
+            } else {
+                that.drumSoundZig.visible = false;
+            }
+
+            if (typeof(that.trumpetSoundZig) === "undefined") {
+                that.trumpetSoundZig = that.add.sprite(240, 10, "assetsop", 2);
+                that.trumpetSoundZig.addChild(that.add.text(80, 100, "PEE..EN",
+                                                    { font: "40px Arial", fill: "#fff" }));
+                that.trumpetSoundZig.scale.setTo(model.size, model.size);
+                that.trumpetSoundZig.visible = false;
+            } else {
+                that.trumpetSoundZig.visible = false;
+            }
+
+
             that.time.events.add(0, function() {
-                that.showSoundZigTrumpet();
+                that.trumpetSoundZig.visible = true;
                 that.wiggleTrumpet();
                 that.drumSound.pause();
                 that.trumpetSound.play();
+                that.time.events.add(800, function() {
+                    that.trumpetSoundZig.visible = false;
+                }, that);
             }, that);
-
-            that.time.events.add(3500, function() {
-                that.showSoundZigDrum();
+            that.time.events.add(800, function() {
+                that.drumSoundZig.visible = true;
+                that.trumpetSound.pause();
                 that.wiggleDrum();
                 that.drumSound.play();
+                that.time.events.add(800, function() {
+                    that.drumSoundZig.visible = false;
+                }, that);
             }, that);
             model.sound = true;
         } else {
@@ -242,14 +303,19 @@
         that.drum.visible = false;
         that.trumpet.visible = false;
         that.goButton.visible = false;
-        that.soundZig.visible = false;
+        that.drumSoundZig.visible = false;
+        that.trumpetSoundZig.visible = false;
 
         if (!model.passcodeCollected.sound) {
             that.time.events.add(0, that.showSoundZigPasscode, that);
             that.time.events.add(3500, that.passcodeFound, that);
+            that.time.events.add(9000, function() {
+                    that.standScreenAppearBool = false;
+            }, that);
+            model.passcodeCollected.sound = true;
+        } else {
+            that.standScreenAppearBool = false;
         }
-        model.passcodeCollected.sound = true;
-
 
         // Removes all the key Captures till now.
         that.input.keyboard.removeKey(Phaser.Keyboard.UP);
@@ -259,14 +325,6 @@
         that.cursors = that.input.keyboard.createCursorKeys();
         that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
-        // So that it can again reappear and surely this will create a new instant
-        // The reason for time event is that when the user presses Enter for Go
-        // the screenDisappears and the game starts registering isDown for Enter in
-        // the update section, so suddenly screen disappears and again appears. So
-        // we will introduce some time b4 control moves to isDown.
-        that.time.events.add(4000, function() {
-                    that.standScreenAppearBool = false;
-        }, that);
     };
 
     demo.state.soundPref.houseDoorFunc = function(that) {

@@ -232,20 +232,13 @@
         that.houseDoorNotif.scale.setTo(model.size, model.size);
         that.envelopeNotif.scale.setTo(model.size, model.size);
         // So that again and again passcode screen does not come.
-        if (model.passcodeCollected.size === false) {
+        if (!model.passcodeCollected.size) {
             that.popup = that.add.sprite(640, 1400, "popupAll", 0);
             that.popup.anchor.setTo(0.5, 1);
-
             that.letterText = that.add.text(-160, -360, "******\n  AC",
                                                     { font: "125px Arial", fill: "#000" });
             that.letterText.scale.setTo(model.size, model.size);
             that.popup.addChild(that.letterText);
-
-            // that.envelopeForLetter = that.add.sprite(640, 1500, "envelopeForLettersp");
-            // that.envelopeForLetter.anchor.setTo(0.5, 1);
-            // that.add.tween(that.envelopeForLetter).to({ x: 640, y: 1100 },
-            //             1000, Phaser.Easing.Sinusoidal.InOut, true);
-
             that.add.tween(that.popup).to({ x: 640, y: 600 },
                 1500, Phaser.Easing.Sinusoidal.InOut, true).to({ x: 640, y: 600 },
                 10000, Phaser.Easing.Sinusoidal.InOut, true).onComplete.add(
@@ -253,15 +246,21 @@
                     that.time.events.add(4000, function() {
                         that.add.tween(that.popup).to({ x: 640, y: 1400 },
                                     500, Phaser.Easing.Sinusoidal.InOut, true);
-                        // that.add.tween(that.envelopeForLetter).to({ x: 640, y: 1500 },
-                        //             1500, Phaser.Easing.Sinusoidal.InOut, true);
                         that.tempBackground.visible = false;
                         }, that.popup);
                     that.time.events.add(4000, that.passcodeFound, that);
-
                 }, that);
+            // So that it can again reappear and surely this will create a new instant
+            // The reason for time event is that when the user presses Enter for Go
+            // the screenDisappears and the game starts registering isDown for Enter in
+            // the update section, so suddenly screen disappears and again appears. So
+            // we will introduce some time b4 control moves to isDown.
             model.passcodeCollected.size = true;
+            that.time.events.add(11000, function() {
+                        that.envelopeScreenAppearBool = false;
+            }, that);
         } else {
+            that.envelopeScreenAppearBool = false;
             that.tempBackground.visible = false;
         }
 
@@ -272,17 +271,6 @@
 
         that.cursors = that.input.keyboard.createCursorKeys();
         that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-
-        // So that it can again reappear and surely this will create a new instant
-        // The reason for time event is that when the user presses Enter for Go
-        // the screenDisappears and the game starts registering isDown for Enter in
-        // the update section, so suddenly screen disappears and again appears. So
-        // we will introduce some time b4 control moves to isDown.
-        that.time.events.add(4000, function() {
-                    that.envelopeScreenAppearBool = false;
-        }, that);
-
-
     };
 
     demo.state.sizePref.takeSpects = function(that, model) {

@@ -216,12 +216,15 @@
                 that.passcodeFound();
             }, that);
             model.passcodeCollected.color = true;
+            // Reason for this in sizePref same section
+            that.time.events.add(9000, function() {
+                    that.aisleScreenAppearBool = false;
+            }, that);
         } else {
             that.popupScreen.visible = false;
             that.passcodeText.visible = false;
+            that.aisleScreenAppearBool = false;
         }
-        // So that it can again reappear and surely this will create a new instant
-        that.aisleScreenAppearBool = false;
         // Removes all the key Captures till now.
         that.input.keyboard.removeKey(Phaser.Keyboard.UP);
         that.input.keyboard.removeKey(Phaser.Keyboard.DOWN);
@@ -230,10 +233,7 @@
         that.cursors = that.input.keyboard.createCursorKeys();
         that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
-        // Reason for this in sizePref same section
-        that.time.events.add(4000, function() {
-                        that.aisleScreenAppearBool = false;
-        }, that);
+
     };
 
     demo.state.colorPref.houseDoorFunc = function(that) {

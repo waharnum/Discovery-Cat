@@ -170,6 +170,9 @@
 
     demo.state.simplifyPref.scissorButtonCallback = function(that, model) {
         if (!model.simplify) {
+            if (!(typeof(that.scissorCutAnim) === "undefined")) {
+                that.scissorCutAnim.destroy();
+            }
             that.scissorCutAnim = that.add.sprite(970, 340, "scissorCutsip", 0);
             that.scissorCutAnim.anchor.setTo(0.5, 1);
             that.scissorCutAnim.scale.setTo(model.size, model.size);
@@ -245,14 +248,17 @@
                 that.circle.visible = false;
                 that.passcodeFound();
             }, that);
+            // So that it can again reappear and surely this will create a new instant
+            model.passcodeCollected.simplify = true;
+            that.time.events.add(9000, function() {
+                    that.newspaperScreenAppearBool = false;
+            }, that);
         } else {
             that.popupScreen.visible = false;
             that.col.visible = false;
             that.passcodeCol4.visible = false;
+            that.newspaperScreenAppearBool = false;
         }
-
-        // So that it can again reappear and surely this will create a new instant
-        model.passcodeCollected.simplify = true;
 
         // Removes all the key Captures till now.
         that.input.keyboard.removeKey(Phaser.Keyboard.UP);
@@ -261,15 +267,6 @@
 
         that.cursors = that.input.keyboard.createCursorKeys();
         that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-
-        // So that it can again reappear and surely this will create a new instant
-        // The reason for time event is that when the user presses Enter for Go
-        // the screenDisappears and the game starts registering isDown for Enter in
-        // the update section, so suddenly screen disappears and again appears. So
-        // we will introduce some time b4 control moves to isDown.
-        that.time.events.add(4000, function() {
-                that.newspaperScreenAppearBool = false;
-        }, that);
     };
 
     demo.state.simplifyPref.takeScissor = function(that, model) {
