@@ -22,7 +22,7 @@
             },
             yesNohighContrast: {
                 funcName: "demo.state.endingScreen.yesNo",
-                args: ["{that}", "{demo.discoveryCat}.prefModel.model", "size", 360]
+                args: ["{that}", "{demo.discoveryCat}.prefModel.model", "contrast", 360]
             },
             yesNoShowSound: {
                 funcName: "demo.state.endingScreen.yesNo",
