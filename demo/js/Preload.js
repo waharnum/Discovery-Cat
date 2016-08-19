@@ -51,6 +51,7 @@
         game.load.spritesheet("buddiesMovelp", "assets/buddiesMove-langPref.png", 352, 429);
         game.load.spritesheet("ratAccessorieslp", "assets/ratAccessories-langPref.png", 200, 300);
         game.load.spritesheet("messageBoxlp", "assets/messageBox-langPref.png", 400, 127);
+        game.load.spritesheet("keyslp", "assets/keys-langPref.png", 150, 144);
         // houseEntry uses same assets from langPref
         // house assets
         game.load.image("safeh", "assets/safe-house.png");

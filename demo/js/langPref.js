@@ -94,9 +94,38 @@
                 funcName: "demo.state.house.backpack",
                 args: ["{that}", "{demo.discoveryCat}.textToSpeech",
                                         "{demo.discoveryCat}.prefModel.model", "langPref"]
+            },
+            keysInstruction: {
+                funcName: "demo.state.langPref.keysInstruction",
+                args: ["{that}"]
+            },
+            keysInstructionStop: {
+                funcName: "demo.state.langPref.keysInstructionStop",
+                args: ["{that}"]
             }
         }
     });
+
+    demo.state.langPref.keysInstruction = function(that) {
+        that.arrowKeyUp.visible = true;
+        that.arrowKeyEnter.visible = true;
+        that.arrowKeyDown.visible = true;
+        that.arrowKeyUp.animations.play("upDown1");
+        that.arrowKeyDown.animations.play("upDown2");
+        that.arrowKeyEnter.animations.play("upDown3");
+    };
+
+    demo.state.langPref.keysInstructionStop = function(that) {
+        that.arrowKeyUp.animations.paused = true;
+        that.arrowKeyDown.animations.paused = true;
+        that.arrowKeyEnter.animations.paused = true;
+        that.add.tween(that.arrowKeyUp.scale).to({ x: 0, y: 0 }, 1000,
+                                            Phaser.Easing.Sinusoidal.InOut, true);
+        that.add.tween(that.arrowKeyDown.scale).to({ x: 0, y: 0 }, 1000,
+                                            Phaser.Easing.Sinusoidal.InOut, true);
+        that.add.tween(that.arrowKeyEnter.scale).to({ x: 0, y: 0 }, 1000,
+                                            Phaser.Easing.Sinusoidal.InOut, true);
+    };
 
     // Runs at t = 0ms
     // Cat movement to the first location
@@ -297,12 +326,30 @@
         that.rat4.animations.add("walk", [0, 1, 2, 3], 5, true);
         that.rat4.animations.play("walk");
 
+        that.arrowKeyUp = that.add.sprite(70, 65, "keyslp", 0);
+        that.arrowKeyUp.animations.add("upDown1", [0, 2, 0, 2, 0, 0, 0, 0], 2, true);
+        that.arrowKeyUp.anchor.setTo(0.5, 0.5);
+        that.arrowKeyUp.scale.setTo(0.8, 0.8);
+        that.arrowKeyDown = that.add.sprite(70, 165, "keyslp", 1);
+        that.arrowKeyDown.animations.add("upDown2", [3, 1, 3, 1, 1, 1, 1, 1], 2, true);
+        that.arrowKeyDown.anchor.setTo(0.5, 0.5);
+        that.arrowKeyDown.scale.setTo(0.8, 0.8);
+        that.arrowKeyEnter = that.add.sprite(175, 139, "keyslp", 4);
+        that.arrowKeyEnter.animations.add("upDown3", [4, 4, 4, 4, 4, 4, 5, 4], 2, true);
+        that.arrowKeyEnter.anchor.setTo(0.5, 0.5);
+        that.arrowKeyEnter.scale.setTo(0.85, 0.85);
+        that.arrowKeyUp.visible = false;
+        that.arrowKeyEnter.visible = false;
+        that.arrowKeyDown.visible = false;
+
         // time events
         that.time.events.add(0, that.catMove, that);
         that.time.events.add(2000, that.catAnimationStop, that);
         that.time.events.add(2200, that.ratsCome, that);
         that.time.events.add(8200, that.ratAnimationStop, that);
+        that.time.events.add(8500, that.keysInstruction, that);
         that.time.events.add(8500, that.messageAppear, that);
+        that.time.events.add(24500, that.keysInstructionStop, that);
 
         // Keyboard controls for changing and accepting selections
         that.up = that.input.keyboard.addKey(Phaser.Keyboard.UP);
