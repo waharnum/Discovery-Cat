@@ -306,14 +306,10 @@
         that.bg = that.add.sprite(0, 720, "backgroundbp");
 
         // 52, 44, 36, 28, 20
+        // Black bar will always be above the button so it shows below the button.
         that.blackBar = that.add.sprite(69, 786, "popupScreensop");
         that.blackBar.anchor.setTo(0, 0.5);
         that.blackBar.scale.setTo(0, 0.136);
-
-        // Just the big backpack Icon that is present leftmost.
-        that.backpackButton = that.add.sprite(70, 786, "backpackButtonAll", 0);
-        that.backpackButton.anchor.setTo(0.5, 0.5);
-        that.backpackButton.scale.setTo(0.9, 0.9);
 
         // Decoy Sprite for showing selection when using q and w for navigation.
         that.decoySprite = that.add.sprite(175, 784, "backpackButtonAll", 3);
@@ -417,8 +413,6 @@
             that.backpackIconSimplify.visible = false;
         }
 
-
-
         // This is for alt to shrink and expand backpack on its press.
 
         // This is bool for if the list is in expanded state
@@ -438,10 +432,7 @@
         that.blackBarScaleX = (20 + (8 * (that.backpackList.length - 2))) / 100;
 
         that.travelBackpackList = function(bool) {
-            console.log(that.backpackList);
-
             for (var i = 0; i < that.backpackList.length; i++) {
-                console.log(that.backpackList[i]);
                 if (that.backpackList[i] === "size") {
                     that.backpackIconSize.visible = bool;
                 }
@@ -464,7 +455,6 @@
         };
 
         that.expandShrinkBackpack = function() {
-            console.log("hello mike how are you");
             if (!that.expandBool) {
                 that.add.tween(that.blackBar.scale).to({ x: that.blackBarScaleX, y: 0.136 },
                                     200, Phaser.Easing.Sinusoidal.InOut, true);
@@ -499,9 +489,44 @@
                 that.cursors = that.input.keyboard.createCursorKeys();
                 that.backpackShimForEnter();
                 that.backpackShimForLangPref();
-                // that.right.reset(true);
-                // that.left.reset(true);
-                // that.enter.reset(true);
+            }
+        };
+
+        that.expandShrinkBackpackClick = function() {
+            if (!that.expandBool) {
+                that.add.tween(that.blackBar.scale).to({ x: that.blackBarScaleX, y: 0.136 },
+                                    200, Phaser.Easing.Sinusoidal.InOut, true);
+                that.cat.frame = 8;
+                that.decoySprite.visible = false;
+                that.travelBackpackList(true);
+                that.expandBool = true;
+                // Keys are first removed from their captures.
+                that.input.keyboard.removeKey(Phaser.Keyboard.RIGHT);
+                that.input.keyboard.removeKey(Phaser.Keyboard.LEFT);
+                that.input.keyboard.removeKey(Phaser.Keyboard.ENTER);
+
+                // New functions are assigned to keys
+                that.right = that.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+                that.left = that.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+                that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+                that.right.onDown.add(that.changeSelectionBackpackRight, that);
+                that.left.onDown.add(that.changeSelectionBackpackLeft, that);
+                that.enter.onDown.add(that.acceptSelectionBackpack, that);
+            } else {
+                that.add.tween(that.blackBar.scale).to({ x: 0, y: 0.136 },
+                                    200, Phaser.Easing.Sinusoidal.InOut, true);
+                that.cat.frame = 5;
+                that.decoySprite.visible = false;
+                that.travelBackpackList(false);
+                that.expandBool = false;
+
+                that.input.keyboard.removeKey(Phaser.Keyboard.RIGHT);
+                that.input.keyboard.removeKey(Phaser.Keyboard.LEFT);
+                that.input.keyboard.removeKey(Phaser.Keyboard.ENTER);
+                that.enter = that.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+                that.cursors = that.input.keyboard.createCursorKeys();
+                that.backpackShimForEnter();
+                that.backpackShimForLangPref();
             }
         };
 
@@ -567,6 +592,15 @@
             }
             that.decoySprite.x = that.decoySprite.x + 100;
         };
+
+        // Just the big backpack Icon that is present leftmost.
+        // Reason for declaring it here in the bottom is to make that.expandShrinkBackpack
+        // work for it.
+        that.backpackButton = that.add.button(70, 786, "backpackButtonAll",
+                                        that.expandShrinkBackpackClick, that, 1, 0, 0);
+        that.backpackButton.anchor.setTo(0.5, 0.5);
+        that.backpackButton.scale.setTo(0.9, 0.9);
+
 
         that.alt = that.input.keyboard.addKey(Phaser.Keyboard.ALT);
         that.alt.onDown.add(that.expandShrinkBackpack, that);

@@ -242,7 +242,7 @@
         that.drum.visible = false;
         that.trumpet.visible = false;
         that.goButton.visible = false;
-        // So that it can again reappear and surely this will create a new instant
+        that.soundZig.visible = false;
 
         if (!model.passcodeCollected.sound) {
             that.time.events.add(0, that.showSoundZigPasscode, that);
