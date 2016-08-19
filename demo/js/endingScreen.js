@@ -34,13 +34,13 @@
             },
             resetButtonCallback: {
                 funcName: "demo.state.endingScreen.resetButtonCallback",
-                args: ["{that}"]
+                args: []
             }
         }
     });
 
-    demo.state.endingScreen.resetButtonCallback = function(that) {
-        that.state.start("prelude");
+    demo.state.endingScreen.resetButtonCallback = function() {
+        window.location.reload(false);
     };
 
     demo.state.endingScreen.yesNo = function(that, model, prop, propY) {

@@ -117,7 +117,7 @@
     };
 
     demo.state.Preload.create = function(game) {
-        game.state.start("soundPref");
+        game.state.start("prelude");
     };
 
     demo.state.Preload.update = function() {
