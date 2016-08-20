@@ -147,6 +147,13 @@
                 that.openSafe.visible = true;
                 that.yarnBallNotifAppear = true;
             }, that);
+
+            // Options in the backpack reset the screen so they will remove all the
+            // things done by gameEndanimation like droping down popup and all
+            // so we remove the backpack towards the end of the game.
+            that.add.tween(that.backpackButton.scale).to({ x: 0, y: 0 }, 600,
+                        Phaser.Easing.Sinusoidal.InOut, true);
+            that.input.keyboard.removeKey(Phaser.Keyboard.ALT);
         }
 
     };

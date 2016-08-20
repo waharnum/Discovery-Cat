@@ -195,6 +195,10 @@
                                         that.button4Callback, that, 3, 0, 2);
         that.button4.addChild(that.add.text(25, 48, that.options.langSelectionPhrases.de));
         that.button4.onInputOver.add(that.messageSpeechDe, that);
+
+        // One time we have run changeSelectionDown so that as soon as message appear focus
+        // automatically moves to the first message buuble.
+        that.changeSelectionDown();
     };
 
     // Actions to be performed on pressing TAB
