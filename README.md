@@ -1,38 +1,65 @@
 #Discovery Cat
 
-Discovery cat is a game that will help users to discover their appropriate digital and learning preferences in an interactive environment by engaging them in a process of “**Learning to learn**”.
+Discovery cat is a game that will help users to discover their appropriate digital and learning preferences. Preferences are choices made by users, according to their needs of how they want to consume their resources. For example the size preference of a user will tell us if the user likes to see content in small size, normal size or large size. Other preference might tell us if the user is comfortable with black text on white screen or white text on black screen. Knowing all the different preferences of users, we can provide them with a seemless, consistent and comfortable experience. The objective of the game is to discover users preferences.
+The game will engage the users in a process of “**Learning to learn**”. This is a methodology where users can themselves try and learn what preferences work best for them.
 
-###Libraries
+The project is an outcome of IDRC's participation in Google Summer of Code (GSOC) 2016. It is one of many projects made by involved students during the summers under guidance of IDRC community members.
 
-The game is made using - 
-
-1. [Phaser](http://www.phaser.io)
-2. [Infusion](https://www.npmjs.com/package/infusion)
-
-###Setup
+##Setup
 
 Follow these steps -
 
-1. Open node cli and run `npm install`.
-2. Use `grunt dev` to start server.
-3. Browse to `http://localhost:8000` in any browser.
-4. Select demo folder in the directory to run the game.
+1. Download and install [npm](https://npmjs.org/). The easiest way to do this is to just install [node](http://nodejs.org/). Open the node cli.
+2. Install [Grunt](http://gruntjs.com/getting-started). 
+   
+   ```
+   npm install -g grunt-cli
+   ```
 
-###Development
+3. Clone this repository.
 
-Follow these steps -
+   ```
+   git clone https://github.com/PaliwalSparsh/Discovery-Cat
+   ```
 
-1. Open node cli and run `npm install`.
-2. Use `grunt dev` in cli. This will do the following-
-  - Start a server at `http://localhost:8000`.
-  - Keeps watching files for changes.
-  - Perform livereload on saves.
-  - Run jshint and jscs on saves.
+4. Navigate into the project folder and install dependencies via npm.
+   
+   ```
+   cd Discovery-Cat/
+   npm install
+   ```
 
-####Possible grunt operations
+5. Start server using grunt. 
 
-1. `grunt lint` - performs linting ( both jshint and jscs) seperately.
-2. `grunt jshint` - uses jshint to analyse code for potential errors.
-3. `grunt jscs` - uses jscs for codestyle linting.
+   ```
+   grunt dev
+   ```
+
+6. Open a browser of your choice and browse to
+
+   ```
+   http://localhost:8000/demo/
+   ```
+
+   to run the game.
 
 
+##Issues
+
+You can post bugs found in Discovery Cat itself here:
+[https://github.com/PaliwalSparsh/Discovery-Cat/issues](https://github.com/PaliwalSparsh/Discovery-Cat/issues)
+
+
+##Get Involved
+
+We would love to have you work with us. Check out the [development](https://github.com/PaliwalSparsh/Discovery-Cat/wiki/Development) wiki page for more in-depth details about contributing code and fixing bugs.
+
+
+##Contributors
+
+IDRC Fluid community.
+
+
+##License
+
+BSD 3-Clause License
