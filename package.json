@@ -1,0 +1,31 @@
+{
+  "name": "discovery_cat",
+  "version": "0.0.0",
+  "description": "Discovery cat is a game that will help users to discover their appropriate digital and learning preferences in an interactive environment by engaging them in a process of 'Learning to learn'.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fluid Project",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "game",
+    "preferences",
+    "fluid",
+    "infusion",
+    "web",
+    "discovery",
+    "cat",
+    "phaser",
+    "javscript"
+  ],
+  "repository": "https://github.com/PaliwalSparsh/Discovery-Cat.git",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-jscs": "^3.0.0",
+    "grunt-jsonlint": "^1.0.7"
+  }
+}

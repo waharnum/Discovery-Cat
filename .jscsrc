@@ -1,0 +1,8 @@
+{
+    "preset": "idiomatic",
+    "requireSpacesInsideParentheses": false,
+    "disallowSpacesInsideParentheses": true,
+    "requireSpacesInsideBrackets": false,
+    "disallowSpacesInsideBrackets": true,
+    "validateLineBreaks": false
+}
